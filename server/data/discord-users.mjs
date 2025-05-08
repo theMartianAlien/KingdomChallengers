@@ -9,3 +9,7 @@ export async function getAllDiscordUsers() {
 export async function getDiscordHandler(handle) {
     return await getOneBy(TABLE, { "discord_handle": handle })
 }
+
+export async function getDiscordHandlerUser(user_key, handle) {
+    return await getOneBy(TABLE, { "discord_handle": handle, "user_key": user_key });
+}

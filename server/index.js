@@ -5,6 +5,7 @@ import { insertDiscordUsers } from './util/insert.mjs';
 
 import discordUsersRoutes from './routes/discord-users.js';
 import playersRoutes from './routes/players.js';
+import authRoutes from './routes/auth.js';
 
 loadEnv();
 
@@ -31,6 +32,7 @@ app.get('/v1/insert', async (req, res) => {
     res.json('Inserting records');
 });
 
+app.use('/auth', authRoutes);
 app.use('/users', discordUsersRoutes);
 app.use('/players', playersRoutes);
 
