@@ -29,8 +29,8 @@ export function validateJSONToken(token) {
     return verify(token, KEY);
 }
 
-export function isValidPassword(password, storedPassword) {
-    return compare(password, storedPassword);
+export async function isValidPassword(password, storedPassword) {
+    return await compare(password, storedPassword);
 }
 
 export function checkAuthentication(req, res, next) {
