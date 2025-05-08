@@ -3,7 +3,7 @@ import { getAllDiscordUsers } from '../data/discord-users.mjs';
 
 const router = express();
 
-router.get('/discord', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         const players = await getAllDiscordUsers();
         const data = players.map((player) => player.discord_handle);

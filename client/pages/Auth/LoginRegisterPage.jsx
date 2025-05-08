@@ -32,11 +32,16 @@ export async function action({ request, params }) {
     if (!resData.token && !resData.userId) {
         return redirect('/login', resData);
     }
-    localStorage.setItem('token', resData.token);
-    localStorage.setItem('userId', resData.id);
 
     const expiration = new Date();
-    expiration.setHours(expiration.getHours() + 1);
+    let expirationTime = expiration.getHours() + 1;
+    if (resData.adminToken) {
+        localStorage.setItem('admin', resData.adminToken);
+        expirationTime = expiration.getHours() + 12;
+    }
+    expiration.setHours(expirationTime);
+    localStorage.setItem('token', resData.token);
+    localStorage.setItem('userId', resData.id);
     localStorage.setItem('expiration', expiration.toISOString());
 
     return redirect('/');

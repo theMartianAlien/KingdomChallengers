@@ -16,8 +16,7 @@ export async function writeOne(file, data, filter) {
     client.connect();
     console.log("Connected to mongo atlast, writeOneRecord " + file);
     if (filter) {
-        // console.log(filter);
-        const exist = collection.find(filter);
+        const exist = await collection.findOne(filter);
         if (exist) {
             // record exist so we go out and not try to insert.
             return null;
@@ -46,7 +45,7 @@ export async function getOneById(file, id) {
     const collection = database.collection(file);
     client.connect();
     console.log("Connected to mongo atlast, getOneById " + file);
-    const data = await collection.findOne({ _id: id })
+    const data = await collection.findOne({ _id: new ObjectId(id) })
     return data;
 }
 
@@ -61,14 +60,14 @@ export async function getOneBy(file, filter) {
     return data;
 }
 
-export async function updateOne(file, data){
+export async function updateOne(file, data) {
     if (!file)
         throw error(`Invalid collection name (${file})`);
 
     const collection = database.collection(file);
     client.connect();
     console.log("Connected to mongo atlast, updateOne " + file);
-    await collection.replaceOne({_id: data._id}, data);
+    await collection.replaceOne({ _id: data._id }, data);
 }
 
 export async function deleteOneById(file, id) {
@@ -78,5 +77,5 @@ export async function deleteOneById(file, id) {
     const collection = database.collection(file);
     client.connect();
     console.log("Connected to mongo atlast, deleteOneById " + file);
-    await collection.deleteOne({_id: new ObjectId(id)});
+    await collection.deleteOne({ _id: new ObjectId(id) });
 }

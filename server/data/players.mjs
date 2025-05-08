@@ -1,4 +1,4 @@
-import { deleteOneById, getAll, getOneBy, updateOne, writeOne } from "../util/mongo.mjs";
+import { deleteOneById, getAll, getOneBy, getOneById, updateOne, writeOne } from "../util/mongo.mjs";
 
 const TABLE = "players";
 
@@ -7,7 +7,7 @@ export async function getAllPlayers() {
 }
 
 export async function getAPlayer(id) {
-    return await getOneBy(TABLE, { "_id": id });
+    return await getOneById(TABLE, id);
 }
 
 export async function addAPlayer(data) {

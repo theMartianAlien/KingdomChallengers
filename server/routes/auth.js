@@ -42,12 +42,14 @@ router.post('/register', async (req, res, next) => {
         }
         await registerUser(accountData);
         let userToken = createJSONToken(accountData.discord_handle);
+        let adminToken;
         if (discord_handler.isAdmin) {
-            userToken = createAdminJSONToken(accountData.discord_handle);
+            adminToken = createAdminJSONToken(accountData.discord_handle);
         }
         res.status(201).json({
             message: `Registration Complete, Welcome ${data.display_name}!`,
-            token: userToken
+            token: userToken,
+            adminToken
         });
     } catch (error) {
         next(error);
@@ -70,11 +72,12 @@ router.post('/login', async (req, res, next) => {
             }
 
             let token = createJSONToken(account.username);
+            let adminToken;
             if (account.isAdmin) {
-                token = createAdminJSONToken(account.username);
+                adminToken = createAdminJSONToken(account.username);
             }
 
-            return res.status(201).json({ token, id: account._id });
+            return res.status(201).json({ token, id: account._id, adminToken });
         }
         catch (error) {
             return res.status(401).json({ message: 'Authentication failed.' });

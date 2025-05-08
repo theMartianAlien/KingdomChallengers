@@ -2,13 +2,14 @@ import { readFile } from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { writeOne } from './mongo.mjs';
+import { getDiscordHandler } from '../data/discord-users.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-async function readJson() {
+async function readJson(file) {
     try {
-        const filePath = path.resolve(__dirname, '../data/discord.json');
+        const filePath = path.resolve(__dirname, `../data/${file}.json`);
         console.log(__dirname);
         const rawData = await readFile(filePath, 'utf-8');
         const data = JSON.parse(rawData);
@@ -19,10 +20,23 @@ async function readJson() {
 }
 
 export async function insertDiscordUsers() {
-    const DISCORD_USERS = await readJson();
+    const DISCORD_USERS = await readJson("discord");
     for (let i = 0; i < 1; i++) {
         const discordUser = DISCORD_USERS[i];
-        const returned = await writeOne("discord_users", discordUser, { "discord_handle": discordUser.discord_handle });
-        console.log(returned);
+        await writeOne("discord_users", discordUser, { "discord_handle": discordUser.discord_handle });
+    }
+}
+
+export async function insertPlayers() {
+    const PLAYERS = await readJson("players");
+    for (let i = 0; i < PLAYERS.length; i++) {
+        const player = PLAYERS[i];
+        const discordHandler = await getDiscordHandler(player.handler);
+        const data = {
+            ...player,
+            discord_handler_id: discordHandler._id
+        }
+
+        await writeOne("players", data, { "handler": player.handler });
     }
 }

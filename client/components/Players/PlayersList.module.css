@@ -1,0 +1,27 @@
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.header {
+    display: flex;
+    gap: 2em;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.rowcontent {
+    display: flex;
+    gap: 2em;
+    align-items: center;
+}
+
+.name-col {
+    text-align: left;
+    width: 200px;
+}
+
+.col {
+    flex-grow: 1;
+    width: 100px;
+}

@@ -9,10 +9,10 @@ export function getTokenDuration() {
 }
 
 export function getAuthToken() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('admin');
     const tokenDuration = getTokenDuration();
 
-    if(!token) {
+    if (!token) {
         return null;
     }
 
@@ -22,9 +22,23 @@ export function getAuthToken() {
     return token;
 }
 
-export function getUserId(){
+export function getAdminToken() {
+    const token = localStorage.getItem('token');
+    const tokenDuration = getTokenDuration();
+
+    if (!token) {
+        return null;
+    }
+
+    if (tokenDuration < 0) {
+        return 'EXPIRED';
+    }
+    return token;
+}
+
+export function getUserId() {
     const userId = localStorage.getItem('userId');
-    if(!userId) {
+    if (!userId) {
         return null;
     }
     return userId;
@@ -32,8 +46,9 @@ export function getUserId(){
 
 export function tokenLoader() {
     const token = getAuthToken();
+    const adminToken = getAdminToken();
     const userId = getUserId();
-    return {token, userId}
+    return { token, userId, adminToken }
 }
 
 export function checkAuthLoader() {

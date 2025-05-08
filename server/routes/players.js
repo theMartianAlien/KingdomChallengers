@@ -14,6 +14,7 @@ router.get('/', async (req, res, next) => {
             return;
         }
         const newPlayers = players.map((player) => ({
+            _id : player._id,
             handler: player.handler,
             display_name: player.display_name
         }));
@@ -28,7 +29,12 @@ router.get('/:id', async (req, res, next) => {
         console.log("getAPlayer called");
         const id = req.params.id;
         const player = await getAPlayer(id);
-        res.json({ player });
+        const playerData = {
+            _id: player._id,
+            handler: player.handler,
+            display_name : player.display_name
+        }
+        res.json({ player : playerData });
     } catch (error) {
         next(error);
     }
@@ -37,7 +43,6 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
     try {
         console.log("addAPlayer called");
-        console.log(req.body);
         const discordHandler = await getDiscordHandler(req.body.handler);
 
         if (!discordHandler) {
