@@ -1,0 +1,27 @@
+import { deleteOneById, getAll, getOneBy, updateOne, writeOne } from "../util/mongo.mjs";
+
+const TABLE = "players";
+
+export async function getAllPlayers() {
+    return await getAll(TABLE);
+}
+
+export async function getAPlayer(id) {
+    return await getOneBy(TABLE, { "_id": id });
+}
+
+export async function addAPlayer(data) {
+    return await writeOne(TABLE, data);
+}
+
+export async function getAPlayerByHandler(id) {
+    return await getOneBy(TABLE, {"discord_handler_id": id});
+}
+
+export async function replaceAPlayer(data){
+    return await updateOne(TABLE, data);
+}
+
+export async function removeAPlayer(id){
+    return await deleteOneById(TABLE, id);
+}

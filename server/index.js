@@ -1,6 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import { loadEnv } from './util/configLoader.mjs';
+import { insertDiscordUsers } from './util/insert.mjs';
+
+import discordUsersRoutes from './routes/discord-users.js';
+import playersRoutes from './routes/players.js';
 
 loadEnv();
 
@@ -18,9 +22,17 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/', async (req, res) => {
+app.get('/', async (req, res) => {
     res.json('Homepage test');
 });
+
+app.get('/v1/insert', async (req, res) => {
+    await insertDiscordUsers();
+    res.json('Inserting records');
+});
+
+app.use('/users', discordUsersRoutes);
+app.use('/players', playersRoutes);
 
 app.listen(PORT,
     () => {
