@@ -1,6 +1,6 @@
 import express from 'express';
 import { getDiscordHandlerUser } from '../data/discord-users.mjs';
-import { getAccount, getAccountByUserName, getUserAccount, registerUser } from '../data/auth.mjs';
+import { getAccount, getAccountByUserName, registerUser } from '../data/auth.mjs';
 import { createAdminJSONToken, createJSONToken, hashPassword, isValidPassword } from '../util/auth.mjs';
 
 const router = express();
@@ -40,7 +40,7 @@ router.post('/register', async (req, res, next) => {
         if (discord_handler.isAdmin) {
             accountData.isAdmin = true;
         }
-        const leAccount = await registerUser(accountData);
+        await registerUser(accountData);
         let userToken = createJSONToken(accountData.discord_handle);
         if (discord_handler.isAdmin) {
             userToken = createAdminJSONToken(accountData.discord_handle);
