@@ -9,7 +9,7 @@ import authRoutes from './routes/auth.js';
 
 loadEnv();
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors());

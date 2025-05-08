@@ -33,7 +33,7 @@ export async function isValidPassword(password, storedPassword) {
     return await compare(password, storedPassword);
 }
 
-export function checkAuthentication(req, res, next) {
+export function isAuthenticate(req, res, next) {
     if (req.method === 'OPTIONS') {
         return next();
     }
