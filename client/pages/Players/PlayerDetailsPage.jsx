@@ -1,14 +1,19 @@
 import { useLoaderData } from "react-router-dom";
 import { useGetFetch } from "../../hooks/useFetch";
-import PlayerForm from "../../components/Players/PlayerForm";
 
 export default function PlayerDetailsPage() {
     const { player } = useLoaderData();
+    console.log(player);
     return (
-        <div>
+        <section>
             <h1>Player Details</h1>
-            <PlayerForm method='patch' />
-        </div>
+            <p>
+                {player.handler}
+            </p>
+            <p>
+                {player.display_name}
+            </p>
+        </section>
     );
 }
 

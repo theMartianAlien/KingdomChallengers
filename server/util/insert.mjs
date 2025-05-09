@@ -10,7 +10,6 @@ const __dirname = path.dirname(__filename);
 async function readJson(file) {
     try {
         const filePath = path.resolve(__dirname, `../data/${file}.json`);
-        console.log(__dirname);
         const rawData = await readFile(filePath, 'utf-8');
         const data = JSON.parse(rawData);
         return data;

@@ -4,5 +4,6 @@ export function action() {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
     localStorage.removeItem('userId');
+    localStorage.removeItem('admin');
     return redirect('/');
 }

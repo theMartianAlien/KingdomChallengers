@@ -1,7 +1,7 @@
 import { redirect, useActionData, useLoaderData } from "react-router-dom";
 import LoginForm from "../../components/Auth/LoginForm";
-import { usePost } from "../../hooks/usePostFetch";
 import RegistrationForm from "../../components/Auth/RegistrationForm";
+import { usePatchPostFetch } from "../../hooks/useFetch";
 
 export default function LoginRegisterPage({ isLogin = true }) {
     const data = useLoaderData();
@@ -28,7 +28,7 @@ export async function action({ request, params }) {
     if (authData.discord_handle && authData.user_key) {
         endpoint = 'auth/register';
     }
-    const resData = await usePost(endpoint, authData);
+    const resData = await usePatchPostFetch(endpoint, request.method, authData);
     if (!resData.token && !resData.userId) {
         return redirect('/login', resData);
     }

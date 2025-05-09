@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
             return;
         }
         const newPlayers = players.map((player) => ({
-            _id : player._id,
+            _id: player._id,
             handler: player.handler,
             display_name: player.display_name
         }));
@@ -32,9 +32,9 @@ router.get('/:id', async (req, res, next) => {
         const playerData = {
             _id: player._id,
             handler: player.handler,
-            display_name : player.display_name
+            display_name: player.display_name
         }
-        res.json({ player : playerData });
+        res.json({ player: playerData });
     } catch (error) {
         next(error);
     }
@@ -66,9 +66,20 @@ router.post('/', async (req, res, next) => {
 });
 
 router.patch('/:id', async (req, res, next) => {
-    const data = req.body;
+    let data = req.body;
     try {
         console.log("replaceAPlayer called");
+        if (!data.handler) {
+            return res.status(422).json({ message: "Unable to update player: " + data.handler });
+        }
+        const handler = await getAPlayerByHandler(data.handler);
+
+        if (!handler) {
+            return res.status(422).json({ message: "Unable to update player: " + data.handler });
+        }
+        if (data.handler) {
+            delete data.handler;
+        }
         await replaceAPlayer(data);
         res.status(201).json({ message: 'Player updated!', player: data });
     } catch (error) {

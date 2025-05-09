@@ -13,7 +13,8 @@ import { loader } from '../pages/Players/PlayersListPage';
 import { action as createUpdatePlayerAction } from '../components/Players/PlayerForm';
 const NewPlayerPage = lazy(() => import('../pages/Players/NewPlayerPage'));
 const PlayerDetailsPage = lazy(() => import('../pages/Players/PlayerDetailsPage'));
-import {loader as getPlayerDetailsLoader} from '../pages/Players/PlayerDetailsPage';
+import { loader as getPlayerDetailsLoader } from '../pages/Players/PlayerDetailsPage';
+import EditPlayerPage from '../pages/Players/EditPlayerPage';
 const PlayersListPage = lazy(() => import('../pages/Players/PlayersListPage'));
 const PlayersRootPage = lazy(() => import('../pages/Players/PlayerRootPage'));
 
@@ -56,11 +57,16 @@ const router = createBrowserRouter(
             {
               path: ':id',
               id: 'player-detail',
+              loader: getPlayerDetailsLoader,
               children: [
                 {
                   index: true,
                   element: <Suspense fallback={<p>Loading ....</p>}><PlayerDetailsPage /></Suspense>,
-                  loader: getPlayerDetailsLoader
+                },
+                {
+                  path: 'edit',
+                  element: <Suspense fallback={<p>Loading ....</p>}><EditPlayerPage /></Suspense>,
+                  action: createUpdatePlayerAction
                 }
               ]
             },

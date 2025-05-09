@@ -39,7 +39,7 @@ export default function PlayersList() {
                                         {player.display_name}
                                     </td>
                                     {adminToken && (<td className={classes.col}>
-                                        <Link to={`/players/${player._id}`}>
+                                        <Link to={`/players/${player._id}/edit`}>
                                             Edit
                                         </Link>
                                     </td>)}
