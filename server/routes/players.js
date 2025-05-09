@@ -1,7 +1,7 @@
 import express from 'express';
 import { addAPlayer, getAllPlayers, getAPlayer, getAPlayerByHandler, removeAPlayer, replaceAPlayer } from '../data/players.mjs';
 import { getDiscordHandler } from '../data/discord-users.mjs';
-import { isAuthenticate } from '../util/auth.mjs';
+import { isAdminAuthenticate } from '../util/auth.mjs';
 
 const router = express();
 
@@ -41,7 +41,7 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.use(isAuthenticate);
+router.use(isAdminAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {

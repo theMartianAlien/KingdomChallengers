@@ -1,7 +1,14 @@
+import HomeStats from "../components/Statistics/HomeStats";
+import { useGetFetch } from "../hooks/useFetch";
+
 export default function HomePage() {
     return (
         <>
-            <h1>Home page</h1>
+            <HomeStats/>
         </>
     );
+}
+
+export async function loader() {
+    return await useGetFetch('');
 }

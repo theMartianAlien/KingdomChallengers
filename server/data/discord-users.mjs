@@ -1,4 +1,4 @@
-import { getAll, getOneBy } from "../util/mongo.mjs";
+import { getAll, getOneBy, writeOne } from "../util/mongo.mjs";
 
 const TABLE = "discord_users";
 
@@ -12,4 +12,8 @@ export async function getDiscordHandler(handle) {
 
 export async function getDiscordHandlerUser(user_key, handle) {
     return await getOneBy(TABLE, { "discord_handle": handle, "user_key": user_key });
+}
+
+export async function writeADiscordHandler(data) {
+    return await writeOne(TABLE, data);
 }

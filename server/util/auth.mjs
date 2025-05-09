@@ -33,23 +33,54 @@ export async function isValidPassword(password, storedPassword) {
     return await compare(password, storedPassword);
 }
 
-export function isAuthenticate(req, res, next) {
-    if (req.method === 'OPTIONS') {
-        return next();
+function validate(req, res, next) {
+    try {
+        if (req.method === 'OPTIONS') {
+            return next();
+        }
+        if (!req.headers.authorization) {
+            console.log('NOT AUTH. AUTH HEADER MISSING.');
+            return 'Not authenticated.';
+        }
+        const authFragments = req.headers.authorization.split(' ');
+        if (authFragments.length !== 2) {
+            console.log('NOT AUTH. AUTH HEADER INVALID.');
+            return 'Not authenticated.';
+        }
     }
-    if (!req.headers.authorization) {
-        console.log('NOT AUTH. AUTH HEADER MISSING.');
-        return next(new NotAuthError('Not authenticated.'));
+    catch {
+        return 'Not authenticated.';
+    }
+
+    return null;
+}
+
+export function isAuthenticate(req, res, next) {
+    const isNext = validate(req, res, next);
+    if (isNext) {
+        return next(new NotAuthError(isNext));
     }
     const authFragments = req.headers.authorization.split(' ');
-
-    if (authFragments.length !== 2) {
-        console.log('NOT AUTH. AUTH HEADER INVALID.');
-        return next(new NotAuthError('Not authenticated.'));
-    }
     const authToken = authFragments[1];
     try {
         const validatedToken = validateJSONToken(authToken);
+        req.token = validatedToken;
+    } catch (error) {
+        console.log('NOT AUTH. TOKEN INVALID.');
+        return next(new NotAuthError('Not authenticated.'));
+    }
+    next();
+}
+
+export function isAdminAuthenticate(req, res, next) {
+    const isNext = validate(req, res, next);
+    if (isNext) {
+        return next(new NotAuthError('Not authenticated.'));
+    }
+    const authFragments = req.headers.authorization.split(' ');
+    const authToken = authFragments[1];
+    try {
+        const validatedToken = validateADMINToken(authToken);
         req.token = validatedToken;
     } catch (error) {
         console.log('NOT AUTH. TOKEN INVALID.');

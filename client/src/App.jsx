@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react';
 
 import RootPage from '../pages/Layout/RootPage';
 import { tokenLoader } from '../util/auth';
+import { loader as getStatsForHomePageLoader } from '../pages/HomePage';
 const HomePage = lazy(() => import('../pages/HomePage'));
 
 import { action as loginRegisterAction } from '../pages/Auth/LoginRegisterPage';
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
         {
           index: true,
           element: <Suspense fallback={<p>Loading ....</p>}><HomePage /></Suspense>,
+          loader: getStatsForHomePageLoader
         },
         {
           path: 'login',

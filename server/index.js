@@ -7,6 +7,7 @@ import playersRoutes from './routes/players.js';
 import betsRoutes from './routes/bets.js';
 import authRoutes from './routes/auth.js';
 import testDataRoutes from './routes/data-inserts.js'
+import homepageRoutes from './routes/stats.js';
 
 loadEnv();
 
@@ -24,11 +25,8 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', async (req, res) => {
-    res.json('Homepage test');
-});
-
-app.use('/v1/data',testDataRoutes);
+app.use(homepageRoutes);
+app.use('/v1/data', testDataRoutes);
 app.use('/auth', authRoutes);
 app.use('/bets', betsRoutes);
 app.use('/discord', discordUsersRoutes);

@@ -1,8 +1,10 @@
 import express from 'express';
-import { insertOldBets } from '../util/insert.mjs';
+import { insertOldBets, insertPlayers } from '../util/insert.mjs';
+import { isAdminAuthenticate } from '../util/auth.mjs';
 
 const router = express();
 
+// router.use(isAdminAuthenticate);
 router.get('/discord', async (req, res) => {
     await insertDiscordUsers();
     res.json('Inserting discord records');

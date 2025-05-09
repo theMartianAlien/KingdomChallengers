@@ -102,5 +102,25 @@
     {
         "handler": "the.martian",
         "display_name": "TheMartian"
-    }
+    },
+    {
+        "handler": "lusitano300",
+        "display_name": "BANNED"
+    },
+    {
+        "handler": "nuno_alvares_pereira",
+        "display_name": "Conne D Somehting"
+    },
+    {
+        "handler": "ordo8076",
+        "display_name": "Ordo something"
+    },
+    {
+        "handler": "notabadmemory",
+        "display_name": "Nil"
+    },
+    {
+        "handler": "abz_capone",
+        "display_name": "Abz Capone"
+    } 
 ]

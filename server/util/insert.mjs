@@ -42,9 +42,16 @@ export async function insertPlayers() {
 export async function insertOldBets() {
     const BETS = await readJson("bets");
     const PLAYERS = await readJson("old-players");
-
+    console.log("Players with missing data");
+    for (let i = 0; i < PLAYERS.filter((p) => !p._id); i++) {
+        console.log(PLAYERS[i]);
+    }
+    console.log("fixing data");
     for (let i = 0; i < BETS.length; i++) {
         const BET = BETS[i];
+        if (BET.title !== "Ordo's appearance") {
+            continue;
+        }
         const betData = {
             title: BET.title,
             status: BET.status,
@@ -56,7 +63,9 @@ export async function insertOldBets() {
             winner: undefined,
             chapter: BET.spoilers,
         }
-        console.log(betData);
-        await writeOne("bets", betData, { "link": betData.link });
+        const value = await writeOne("bets", betData, { "link": betData.link });
+        if (value) {
+            console.log(betData);
+        }
     }
 }
