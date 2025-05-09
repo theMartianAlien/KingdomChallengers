@@ -1,0 +1,28 @@
+.tag {
+    display: inline-block;
+    color: var(--white);
+    padding: 0.3rem 0.8rem;
+    margin-right: 0.5rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+a.team-b span.tag {
+    display: inline-block;
+    color: var(--white);
+    padding: 0.3rem 0.8rem;
+    margin-right: 0.5rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    background-color: var(--accent1);
+}
+
+a.team-a span.tag {
+    display: inline-block;
+    color: var(--white);
+    padding: 0.3rem 0.8rem;
+    margin-right: 0.5rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    background-color: var(--accent2);
+}

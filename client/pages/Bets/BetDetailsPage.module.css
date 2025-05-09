@@ -1,0 +1,15 @@
+.thebet {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.actions {
+    margin: 0 2em;
+    margin-top: 1em;
+}
+
+.actions a {
+   padding: 0 1em;
+}

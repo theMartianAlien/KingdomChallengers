@@ -2,21 +2,27 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 
 import RootPage from '../pages/Layout/RootPage';
-
 import { tokenLoader } from '../util/auth';
 const HomePage = lazy(() => import('../pages/HomePage'));
+
 import { action as loginRegisterAction } from '../pages/Auth/LoginRegisterPage';
+import { action as logout } from '../pages/Auth/Logout';
 const LoginRegisterPage = lazy(() => import('../pages/Auth/LoginRegisterPage'));
 
-import { action as logout } from '../pages/Auth/Logout';
-import { loader } from '../pages/Players/PlayersListPage';
+import { loader as getAllPlayersLoader } from '../pages/Players/PlayersListPage';
 import { action as createUpdatePlayerAction } from '../components/Players/PlayerForm';
+import { loader as getPlayerDetailsLoader } from '../pages/Players/PlayerDetailsPage';
 const NewPlayerPage = lazy(() => import('../pages/Players/NewPlayerPage'));
 const PlayerDetailsPage = lazy(() => import('../pages/Players/PlayerDetailsPage'));
-import { loader as getPlayerDetailsLoader } from '../pages/Players/PlayerDetailsPage';
-import EditPlayerPage from '../pages/Players/EditPlayerPage';
+const EditPlayerPage = lazy(() => import('../pages/Players/EditPlayerPage'));
 const PlayersListPage = lazy(() => import('../pages/Players/PlayersListPage'));
 const PlayersRootPage = lazy(() => import('../pages/Players/PlayerRootPage'));
+
+import { loader as getAllBetsLoader } from '../pages/Bets/BetsListPage';
+import { loader } from '../pages/Bets/BetDetailsPage';
+const BetDetailsPage = lazy(() => import('../pages/Bets/BetDetailsPage'));
+const BetsRootPage = lazy(() => import('../pages/Bets/BetsRootPage'));
+const BetsListPage = lazy(() => import('../pages/Bets/BetsListPage'));
 
 const router = createBrowserRouter(
   [
@@ -52,7 +58,7 @@ const router = createBrowserRouter(
               index: true,
               element: <Suspense fallback={<p>Loading ....</p>}><PlayersListPage /></Suspense>,
               id: 'players-list',
-              loader: loader
+              loader: getAllPlayersLoader
             },
             {
               path: ':id',
@@ -79,15 +85,36 @@ const router = createBrowserRouter(
         },
         {
           path: 'bets',
-          element: <p>bets</p>
+          id: 'bets-root',
+          element: <Suspense fallback={<p>Loading ....</p>}><BetsRootPage /></Suspense>,
+          loader: getAllPlayersLoader,
+          children: [
+            {
+              index: true,
+              element: <Suspense fallback={<p>Loading ....</p>}><BetsListPage /></Suspense>,
+              id: 'bets-list',
+              loader: getAllBetsLoader
+            },
+            {
+              path: ':id',
+              id: 'bet-detail',
+              children: [
+                {
+                  index: true,
+                  element: <Suspense fallback={<p>Loading ....</p>}><BetDetailsPage /></Suspense>,
+                  loader: loader
+                },
+              ]
+            }
+          ]
         },
         {
           path: 'profile',
-          element: <p>Profile</p>
+          element: <p>Page currently unavailable</p>
         },
         {
           path: 'challenges',
-          element: <p>Challenges</p>
+          element: <p>Page currently unavailable</p>
         }
       ]
     }
