@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prestart": "copy ../.env .env",
+    "start": "react-scripts start"
   },
   "dependencies": {
     "dotenv": "^16.5.0",

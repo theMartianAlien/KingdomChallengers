@@ -1,4 +1,4 @@
-const URL = 'http://localhost:3000/';
+const URL = import.meta.env.VITE_ENDPOINT;
 
 export async function useGetFetch(endpoint) {
     const response = await fetch(URL + endpoint);
