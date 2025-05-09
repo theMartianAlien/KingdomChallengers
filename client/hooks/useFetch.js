@@ -1,5 +1,7 @@
+const URL = 'http://localhost:3000/';
+
 export async function useGetFetch(endpoint) {
-    const response = await fetch('http://localhost:3000/' + endpoint);
+    const response = await fetch(URL + endpoint);
     if (!response.ok) {
 
     } else {
@@ -9,7 +11,7 @@ export async function useGetFetch(endpoint) {
 }
 
 export async function usePatchPostFetch(endpoint, method, data) {
-    let url = 'http://localhost:3000/';
+    let url = URL;
     if (method === 'PATCH') {
         url += data._id;
     }

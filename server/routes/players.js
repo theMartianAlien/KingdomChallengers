@@ -1,6 +1,7 @@
 import express from 'express';
 import { addAPlayer, getAllPlayers, getAPlayer, getAPlayerByHandler, removeAPlayer, replaceAPlayer } from '../data/players.mjs';
 import { getDiscordHandler } from '../data/discord-users.mjs';
+import { isAuthenticate } from '../util/auth.mjs';
 
 const router = express();
 
@@ -39,6 +40,8 @@ router.get('/:id', async (req, res, next) => {
         next(error);
     }
 });
+
+router.use(isAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {

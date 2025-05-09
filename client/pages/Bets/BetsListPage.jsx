@@ -1,4 +1,5 @@
 import BetsList from '../../components/Bets/BetsList'
+import { useGetFetch } from '../../hooks/useFetch';
 
 export default function BetsListPage() {
 
@@ -11,11 +12,5 @@ export default function BetsListPage() {
 }
 
 export async function loader() {
-    const response = await fetch('http://localhost:3000/bets');
-    if (!response.ok) {
-
-    } else {
-        const resData = await response.json();
-        return resData;
-    }
+    return await useGetFetch("bets");
 }
