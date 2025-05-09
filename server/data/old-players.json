@@ -1,0 +1,272 @@
+[
+    {
+        "id": "p1",
+        "_id": "681d0b7cff8b0d73bed1e96d",
+        "name": "Gio",
+        "alternate": [
+            "Giorgos",
+            "Gio"
+        ]
+    },
+    {
+        "id": "p2",
+        "_id": "681d0b7dff8b0d73bed1e97b",
+        "name": "Strike",
+        "alternate": [
+            "Strike |  Fuu Fighter Guild",
+            "Strike",
+            "StrikeEagle",
+            "Strike | Master of High Ground"
+        ]
+    },
+    {
+        "id": "p3",
+        "_id": "681d0b7eff8b0d73bed1e985",
+        "name": "Myke",
+        "alternate": [
+            "myke"
+        ]
+    },
+    {
+        "id": "p5",
+        "name": "Abz Capone",
+        "alternate": [
+            "Abz",
+            "Abz Capone"
+        ]
+    },
+    {
+        "id": "p6",
+        "name": "BANNED - Luisitano",
+        "alternate": [
+            "luisitano",
+            "Lusitano",
+            "BANNED - Luisitano"
+        ]
+    },
+    {
+        "id": "p7",
+        "_id": "681d0b7eff8b0d73bed1e984",
+        "name": "Blackdoc",
+        "alternate": [
+            "BlackDoc",
+            "Blackdoc",
+            "blackdoc3629"
+        ]
+    },
+    {
+        "id": "p8",
+        "name": "Conde De Arraialos",
+        "alternate": [
+            "Conde De Arraialos"
+        ]
+    },
+    {
+        "id": "p9",
+        "_id": "681d0b7eff8b0d73bed1e97f",
+        "name": "Duke Hyou Hobbiler",
+        "alternate": [
+            "latariox3, Duke Hyou Hobiler",
+            "latariox3",
+            "Duke Hyou Hobiler"
+        ]
+    },
+    {
+        "id": "p10",
+        "_id": "681d0b7dff8b0d73bed1e978",
+        "name": "Ferret",
+        "alternate": [
+            "Rei",
+            "Historei",
+            "Ferret",
+            "Great General of Rei"
+        ]
+    },
+    {
+        "id": "p11",
+        "_id": "681d0b7dff8b0d73bed1e97c",
+        "name": "Jalaleen",
+        "alternate": [
+            "Jalaleen"
+        ]
+    },
+    {
+        "id": "p12",
+        "_id": "681d0b7dff8b0d73bed1e974",
+        "name": "Jxxpiter",
+        "alternate": [
+            "Jxxpiter",
+            "Fuu Fighter General"
+        ]
+    },
+    {
+        "id": "p13",
+        "_id": "681d0b7dff8b0d73bed1e976",
+        "name": "KaineAndTenIsTheTruth",
+        "alternate": [
+            "kadak",
+            "KaineAndTenIsTheTruth"
+        ]
+    },
+    {
+        "id": "p14",
+        "_id": "681d0b7dff8b0d73bed1e977",
+        "name": "Kaijin",
+        "alternate": [
+            "Kaijin",
+            "Kai"
+        ]
+    },
+    {
+        "id": "p15",
+        "_id": "681d0b7dff8b0d73bed1e975",
+        "name": "Luffy",
+        "alternate": [
+            "Luffy"
+        ]
+    },
+    {
+        "id": "p16",
+        "_id": "681d0b7dff8b0d73bed1e97d",
+        "name": "micchukelz",
+        "alternate": [
+            "micchukelz"
+        ]
+    },
+    {
+        "id": "p17",
+        "name": "Nil",
+        "alternate": [
+            "Nil"
+        ]
+    },
+    {
+        "id": "p18",
+        "_id": "681d0b7cff8b0d73bed1e970",
+        "name": "NoirVOid",
+        "alternate": [
+            "NoirKingOfVoid",
+            "NoirVOid",
+            "Void"
+        ]
+    },
+    {
+        "id": "p19",
+        "name": "The Great Ordo",
+        "alternate": [
+            "Ordo",
+            "The Great Ordo"
+        ]
+    },
+    {
+        "id": "p20",
+        "_id": "681d0b7dff8b0d73bed1e97e",
+        "name": "Sabe",
+        "alternate": [
+            "Sabe"
+        ]
+    },
+    {
+        "id": "p21",
+        "_id": "681d0b7dff8b0d73bed1e97a",
+        "name": "Settra",
+        "alternate": [
+            "Settra"
+        ]
+    },
+    {
+        "id": "p22",
+        "_id": "681d0b7dff8b0d73bed1e979",
+        "name": "Sherwel",
+        "alternate": [
+            "Sherwel"
+        ]
+    },
+    {
+        "id": "p23",
+        "_id": "681d0b7eff8b0d73bed1e981",
+        "name": "Sir Kite",
+        "alternate": [
+            "Sir Kite",
+            "Kite"
+        ]
+    },
+    {
+        "id": "p24",
+        "_id": "681d0b7eff8b0d73bed1e980",
+        "name": "Sky",
+        "alternate": [
+            "Sky | #1 FuuFighterLeader",
+            "Sky",
+            "Tengri"
+        ]
+    },
+    {
+        "id": "p25",
+        "_id": "681d0b7cff8b0d73bed1e96f",
+        "name": "Thizzums",
+        "alternate": [
+            "Thizzums",
+            "KokoThizzba #LieutenantOfKou",
+            "Thizz"
+        ]
+    },
+    {
+        "id": "p26",
+        "_id": "681d0b7cff8b0d73bed1e96e",
+        "name": "Toe Kingdom",
+        "alternate": [
+            "Toe kingdomle's bot",
+            "Toe kingdomle",
+            "Toe"
+        ]
+    },
+    {
+        "id": "p27",
+        "_id": "681d0b7cff8b0d73bed1e973",
+        "name": "Vlade, KK #1 lieutenant",
+        "alternate": [
+            "Vlade",
+            "Vlade, KK #1 lieutenant"
+        ]
+    },
+    {
+        "id": "p28",
+        "_id": "681d0b7eff8b0d73bed1e983",
+        "name": "FMA",
+        "alternate": [
+            "FMA"
+        ]
+    },
+    {
+        "id": "p29",
+        "_id": "681d0b7cff8b0d73bed1e972",
+        "name": "Icy Terror",
+        "alternate": [
+            "Icy Terror"
+        ]
+    },
+    {
+        "id": "p30",
+        "_id": "681d0b7cff8b0d73bed1e971",
+        "name": "Crimson Unit"
+    },
+    {
+        "id": "p32",
+        "_id": "681d0b7eff8b0d73bed1e982",
+        "name": "Niyo",
+        "alternate": [
+            "Niyo"
+        ]
+    },
+    {
+        "id": "p35",
+        "_id": "681d0b7eff8b0d73bed1e986",
+        "name": "the.martian",
+        "alternate": [
+            "the.martian",
+            "GOAT",
+            "Extraordinary GG"
+        ]
+    }
+]

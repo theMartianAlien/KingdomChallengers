@@ -35,7 +35,28 @@ export async function insertPlayers() {
             ...player,
             discord_handler_id: discordHandler._id
         }
-
         await writeOne("players", data, { "handler": player.handler });
+    }
+}
+
+export async function insertOldBets() {
+    const BETS = await readJson("bets");
+    const PLAYERS = await readJson("old-players");
+
+    for (let i = 0; i < BETS.length; i++) {
+        const BET = BETS[i];
+        const betData = {
+            title: BET.title,
+            status: BET.status,
+            teamA: PLAYERS.filter((p) => BET.players.teamA.includes(p.id)).map((x) => x._id),
+            teamB: PLAYERS.filter((p) => BET.players.teamB.includes(p.id)).map((x) => x._id),
+            text: BET.text,
+            punishment: BET.punishment,
+            link: BET.link,
+            winner: undefined,
+            chapter: BET.spoilers,
+        }
+        console.log(betData);
+        await writeOne("bets", betData, { "link": betData.link });
     }
 }

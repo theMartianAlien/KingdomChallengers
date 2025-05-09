@@ -1,11 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import { loadEnv } from './util/configLoader.mjs';
-import { insertDiscordUsers, insertPlayers } from './util/insert.mjs';
 
 import discordUsersRoutes from './routes/discord-users.js';
 import playersRoutes from './routes/players.js';
+import betsRoutes from './routes/bets.js';
 import authRoutes from './routes/auth.js';
+import testDataRoutes from './routes/data-inserts.js'
 
 loadEnv();
 
@@ -27,16 +28,9 @@ app.get('/', async (req, res) => {
     res.json('Homepage test');
 });
 
-app.get('/v1/insert/discord', async (req, res) => {
-    await insertDiscordUsers();
-    res.json('Inserting records');
-});
-app.get('/v1/insert/players', async (req, res) => {
-    await insertPlayers();
-    res.json('Inserting records');
-});
-
+app.use('/v1/data',testDataRoutes);
 app.use('/auth', authRoutes);
+app.use('/bets', betsRoutes);
 app.use('/discord', discordUsersRoutes);
 app.use('/players', playersRoutes);
 
