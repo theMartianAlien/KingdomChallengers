@@ -5,3 +5,7 @@ const TABLE = "bets";
 export async function getAllBets() {
     return getAll(TABLE);
 }
+
+export async function getABet(id) {
+    return await getOneById(TABLE, id);
+}

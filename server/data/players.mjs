@@ -1,9 +1,13 @@
-import { deleteOneById, getAll, getOneBy, getOneById, updateOne, writeOne } from "../util/mongo.mjs";
+import { deleteOneById, getAll, getAllBy, getOneBy, getOneById, updateOne, writeOne } from "../util/mongo.mjs";
 
 const TABLE = "players";
 
 export async function getAllPlayers() {
     return await getAll(TABLE);
+}
+
+export async function getAllPlayersBy(filter) {
+    return await getAllBy(TABLE, filter);
 }
 
 export async function getAPlayer(id) {
