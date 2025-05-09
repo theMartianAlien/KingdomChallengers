@@ -20,7 +20,8 @@ const PlayersListPage = lazy(() => import('../pages/Players/PlayersListPage'));
 const PlayersRootPage = lazy(() => import('../pages/Players/PlayerRootPage'));
 
 import { loader as getAllBetsLoader } from '../pages/Bets/BetsListPage';
-import { loader } from '../pages/Bets/BetDetailsPage';
+import { loader as getBedDetailsLoader } from '../pages/Bets/BetDetailsPage';
+import EditBetPage from '../pages/Bets/EditBetPage';
 const BetDetailsPage = lazy(() => import('../pages/Bets/BetDetailsPage'));
 const BetsRootPage = lazy(() => import('../pages/Bets/BetsRootPage'));
 const BetsListPage = lazy(() => import('../pages/Bets/BetsListPage'));
@@ -100,11 +101,15 @@ const router = createBrowserRouter(
             {
               path: ':id',
               id: 'bet-detail',
+              loader: getBedDetailsLoader,
               children: [
                 {
                   index: true,
                   element: <Suspense fallback={<p>Loading ....</p>}><BetDetailsPage /></Suspense>,
-                  loader: loader
+                },
+                {
+                  path: 'edit',
+                  element: <Suspense fallback={<p>Loading ....</p>}><EditBetPage /></Suspense>,
                 },
               ]
             }

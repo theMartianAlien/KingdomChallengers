@@ -1,6 +1,6 @@
 import express from 'express';
 import { getABet, getAllBets } from '../data/bets.mjs';
-import { getAllPlayersBy } from '../data/players.mjs';
+import { getAllPlayers, getAllPlayersBy } from '../data/players.mjs';
 import { ObjectId } from 'mongodb';
 
 const router = express();
@@ -32,7 +32,8 @@ router.get('/:id', async (req, res, next) => {
             teamA: teamA.map((a) => { return { _id: a._id.toString(), display_name: a.display_name } }),
             teamB: teamB.map((b) => { return { _id: b._id.toString(), display_name: b.display_name } }),
         }
-        res.json({ bet: betData });
+        const players = await getAllPlayers();
+        res.json({ bet: betData, players });
     } catch (error) {
         next(error);
     }
