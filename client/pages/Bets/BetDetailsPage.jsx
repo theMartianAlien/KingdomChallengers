@@ -3,18 +3,18 @@ import classes from './BetDetailsPage.module.css';
 import Bet from "../../components/Bets/Bet";
 import { useGetFetch } from "../../hooks/useFetch";
 
-export default function BetsDetailPage() {
-    const { bet, players } = useLoaderData();
-    // const token = useRouteLoaderData('root');
+export default function BetDetailPage() {
+    const { bet } = useRouteLoaderData('bet-detail');
+    const { adminToken } = useRouteLoaderData('root');
     return (
         <div className={classes.thebet}>
-            <Bet bet={bet} players={players} />
-            {/* <div className={classes.actions}>
-                {token && (
+            <Bet bet={bet} />
+            <div className={classes.actions}>
+                {adminToken && (
                     <Link to={`edit`} relative='path' className={classes.actions}>Edit Bet</Link>
                 )}
                 <Link to=".." relative='path' className={classes.actions}>Back</Link>
-            </div> */}
+            </div>
         </div>
     );
 }
