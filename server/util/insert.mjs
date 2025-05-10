@@ -35,7 +35,8 @@ export async function insertPlayers() {
             ...player,
             discord_handler_id: discordHandler._id
         }
-        await writeOne("players", data, { "handler": player.handler });
+        console.log(data)
+        // await writeOne("players", data, { "handler": player.handler });
     }
 }
 

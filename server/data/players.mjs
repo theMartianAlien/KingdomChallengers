@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { deleteOneById, getAll, getAllBy, getOneBy, getOneById, updateOne, writeOne } from "../util/mongo.mjs";
 
 const TABLE = "players";
@@ -19,11 +20,15 @@ export async function addAPlayer(data) {
 }
 
 export async function getAPlayerByHandler(id) {
-    return await getOneBy(TABLE, {"discord_handler_id": id});
+    return await getOneBy(TABLE, {"discord_handler_id": new ObjectId(id)});
 }
 
 export async function replaceAPlayer(data){
-    return await updateOne(TABLE, data);
+    const id = data._id;
+    if(data._id){
+        delete data._id;
+    }
+    return await updateOne(TABLE, id, data);
 }
 
 export async function removeAPlayer(id){

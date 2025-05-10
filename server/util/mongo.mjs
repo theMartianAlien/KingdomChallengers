@@ -71,14 +71,16 @@ export async function getOneBy(file, filter) {
     return data;
 }
 
-export async function updateOne(file, data) {
+export async function updateOne(file, id, data) {
     if (!file)
         throw error(`Invalid collection name (${file})`);
 
     const collection = database.collection(file);
     client.connect();
+    console.log(id);
+    console.log(data);
     console.log("Connected to mongo atlast, updateOne " + file);
-    await collection.replaceOne({ _id: data._id }, data);
+    await collection.replaceOne({ _id: new ObjectId(id) }, data);
 }
 
 export async function deleteOneById(file, id) {

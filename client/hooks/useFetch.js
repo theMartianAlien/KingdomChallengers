@@ -10,19 +10,28 @@ export async function useGetFetch(endpoint) {
     }
 }
 
-export async function usePatchPostFetch(endpoint, method, data) {
+export async function usePatchPostFetch(endpoint, method, data, token) {
     let url = URL;
     if (method === 'PATCH') {
-        url += data._id;
+        endpoint += "/" + data._id;
     }
+
+    let headers = {
+        'Content-Type': 'application/json'
+    }
+    if (token) {
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    }
+
     const response = await fetch(url + endpoint, {
         method: method,
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: headers,
         body: JSON.stringify(data)
     });
-    
+
     if (response.status === 422 || response.status === 401) {
         return response;
     }

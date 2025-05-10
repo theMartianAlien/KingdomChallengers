@@ -37,7 +37,7 @@ const router = createBrowserRouter(
         {
           index: true,
           element: <Suspense fallback={<p>Loading ....</p>}><HomePage /></Suspense>,
-          loader: getStatsForHomePageLoader
+          loader: () => import('../pages/HomePage').then((module) => module.loader()),
         },
         {
           path: 'login',

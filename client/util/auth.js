@@ -23,17 +23,17 @@ export function getAuthToken() {
 }
 
 export function getAdminToken() {
-    const token = localStorage.getItem('token');
+    const admin = localStorage.getItem('admin');
     const tokenDuration = getTokenDuration();
 
-    if (!token) {
+    if (!admin) {
         return null;
     }
 
     if (tokenDuration < 0) {
         return 'EXPIRED';
     }
-    return token;
+    return admin;
 }
 
 export function getUserId() {

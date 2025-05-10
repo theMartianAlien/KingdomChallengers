@@ -1,9 +1,10 @@
-import { useLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 import { useGetFetch } from "../../hooks/useFetch";
 
 export default function PlayerDetailsPage() {
-    const { player } = useLoaderData();
-    console.log(player);
+    const { player } = useRouteLoaderData('player-detail');
+    const { adminToken } = useRouteLoaderData('root');
+    console.log(adminToken);
     return (
         <section>
             <h1>Player Details</h1>

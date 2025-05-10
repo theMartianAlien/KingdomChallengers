@@ -71,18 +71,16 @@ router.post('/', async (req, res, next) => {
 router.patch('/:id', async (req, res, next) => {
     let data = req.body;
     try {
-        console.log("replaceAPlayer called");
         if (!data.handler) {
             return res.status(422).json({ message: "Unable to update player: " + data.handler });
         }
-        const handler = await getAPlayerByHandler(data.handler);
+        
+        const handler = await getAPlayer(data._id);
 
         if (!handler) {
             return res.status(422).json({ message: "Unable to update player: " + data.handler });
         }
-        if (data.handler) {
-            delete data.handler;
-        }
+        console.log("replaceAPlayer called");
         await replaceAPlayer(data);
         res.status(201).json({ message: 'Player updated!', player: data });
     } catch (error) {
