@@ -6,8 +6,9 @@ import discordUsersRoutes from './routes/discord-users.js';
 import playersRoutes from './routes/players.js';
 import betsRoutes from './routes/bets.js';
 import authRoutes from './routes/auth.js';
-import testDataRoutes from './routes/data-inserts.js'
+import challengesRoutes from './routes/challenges.js';
 import homepageRoutes from './routes/stats.js';
+import testDataRoutes from './routes/data-inserts.js'
 
 loadEnv();
 
@@ -31,6 +32,7 @@ app.use('/auth', authRoutes);
 app.use('/bets', betsRoutes);
 app.use('/discord', discordUsersRoutes);
 app.use('/players', playersRoutes);
+app.use('/challenges', challengesRoutes);
 
 app.listen(PORT,
     () => {

@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 
 import RootPage from '../pages/Layout/RootPage';
-import { tokenLoader } from '../util/auth';
+import { checkAuthLoader, tokenLoader } from '../util/auth';
 import { loader as getStatsForHomePageLoader } from '../pages/HomePage';
 const HomePage = lazy(() => import('../pages/HomePage'));
 
@@ -22,6 +22,7 @@ const PlayersRootPage = lazy(() => import('../pages/Players/PlayerRootPage'));
 import { loader as getAllBetsLoader } from '../pages/Bets/BetsListPage';
 import { loader as getBedDetailsLoader } from '../pages/Bets/BetDetailsPage';
 import EditBetPage from '../pages/Bets/EditBetPage';
+import { action as deletePlayerAction } from '../components/Players/PlayersList';
 const BetDetailsPage = lazy(() => import('../pages/Bets/BetDetailsPage'));
 const BetsRootPage = lazy(() => import('../pages/Bets/BetsRootPage'));
 const BetsListPage = lazy(() => import('../pages/Bets/BetsListPage'));
@@ -61,7 +62,8 @@ const router = createBrowserRouter(
               index: true,
               element: <Suspense fallback={<p>Loading ....</p>}><PlayersListPage /></Suspense>,
               id: 'players-list',
-              loader: getAllPlayersLoader
+              loader: getAllPlayersLoader,
+              action: deletePlayerAction
             },
             {
               path: ':id',
@@ -82,6 +84,7 @@ const router = createBrowserRouter(
             {
               path: 'new',
               element: <Suspense fallback={<p>Loading ....</p>}><NewPlayerPage /></Suspense>,
+              loader: checkAuthLoader,
               action: createUpdatePlayerAction
             }
           ]

@@ -1,8 +1,11 @@
-import { Link, useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { Link, redirect, useLoaderData, useRouteLoaderData, useSubmit } from "react-router-dom";
 import classes from './PlayersList.module.css';
+import { useDeleteFetch } from "../../hooks/useFetch";
+import { getAdminToken } from "../../util/auth";
 
 export default function PlayersList() {
     const players = useLoaderData();
+    const submit = useSubmit();
     const { adminToken } = useRouteLoaderData('root');
 
     function startDeleteHandler(id) {
@@ -57,4 +60,16 @@ export default function PlayersList() {
             </table>
         </div>
     );
+}
+
+export async function action({ request, params }) {
+    const data = await request.formData();
+    const id = data.get('id');
+
+    const admin = getAdminToken();
+    const resData = await useDeleteFetch("players/" + id, admin);
+    if (resData.status === 422 || resData.status === 401) {
+        return resData;
+    }
+    return redirect('/players');
 }

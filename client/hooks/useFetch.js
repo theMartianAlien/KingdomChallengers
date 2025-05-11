@@ -43,3 +43,32 @@ export async function usePatchPostFetch(endpoint, method, data, token) {
         return resData;
     }
 }
+
+export async function useDeleteFetch(endpoint, token) {
+
+    let headers = {
+        'Content-Type': 'application/json'
+    }
+    if (token) {
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    }
+
+    const response = await fetch(URL + endpoint, {
+        method: 'DELETE',
+        headers: headers
+    });
+
+    if (response.status === 422 || response.status === 401) {
+        return response;
+    }
+
+    if (!response.ok) {
+
+    } else {
+        const resData = await response.json();
+        return resData;
+    }
+}

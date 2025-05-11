@@ -41,7 +41,7 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.use(isAdminAuthenticate);
+// router.use(isAdminAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {

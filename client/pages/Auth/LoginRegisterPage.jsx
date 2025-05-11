@@ -1,10 +1,9 @@
-import { redirect, useActionData, useLoaderData } from "react-router-dom";
+import { redirect, useLoaderData } from "react-router-dom";
 import LoginForm from "../../components/Auth/LoginForm";
 import RegistrationForm from "../../components/Auth/RegistrationForm";
 import { usePatchPostFetch } from "../../hooks/useFetch";
 
 export default function LoginRegisterPage({ isLogin = true }) {
-    const data = useLoaderData();
     let form = <RegistrationForm />;
     if (isLogin) {
         form = <LoginForm />

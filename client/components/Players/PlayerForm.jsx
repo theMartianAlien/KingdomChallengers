@@ -1,13 +1,17 @@
-import { Form, redirect, useRouteLoaderData } from "react-router-dom";
+import { Form, redirect, useActionData, useRouteLoaderData } from "react-router-dom";
 import { usePatchPostFetch } from "../../hooks/useFetch";
 import { getAdminToken } from "../../util/auth";
 
-export default function PlayerForm({ method }) {
-    const { player } = useRouteLoaderData('player-detail');
+export default function PlayerForm({ method, player }) {
+    const data = useActionData();
     return (
         <>
             <div>
                 <Form method={method} className='form'>
+                    {data && (
+                        <p>
+                            <span>{data.message}</span>
+                        </p>)}
                     <p className='form-group'>
                         <label htmlFor="handler">Discord Handler</label>
                         <input id="handler" type="text" name="handler" defaultValue={(player?.handler ?? '')} required readOnly={method === 'patch'} />
@@ -40,5 +44,8 @@ export async function action({ request, params }) {
     }
     const admin = getAdminToken();
     const resData = await usePatchPostFetch("players", method, playerData, admin);
+    if (resData.status === 422 || resData.status === 401) {
+        return resData;
+    }
     return redirect('/players');
 }

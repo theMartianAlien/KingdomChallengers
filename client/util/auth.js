@@ -52,9 +52,9 @@ export function tokenLoader() {
 }
 
 export function checkAuthLoader() {
-    const token = getAuthToken();
-
+    const token = getAdminToken();
+    console.log("token for admin : " + token);
     if (!token) {
-        return redirect('/auth');
+        return redirect('/login');
     }
 }
