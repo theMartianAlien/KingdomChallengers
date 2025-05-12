@@ -26,9 +26,9 @@ export default function RootPage() {
     return (
         <>
             <MainNavigation />
-            <main className="my-10">
+            {/* <main className="my-5">
                 <Outlet />
-            </main>
+            </main> */}
         </>
     );
 }
