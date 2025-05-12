@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 * {
   box-sizing: border-box;
 }
@@ -43,8 +45,6 @@ body {
   display: flex;
   place-items: center;
   justify-content: center;
-  /* min-width: 320px;
-  min-height: 100vh; */
 }
 
 h1 {
