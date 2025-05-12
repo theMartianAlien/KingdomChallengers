@@ -15,6 +15,10 @@ import {
 
 export default function MainNavigation() {
     const { token, userId } = useRouteLoaderData('root');
+    let imgProfile = 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg';
+    if (userId) {
+        imgProfile = 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg';
+    }
     return (
         <Navbar fluid rounded>
             <NavLink to='/' className={`flex items-center ${({ isActive }) => isActive ? classes.active : undefined}`} end>
@@ -22,28 +26,43 @@ export default function MainNavigation() {
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Kingdom Challengers</span>
             </NavLink>
             <div className="flex md:order-2 gap-2">
-                {!userId && (
-                    <Avatar alt="User settings" img="https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg" rounded />
-                )}
-                {userId && (
-                    <Dropdown
-                        arrowIcon={false}
-                        inline
-                        label={
-                            <Avatar alt="User settings" img="https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg" rounded />
-                        }
-                    >
-                        <DropdownHeader>
-                            <span className="block text-sm">Bonnie Green</span>
-                            <span className="block truncate text-sm font-medium">name@flowbite.com</span>
-                        </DropdownHeader>
-                        <DropdownItem>Dashboard</DropdownItem>
-                        <DropdownItem>Settings</DropdownItem>
-                        <DropdownItem>Earnings</DropdownItem>
-                        <DropdownDivider />
-                        <DropdownItem>Sign out</DropdownItem>
-                    </Dropdown>
-                )}
+                <Dropdown
+                    arrowIcon={false}
+                    inline
+                    label={
+                        <Avatar alt="User settings" img={imgProfile} rounded />
+                    }
+                >{
+                        !userId && (
+                            <DropdownHeader>
+                                <NavLink to="/login" >Sign In</NavLink>
+                            </DropdownHeader>
+                        )
+                    }
+                    {
+                        userId && (
+                            <>
+                                <DropdownHeader>
+                                    <span className="block text-sm">Bonnie Green</span>
+                                    <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+                                </DropdownHeader>
+                                <DropdownItem>Dashboard</DropdownItem>
+                                <DropdownItem>Settings</DropdownItem>
+                                <DropdownItem>Earnings</DropdownItem>
+                                <DropdownDivider />
+                                {/* <DropdownItem> */}
+                                <li className="menuitem">
+                                    <Form action="/logout" method="post">
+                                        <button className="flex w-full cursor-pointer items-center justify-start px-4 py-2 text-sm text-gray-700 
+                                        hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:bg-gray-600 
+                                        dark:focus:text-black">Logout</button>
+                                    </Form>
+                                </li>
+                                {/* </DropdownItem> */}
+                            </>
+                        )
+                    }
+                </Dropdown>
                 <NavbarToggle />
             </div>
             <NavbarCollapse>

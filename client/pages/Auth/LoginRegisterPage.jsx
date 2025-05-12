@@ -1,4 +1,4 @@
-import { redirect, useLoaderData } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import LoginForm from "../../components/Auth/LoginForm";
 import RegistrationForm from "../../components/Auth/RegistrationForm";
 import { usePatchPostFetch } from "../../hooks/useFetch";
