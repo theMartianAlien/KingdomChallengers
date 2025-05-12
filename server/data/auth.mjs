@@ -1,4 +1,4 @@
-import { getOneBy, writeOne } from "../util/mongo.mjs";
+import { getOneBy, getOneById, writeOne } from "../util/mongo.mjs";
 
 const TABLE = "accounts";
 
@@ -16,4 +16,8 @@ export async function registerUser(data) {
 
 export async function getUserAccount(username, password) {
     return await getOneBy(TABLE, { "username": username, "password": password });
+}
+
+export async function getAccountById(id) {
+    return await getOneById(TABLE, id);
 }

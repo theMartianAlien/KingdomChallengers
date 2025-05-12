@@ -3,7 +3,6 @@ import { lazy, Suspense } from 'react';
 
 import RootPage from '../pages/Layout/RootPage';
 import { checkAuthLoader, tokenLoader } from '../util/auth';
-import { loader as getStatsForHomePageLoader } from '../pages/HomePage';
 const HomePage = lazy(() => import('../pages/HomePage'));
 
 import { action as loginRegisterAction } from '../pages/Auth/LoginRegisterPage';
@@ -13,6 +12,7 @@ const LoginRegisterPage = lazy(() => import('../pages/Auth/LoginRegisterPage'));
 import { loader as getAllPlayersLoader } from '../pages/Players/PlayersListPage';
 import { action as createUpdatePlayerAction } from '../components/Players/PlayerForm';
 import { loader as getPlayerDetailsLoader } from '../pages/Players/PlayerDetailsPage';
+import { action as deletePlayerAction } from '../components/Players/PlayersList';
 const NewPlayerPage = lazy(() => import('../pages/Players/NewPlayerPage'));
 const PlayerDetailsPage = lazy(() => import('../pages/Players/PlayerDetailsPage'));
 const EditPlayerPage = lazy(() => import('../pages/Players/EditPlayerPage'));
@@ -22,10 +22,16 @@ const PlayersRootPage = lazy(() => import('../pages/Players/PlayerRootPage'));
 import { loader as getAllBetsLoader } from '../pages/Bets/BetsListPage';
 import { loader as getBedDetailsLoader } from '../pages/Bets/BetDetailsPage';
 import EditBetPage from '../pages/Bets/EditBetPage';
-import { action as deletePlayerAction } from '../components/Players/PlayersList';
+import { action } from '../components/Challenges/ChallengesForm';
+import { loader } from '../pages/Challenges/ChallengeDetailsPage';
 const BetDetailsPage = lazy(() => import('../pages/Bets/BetDetailsPage'));
 const BetsRootPage = lazy(() => import('../pages/Bets/BetsRootPage'));
 const BetsListPage = lazy(() => import('../pages/Bets/BetsListPage'));
+
+const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
+const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
+const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
+const ChallengeDetailsPage = lazy(() => import('../pages/Challenges/ChallengeDetailsPage'));
 
 const router = createBrowserRouter(
   [
@@ -124,7 +130,33 @@ const router = createBrowserRouter(
         },
         {
           path: 'challenges',
-          element: <p>Page currently unavailable</p>
+          id: 'challenges-root',
+          element: <Suspense fallback={<p>Loading ....</p>}><ChallengesRootPage /></Suspense>,
+          loader: () => import('../pages/Players/PlayersListPage').then((module) => module.loader()),
+          children: [
+            {
+              index: true,
+              element: <Suspense fallback={<p>Loading ....</p>}><ChallengesListPage /></Suspense>,
+              loader: () => import('../pages/Challenges/ChallengesListPage').then((module) => module.loader()),
+            },
+            {
+              path: ':id',
+              id: 'challenge-detail',
+              loader: loader,
+              children: [
+                {
+                  index: true,
+                  element: <Suspense fallback={<p>Loading ....</p>}><ChallengeDetailsPage /></Suspense>,
+                  // action: postCounterChallengeAction
+                }
+              ]
+            },
+            {
+              path: 'new',
+              element: <Suspense fallback={<p>Loading ....</p>}><NewChallengePage /></Suspense>,
+              action: action
+            }
+          ]
         }
       ]
     }

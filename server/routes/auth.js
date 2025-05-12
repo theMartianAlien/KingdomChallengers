@@ -2,6 +2,7 @@ import express from 'express';
 import { getDiscordHandlerUser } from '../data/discord-users.mjs';
 import { getAccount, getAccountByUserName, registerUser } from '../data/auth.mjs';
 import { createAdminJSONToken, createJSONToken, hashPassword, isValidPassword } from '../util/auth.mjs';
+import { getAPlayerByDiscordHandle, getAPlayerByHandler } from '../data/players.mjs';
 
 const router = express();
 
@@ -34,8 +35,8 @@ router.post('/register', async (req, res, next) => {
                 errors,
             });
         }
-
-        const accountData = { ...data };
+        const player = await getAPlayerByDiscordHandle(data.discord_handle);
+        const accountData = { ...data, player_id : player._id };
         accountData.password = await hashPassword(accountData.password);
         if (discord_handler.isAdmin) {
             accountData.isAdmin = true;
@@ -49,6 +50,7 @@ router.post('/register', async (req, res, next) => {
         res.status(201).json({
             message: `Registration Complete, Welcome ${data.display_name}!`,
             token: userToken,
+            player_id: player._id,
             adminToken
         });
     } catch (error) {

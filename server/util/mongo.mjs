@@ -55,6 +55,7 @@ export async function getOneById(file, id) {
 
     const collection = database.collection(file);
     client.connect();
+    console.log(id);
     console.log("Connected to mongo atlast, getOneById " + file);
     const data = await collection.findOne({ _id: new ObjectId(id) })
     return data;
@@ -77,8 +78,6 @@ export async function updateOne(file, id, data) {
 
     const collection = database.collection(file);
     client.connect();
-    console.log(id);
-    console.log(data);
     console.log("Connected to mongo atlast, updateOne " + file);
     await collection.replaceOne({ _id: new ObjectId(id) }, data);
 }

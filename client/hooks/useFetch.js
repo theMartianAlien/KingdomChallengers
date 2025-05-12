@@ -2,12 +2,13 @@ const URL = import.meta.env.VITE_ENDPOINT;
 
 export async function useGetFetch(endpoint) {
     const response = await fetch(URL + endpoint);
+
     if (!response.ok) {
 
-    } else {
-        const resData = await response.json();
-        return resData;
     }
+    
+    const resData = await response.json();
+    return resData;
 }
 
 export async function usePatchPostFetch(endpoint, method, data, token) {
@@ -38,10 +39,10 @@ export async function usePatchPostFetch(endpoint, method, data, token) {
 
     if (!response.ok) {
 
-    } else {
-        const resData = await response.json();
-        return resData;
     }
+    
+    const resData = await response.json();
+    return resData;
 }
 
 export async function useDeleteFetch(endpoint, token) {
@@ -67,8 +68,8 @@ export async function useDeleteFetch(endpoint, token) {
 
     if (!response.ok) {
 
-    } else {
-        const resData = await response.json();
-        return resData;
     }
+
+    const resData = await response.json();
+    return resData;
 }

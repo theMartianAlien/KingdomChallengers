@@ -19,6 +19,10 @@ export async function addAPlayer(data) {
     return await writeOne(TABLE, data);
 }
 
+export async function getAPlayerByDiscordHandle(handle) {
+    return await getOneBy(TABLE, {"handler": handle});
+}
+
 export async function getAPlayerByHandler(id) {
     return await getOneBy(TABLE, {"discord_handler_id": new ObjectId(id)});
 }

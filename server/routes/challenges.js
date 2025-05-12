@@ -1,5 +1,5 @@
 import express from 'express';
-import { addChallenge, getAllChallenges } from '../data/challenge.mjs';
+import { addChallenge, getAChallenge, getAllChallenges } from '../data/challenge.mjs';
 
 const router = express();
 
@@ -17,7 +17,7 @@ router.get('/:id', async (req, res, next) => {
     try {
         console.log("getChallenge called");
         const id = req.params.id;
-        const challenge = await getChallenge(id);
+        const challenge = await getAChallenge(id);
         // const counters = await getCounterChallenge(id);
         // const players = await getAllPlayers();
         // res.json({ challenge, counters, players });
