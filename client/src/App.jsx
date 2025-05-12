@@ -147,7 +147,6 @@ const router = createBrowserRouter(
                 {
                   index: true,
                   element: <Suspense fallback={<p>Loading ....</p>}><ChallengeDetailsPage /></Suspense>,
-                  // action: postCounterChallengeAction
                 }
               ]
             },

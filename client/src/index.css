@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@plugin "flowbite/plugin";
+@source "../client/node_modules/flowbite";
 
 * {
   box-sizing: border-box;
