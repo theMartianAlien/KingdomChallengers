@@ -1,13 +1,13 @@
 import { Link, useLoaderData } from 'react-router-dom';
 import classes from './HomeStats.module.css'
 import { useState } from 'react';
+import TableHeaderName from '../UI/TableHeaderName';
 
 export default function HomeStats() {
     const data = useLoaderData();
-
     const [sortedBets, SortBetsHandler] = useState(sortByColumn(data, "total", false));
     const [columnSorting, SortColumnHandler] = useState({
-        name: 'asc',
+        display_name: 'asc',
         total: 'asc',
         ongoing: 'asc',
         void: 'asc',
@@ -30,8 +30,13 @@ export default function HomeStats() {
 
     function sortByColumn(arr, column, ascending = true) {
         return [...arr].sort((a, b) => {
-            const valueA = a[column];
-            const valueB = b[column];
+            let valueA = a[column]
+            let valueB = b[column]
+
+            if (column === "display_name") {
+                valueA = valueA.toUpperCase();
+                valueB = valueB.toUpperCase();
+            }
 
             if (valueA < valueB) {
                 return ascending ? -1 : 1;
@@ -45,101 +50,53 @@ export default function HomeStats() {
 
     return (
         <>
-            <div className={classes.maindiv}>
-                <div className={classes.statelement}>
-                    <div className={classes.playerName}>
-                        <button onClick={() => onSortBets("name")} className={classes["button-header"]}>
-                            <span>Player name</span>
-                        </button>
-                    </div>
-                    <div className={classes.stats}>
-                        <div className={classes.col}>
-                            <button onClick={() => onSortBets("total")} className={classes["button-header"]}>
-                                <span>
-                                    Total Bets
-                                </span>
-                            </button>
-                        </div>
-                        <div className={classes.col}>
-                            <button onClick={() => onSortBets("ongoing")} className={classes["button-header"]}>
-                                <span>
-                                    On Going Bets
-                                </span>
-                            </button>
-                        </div>
-                        <div className={classes.col}>
-                            <button onClick={() => onSortBets("void")} className={classes["button-header"]}>
-                                <span>
-                                    Void Bets
-                                </span>
-                            </button>
-                        </div>
-                        <div className={classes.col}>
-                            <button onClick={() => onSortBets("complete")} className={classes["button-header"]}>
-                                <span>
-                                    Completed
-                                </span>
-                            </button>
-                        </div>
-                        <div className={classes.col}>
-                            <button onClick={() => onSortBets("wins")} className={classes["button-header"]}>
-                                <span>
-                                    Wins
-                                </span>
-                            </button>
-                        </div>
-                        <div className={classes.col}>
-                            <button onClick={() => onSortBets("losts")} className={classes["button-header"]}>
-                                <span>
-                                    Loss
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                {
-                    sortedBets.map((data) =>
-                        <div key={data.id} className={classes.statelement}>
-                            <div className={classes.playerName}>
-                                <Link to={`/players/${data.id}`}>
-                                    <span>{data.display_name}</span>
-                                </Link>
-                            </div>
-                            <div className={classes.stats}>
-                                <div className={classes.col}>
-                                    <span>
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <TableHeaderName label="Player name" column="display_name" isAsc={columnSorting["display_name"] === 'asc'} onClickHeader={onSortBets} />
+                            <TableHeaderName label="Total Bets" column="total" isAsc={columnSorting["total"] === 'asc'} onClickHeader={onSortBets} />
+                            <TableHeaderName label="On Going Bets" column="ongoing" isAsc={columnSorting["ongoing"] === 'asc'} onClickHeader={onSortBets} />
+                            <TableHeaderName label="Void" column="void" isAsc={columnSorting["void"] === 'asc'} onClickHeader={onSortBets} />
+                            <TableHeaderName label="Complete" column="complete" isAsc={columnSorting["complete"] === 'asc'} onClickHeader={onSortBets} />
+                            <TableHeaderName label="Wins" column="wins" isAsc={columnSorting["wins"] === 'asc'} onClickHeader={onSortBets} />
+                            <TableHeaderName label="Loss" column="loss" isAsc={columnSorting["loss"] === 'asc'} onClickHeader={onSortBets} />
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            sortedBets.map((data) => (
+                                <tr key={data.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <Link to={`/players/${data.id}`}>
+                                            <span>{data.display_name}</span>
+                                        </Link>
+                                    </th>
+                                    <td className="px-6 py-4 text-center">
                                         {data.total}
-                                    </span>
-                                </div>
-                                <div className={classes.col}>
-                                    <span>
+                                    </td>
+                                    <td className="px-6 py-4 text-center">
                                         {data.ongoing}
-                                    </span>
-                                </div>
-                                <div className={classes.col}>
-                                    <span>
+                                    </td>
+                                    <td className="px-6 py-4 text-center">
                                         {data.void}
-                                    </span>
-                                </div>
-                                <div className={classes.col}>
-                                    <span>
+                                    </td>
+                                    <td className="px-6 py-4 text-center">
                                         {data.complete}
-                                    </span>
-                                </div>
-                                <div className={classes.col}>
-                                    <span>
+                                    </td>
+                                    <td className="px-6 py-4 text-center">
                                         {data.wins}
-                                    </span>
-                                </div>
-                                <div className={classes.col}>
-                                    <span>
-                                        {data.losts}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>)
-                }
-            </div >
+                                    </td>
+                                    <td className="px-6 py-4 text-center">
+                                        {data.loss}
+                                    </td>
+                                </tr>
+
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
         </>
     );
 }

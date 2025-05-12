@@ -1,4 +1,4 @@
-const URL = import.meta.env.VITE_ENDPOINT;
+const URL = import.meta.env.VITE_ENDPOINT || 'http://localhost:3000/';
 
 export async function useGetFetch(endpoint) {
     const response = await fetch(URL + endpoint);
@@ -6,7 +6,7 @@ export async function useGetFetch(endpoint) {
     if (!response.ok) {
 
     }
-    
+
     const resData = await response.json();
     return resData;
 }
@@ -40,7 +40,7 @@ export async function usePatchPostFetch(endpoint, method, data, token) {
     if (!response.ok) {
 
     }
-    
+
     const resData = await response.json();
     return resData;
 }

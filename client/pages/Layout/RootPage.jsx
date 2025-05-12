@@ -1,7 +1,6 @@
 import { Outlet, useLoaderData, useSubmit } from "react-router-dom";
 import { useEffect } from "react";
 import MainNavigation from "../../components/MainNavigation";
-import classes from './RootPage.module.css';
 import { getTokenDuration } from "../../util/auth";
 
 export default function RootPage() {
@@ -27,9 +26,9 @@ export default function RootPage() {
     return (
         <>
             <MainNavigation />
-            {/* <main>
+            <main className="my-10">
                 <Outlet />
-            </main> */}
+            </main>
         </>
     );
 }

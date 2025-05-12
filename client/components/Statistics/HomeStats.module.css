@@ -1,33 +1,33 @@
 .maindiv {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
 }
 
 .statelement {
-    display: flex;
+    /* display: flex; */
 }
 
 .stats {
-    display: flex;
-    gap: 1em;
+    /* display: flex;
+    gap: 1em; */
 }
 
 .playerName {
-    width: 300px;
-    text-align: left;
+    /* width: 300px;
+    text-align: left; */
 }
 
 .col{
-    width: 120px;
+    /* width: 120px; */
 }
 
 .button-header {
-    background-color: transparent;
+    /* background-color: transparent;
     background-repeat: no-repeat;
     border: none;
     cursor: pointer;
     overflow: hidden;
-    outline: none;
+    outline: none; */
 }

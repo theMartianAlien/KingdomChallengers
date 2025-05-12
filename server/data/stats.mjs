@@ -4,7 +4,6 @@ import { getAPlayer } from "./players.mjs";
 export async function getStatistics() {
     let data = [];
     const bets = await getAllBets();
-
     for (let i = 0; i < bets.length; i++) {
         let theBet = bets[i];
         let players = theBet.teamA;
@@ -40,7 +39,7 @@ export async function getStatistics() {
                         complete: (theBet.status === 'complete' ? 1 : 0),
                         void: (theBet.status === 'void' ? 1 : 0),
                         wins: (winners && winners.find((w) => w === players[x]) ? 1 : 0),
-                        losts: (winners && !winners.find((w) => w === players[x]) ? 1 : 0) + (theBet.status === 'void' ? 1 : 0),
+                        loss: (winners && !winners.find((w) => w === players[x]) ? 1 : 0) + (theBet.status === 'void' ? 1 : 0),
                         total: 1,
                     }
                 );
@@ -52,7 +51,7 @@ export async function getStatistics() {
                         obj.complete = (obj.complete + (theBet.status === 'complete' ? 1 : 0));
                         obj.void = (obj.void + (theBet.status === 'void' ? 1 : 0));
                         obj.wins = (obj.wins + (winners && winners.find((w) => w === players[x]) ? 1 : 0));
-                        obj.losts = (obj.losts + (winners && !winners.find((w) => w === players[x]) ? 1 : 0) + (theBet.status === 'void' ? 1 : 0));
+                        obj.loss = (obj.loss + (winners && !winners.find((w) => w === players[x]) ? 1 : 0) + (theBet.status === 'void' ? 1 : 0));
                         return {
                             ...obj,
                         }
