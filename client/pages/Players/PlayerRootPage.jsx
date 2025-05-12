@@ -5,7 +5,7 @@ export default function PlayersRootPage() {
     return (
         <>
             <PlayersNavigation />
-            <section>
+            <section className="flex flex-col items-center justify-center min-h-screen">
                 <Outlet />
             </section>
         </>

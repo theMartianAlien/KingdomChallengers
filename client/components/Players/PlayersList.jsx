@@ -19,7 +19,7 @@ export default function PlayersList() {
     }
 
     return (
-        <div className={classes.center}>
+        <div>
             <table>
                 <thead>
                     <tr className={classes.header}>

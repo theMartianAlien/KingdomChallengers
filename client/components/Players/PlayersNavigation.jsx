@@ -4,9 +4,9 @@ import { NavLink, useRouteLoaderData } from 'react-router-dom';
 function PlayersNavigation() {
     const { token } = useRouteLoaderData('root');
     return (
-        <header className={classes.header}>
+        <header className="uppercase">
             <nav>
-                <ul className={classes.list}>
+                <ul>
                     <li>
                         <NavLink to="/players" className={({ isActive }) => isActive ? classes.active : undefined} end>All Players</NavLink>
                     </li>

@@ -4,7 +4,7 @@ import { useGetFetch } from "../../hooks/useFetch";
 export default function PlayersListPage() {
     return (
         <>
-            <h1>Players List</h1>
+            <h1 className="uppercase">Players List</h1>
             <PlayersList />
         </>
     );
