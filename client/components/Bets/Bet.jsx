@@ -18,7 +18,7 @@ export default function Bet({ bet }) {
     if (bet.tags && bet.tags.length > 0) {
         tags = (
             <div>
-                <ul className={classes.list}>
+                <ul className="flex gap-4 list-none">
                     {bet.tags.map((tag) => (
                         <Tag tag={tag} key={tag} />
                     ))}
@@ -30,7 +30,7 @@ export default function Bet({ bet }) {
     let betPunishment = cleanText(bet.punishment, []);
     if (betPunishment) {
         betPunishment = (
-            <div className={classes.content}>
+            <div className="flex flex-wrap flex-col text-justify whitespace-pre-wrap w-[400px]">
                 <p>
                     <span>Punishment: </span>
                     <br />
@@ -41,16 +41,35 @@ export default function Bet({ bet }) {
 
     return (
         <>
-            <div className={classes.betTitle}>
-                <p className={classes["team-versus"]}>
+            <div className="max-w-4xl mx-auto p-2 bg-white dark:bg-gray-900 rounded-lg shadow-lg space-y-8">
+                {/* 📝 Title and Team Details */}
+                <div className="text-center">
+                    <h1 className="text-4xl font-semibold text-gray-900 dark:text-white">
+                        {bet.title}
+                    </h1>
+                    <p className="text-lg text-gray-600 dark:text-gray-300 mt-2 flex">
+                        <span className="font-medium">
+                            {bet.teamA.map((a) => a.display_name).join(", ")}
+                        </span>
+                        <span>
+                        VS
+                        </span>
+                        <span className="font-medium">
+                            {bet.teamB.map((b) => b.display_name).join(", ")}
+                        </span>
+                    </p>
+                </div>
+            </div>
+            {/* <div className="text-3xl font-semibold">
+                <p>
+                    {bet.title && (<span>{bet.title}</span>)}
+                </p>
+                <p className="flex justify-evenly leading-tight">
                     <span>{
                         bet.teamA.map((a) => (a.display_name)).join(", ")}</span>
                     <span>&nbsp;VS&nbsp;</span>
                     <span>{
                         bet.teamB.map((b) => (b.display_name)).join(", ")}</span>
-                </p>
-                <p>
-                    {bet.title && (<span>{bet.title}</span>)}
                 </p>
             </div>
             <div className='status'>
@@ -64,25 +83,25 @@ export default function Bet({ bet }) {
                 </p>
             </div>
             {tags && tags}
-            <div className={classes.team}>
+            <div className="flex justify-center">
                 <div className="team team-a">
-                    <ul className={classes.list}>
+                    <ul className="flex gap-4 list-none">
                         {bet.teamA.map((player) => (<PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team={"team-a"} />))}
                     </ul>
                 </div>
-                <div className="team team-b">
-                    <ul className={classes.list}>
+                <div className="flex justify-center">
+                    <ul className="flex gap-4 list-none">
                         {bet.teamB.map((player) => (<PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team={"team-a"} />))}
                     </ul>
                 </div>
             </div>
-            <div className={classes.content}>
+            <div className="flex flex-wrap flex-col text-justify whitespace-pre-wrap w-[400px]">
                 {betContent}
             </div>
             {betPunishment}
             <div>
                 <a href={bet.link} target="_blank" rel="noopener noreferrer">BET LINK</a>
-            </div>
+            </div> */}
         </>
     );
 }

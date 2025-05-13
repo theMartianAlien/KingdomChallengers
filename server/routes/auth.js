@@ -89,6 +89,8 @@ router.post('/login', async (req, res, next) => {
             return res.status(201).json({ ...accountData });
         }
         catch (error) {
+            console.log(req.body);
+            console.log(error);
             return res.status(401).json({ message: 'Authentication failed!' });
         }
     } catch (error) {

@@ -7,15 +7,15 @@ export default function BetDetailPage() {
     const { bet } = useRouteLoaderData('bet-detail');
     const { adminToken } = useRouteLoaderData('root');
     return (
-        <div className={classes.thebet}>
+        <>
             <Bet bet={bet} />
-            <div className={classes.actions}>
+            <div>
                 {adminToken && (
                     <Link to={`edit`} relative='path' className={classes.actions}>Edit Bet</Link>
                 )}
                 <Link to=".." relative='path' className={classes.actions}>Back</Link>
             </div>
-        </div>
+        </>
     );
 }
 
