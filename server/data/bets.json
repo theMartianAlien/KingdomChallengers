@@ -1119,5 +1119,28 @@
         "punishment": "stakes are that the losing one will take the punishment of another one’s losing bet’s punishment",
         "tags": [],
         "id": "e34df109-f5d1-44ce-8a30-ca2f213b5500"
+    },
+    {
+        "betId": "e34df109-f5d1-44ce-8a30-ca2f213b5500",
+        "title": "Yoko Yoko will join HSU",
+        "players": {
+            "teamA": [
+                "p1"
+            ],
+            "teamB": [
+                "p24"
+            ]
+        },
+        "dateCompleted": "",
+        "status": "ongoing",
+        "winner": "",
+        "link": "https://discord.com/channels/400120926592696342/400121599639945216/1370199762908741733",
+        "text": "Me and @Sky | #1 FuuFighterLeader are betting on whether Yoko Yoko will join HSU. I say he won't, Sky says he will. Yoko Yoko will be considered a no-show for HSU if he doesn't join them before the next battle or if he dies.",
+        "chapter": {
+            "spoilers": "",
+            "sense": ""
+        },
+        "punishment": "The loser of the bet will have to answer to Ironlance that Yoko Yoko is better every time he mentions SBS, occasionally adding the following image, for a month.",
+        "tags": []
     }
 ]

@@ -28,10 +28,12 @@ export default function MainNavigation() {
     }
 
     return (
-        <Navbar fluid rounded>
-            <NavLink to='/' className={`flex items-center ${({ isActive }) => isActive ? classes.active : undefined}`} end>
+        <Navbar className="sticky w-full z-20 top-0 start-0" fluid rounded>
+            <NavLink to='/'>
+            <div className="flex items-center">
                 <img src={logoSvg} className="mx-3 h-6 sm:h-6" alt="Sword/Challenge" />
                 <span className="truncate xs:whitespace-normal xs:overflow-visible xs:text-clip">Kingdom Challengers</span>
+            </div>
             </NavLink>
             <div className="flex md:order-2 gap-2">
                 <Dropdown
@@ -41,8 +43,7 @@ export default function MainNavigation() {
                     // aria-expanded={isDropDownExpanded}
                     label={
                         <Avatar alt="User settings" img={imgProfile} rounded />
-                    }
-                >{
+                    }>{
                         !player_id && (
                             <DropdownHeader>
                                 <Link to="/login" onClick={OnClickDropDown} >Sign In</Link>
@@ -74,7 +75,7 @@ export default function MainNavigation() {
                 </Dropdown>
                 <NavbarToggle />
             </div>
-            <NavbarCollapse>
+            <NavbarCollapse className="lg:absolute lg:left-1/2 lg:-translate-x-1/2">
                 <NavLink to='/' className={({ isActive }) => isActive ? classes.active : undefined} end>
                     Home
                     <HR className="my-2 md:hidden" />

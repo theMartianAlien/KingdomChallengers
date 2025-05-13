@@ -6,7 +6,7 @@ export default function BetsRootPage() {
     return (
         <>
             {/* <BetsNavigation /> */}
-            <section className="flex flex-col items-center justify-center min-h-screen p-5">
+            <section className="flex flex-col items-center justify-center min-h-32 p-5">
                 <Outlet />
             </section>
         </>

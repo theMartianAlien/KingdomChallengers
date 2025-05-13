@@ -12,10 +12,10 @@ export default function BetsList() {
         <>
             <div className="flex flex-col items-center justify-center text-center">
                 <h1>List of all current {bets.length} bets</h1>
-                <div>
-                    <BetCardList bets={ongoing} data={data} />
-                    <BetCardList bets={complete} data={data} />
-                    <BetCardList bets={voidBets} data={data} />
+                <div className="flex flex-col lg:flex-row gap-4">
+                    <div className="flex-1"><BetCardList bets={ongoing} data={data} /> </div>
+                    <div className="flex-1"><BetCardList bets={complete} data={data} /> </div>
+                    <div className="flex-1"><BetCardList bets={voidBets} data={data} /> </div>
                 </div>
             </div>
         </>

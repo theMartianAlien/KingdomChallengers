@@ -1,7 +1,8 @@
-import classes from './Bet.module.css';
 import PlayerTag from '../Players/PlayersTag';
 import Tag from '../Tag';
 import { cleanText } from '../../util/text';
+import { Link } from 'react-router-dom';
+import { FaDiscord } from 'react-icons/fa'
 
 export default function Bet({ bet }) {
     let betContent = cleanText(bet.text, []);
@@ -28,80 +29,81 @@ export default function Bet({ bet }) {
     }
 
     let betPunishment = cleanText(bet.punishment, []);
-    if (betPunishment) {
-        betPunishment = (
-            <div className="flex flex-wrap flex-col text-justify whitespace-pre-wrap w-[400px]">
-                <p>
-                    <span>Punishment: </span>
-                    <br />
-                    {betPunishment}
-                </p>
-            </div>);
-    }
 
     return (
         <>
-            <div className="max-w-4xl mx-auto p-2 bg-white dark:bg-gray-900 rounded-lg shadow-lg space-y-8">
-                {/* 📝 Title and Team Details */}
+            <div className="max-w-4xl mx-auto p-5 lg:p-2 bg-white dark:bg-gray-900 rounded-lg shadow-lg space-y-8 my-10">
                 <div className="text-center">
                     <h1 className="text-4xl font-semibold text-gray-900 dark:text-white">
                         {bet.title}
                     </h1>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 mt-2 flex">
-                        <span className="font-medium">
-                            {bet.teamA.map((a) => a.display_name).join(", ")}
-                        </span>
-                        <span>
-                        VS
-                        </span>
-                        <span className="font-medium">
-                            {bet.teamB.map((b) => b.display_name).join(", ")}
-                        </span>
+                    <p className="text-lg text-gray-700 dark:text-gray-300 text-center font-medium">
+                        {bet.teamA.map(a => a.display_name).join(", ")}&nbsp;
+                        <span className="text-sm text-gray-500">VS</span>&nbsp;
+                        {bet.teamB.map(b => b.display_name).join(", ")}
                     </p>
                 </div>
-            </div>
-            {/* <div className="text-3xl font-semibold">
-                <p>
-                    {bet.title && (<span>{bet.title}</span>)}
-                </p>
-                <p className="flex justify-evenly leading-tight">
-                    <span>{
-                        bet.teamA.map((a) => (a.display_name)).join(", ")}</span>
-                    <span>&nbsp;VS&nbsp;</span>
-                    <span>{
-                        bet.teamB.map((b) => (b.display_name)).join(", ")}</span>
-                </p>
-            </div>
-            <div className='status'>
-                <p>Bet status: <span>{status}</span></p>
-                {bet.status === 'complete' ?
-                    (<p>Date Completed: <span>{bet.status}</span>
-                        <span>{bet.winner}</span></p>) : undefined
-                }
-                <p>
-                    {bet.status === 'complete' ? (<span>{bet.winner}</span>) : undefined}
-                </p>
-            </div>
-            {tags && tags}
-            <div className="flex justify-center">
-                <div className="team team-a">
-                    <ul className="flex gap-4 list-none">
-                        {bet.teamA.map((player) => (<PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team={"team-a"} />))}
-                    </ul>
+                <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded text-sm text-gray-800 dark:text-gray-200 space-y-1">
+                    <p className='text-center'>
+                        <span className="font-semibold">Bet Status:</span>
+                        <span>{status}</span>
+                    </p>
+                    {bet.status === 'complete' && (
+                        <>
+                            <p className='text-center'>
+                                <span className="font-semibold">Date Completed:</span> {bet.status}
+                            </p>
+                            {bet.winner && (
+                                <p className='text-center'>
+                                    <span className="font-semibold">Winner:</span> {bet.winner}
+                                </p>
+                            )}
+                        </>
+                    )}
                 </div>
-                <div className="flex justify-center">
-                    <ul className="flex gap-4 list-none">
-                        {bet.teamB.map((player) => (<PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team={"team-a"} />))}
-                    </ul>
+                {tags && tags}
+                <div className="flex justify-evenly gap-3 flex-wrap">
+                    <div>
+                        <ul className="flex flex-wrap gap-1 justify-center list-none">
+                            {bet.teamA.map(player => (
+                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="team-a" />
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <ul className="flex flex-wrap gap-1 justify-center list-none">
+                            {bet.teamB.map(player => (
+                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="team-b" />
+                            ))}
+                        </ul>
+                    </div>
                 </div>
+                <div className="text-base text-justify whitespace-pre-wrap text-gray-800 dark:text-gray-200">
+                    {betContent}
+                </div>
+                {betPunishment && (
+                    <div className="mt-4 p-4 border-l-4 border-red-500 bg-red-50 dark:bg-red-900 text-red-700 dark:text-red-200 break-words whitespace-pre-wrap">
+                        <strong>Punishment:</strong>
+                        <br />
+                        {betPunishment}
+                    </div>
+                )}
+                {bet.link && (
+                    <div className="text-center mt-4">
+                        <Link
+                            to={bet.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block text-blue-600 dark:text-blue-400 font-medium underline hover:text-blue-800 dark:hover:text-blue-300"
+                        >
+                            <div className='flex items-center gap-2 p-2'>
+                                <span>View Bet Link</span>
+                                <FaDiscord className="w-5 h-5" />
+                            </div>
+                        </Link>
+                    </div>
+                )}
             </div>
-            <div className="flex flex-wrap flex-col text-justify whitespace-pre-wrap w-[400px]">
-                {betContent}
-            </div>
-            {betPunishment}
-            <div>
-                <a href={bet.link} target="_blank" rel="noopener noreferrer">BET LINK</a>
-            </div> */}
         </>
     );
 }

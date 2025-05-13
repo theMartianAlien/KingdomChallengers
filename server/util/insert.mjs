@@ -50,7 +50,7 @@ export async function insertOldBets() {
     console.log("fixing data");
     for (let i = 0; i < BETS.length; i++) {
         const BET = BETS[i];
-        if (BET.title !== "Ordo's appearance") {
+        if (BET.title !== "Yoko Yoko will join HSU") {
             continue;
         }
         const betData = {
