@@ -11,6 +11,39 @@ router.post('/register', async (req, res, next) => {
         console.log("registerUser called");
         const data = req.body;
         let errors = {};
+
+        const isNotTheSame = (data.password.toUpperCase() !== data["repeat-password"].toUpperCase())
+
+        if (!data.username || (data.username.length <= 3 && data.username.length >= 20)) {
+            errors.passwords = "Invalid username"
+            if (Object.keys(errors).length > 0) {
+                return res.status(422).json({
+                    message: 'User signup failed due to validation errors.',
+                    errors,
+                });
+            }
+        }
+
+        if (!data.passwords || (data.passwords.length <= 3 && data.passwords.length >= 20)) {
+            errors.passwords = "Invalid passwords"
+            if (Object.keys(errors).length > 0) {
+                return res.status(422).json({
+                    message: 'User signup failed due to validation errors.',
+                    errors,
+                });
+            }
+        }
+
+        if (isNotTheSame) {
+            errors.passwords = "Passwords and repeat passwords are not the same"
+            if (Object.keys(errors).length > 0) {
+                return res.status(422).json({
+                    message: 'User signup failed due to validation errors.',
+                    errors,
+                });
+            }
+        }
+
         const account = await getAccount(data.discord_handle);
 
         if (account) {
@@ -26,15 +59,15 @@ router.post('/register', async (req, res, next) => {
         const discord_handler = await getDiscordHandlerUser(data.user_key, data.discord_handle);
 
         if (!discord_handler) {
-            errors.signup = "The user information provided cannot be registered.";
+            errors.signup = "The user information provided cannot be registered. Discord handle provided is not in the database.";
+            if (Object.keys(errors).length > 0) {
+                return res.status(422).json({
+                    message: 'User signup failed due to validation errors.',
+                    errors,
+                });
+            }
         }
 
-        if (Object.keys(errors).length > 0) {
-            return res.status(422).json({
-                message: 'User signup failed due to validation errors.',
-                errors,
-            });
-        }
         const player = await getAPlayerByDiscordHandle(data.discord_handle);
         const accountData = { ...data, player_id: player._id };
         accountData.password = await hashPassword(accountData.password);

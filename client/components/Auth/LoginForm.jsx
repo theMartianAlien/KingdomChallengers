@@ -1,4 +1,5 @@
 import { Form, Link, useActionData } from 'react-router-dom';
+import ErrorForms from '../UI/ErrorForms';
 
 export default function LoginForm() {
     const data = useActionData();
@@ -11,17 +12,8 @@ export default function LoginForm() {
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Enter battlefield!
                             </h1>
-                            {data && data.message && (
-                                <div class="text-sm text-red-700 bg-red-100 border border-red-300 rounded px-4 py-2">
-                                    {data.message}
-                                    {data.errors && (
-                                        Object.values(data.errors).map((err) => (
-                                            <li key={err}>
-                                                {err}
-                                            </li>
-                                        ))
-                                    )}
-                                </div>
+                            {data && data.errors && (
+                                <ErrorForms data={data} />
                             )}
                             <Form className="space-y-4 md:space-y-6" method="post">
                                 <div>

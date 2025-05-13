@@ -18,10 +18,11 @@ export default function LoginRegisterPage({ isLogin = true }) {
 export async function action({ request, params }) {
     const data = await request.formData();
     let authData = {
-        username: data.get('username'),
-        password: data.get('password'),
-        discord_handle: data.get('discord_handle'),
-        user_key: data.get('user_key')
+        username: data.get('username') || data.get('register-username'),
+        password: data.get('password') || data.get('register-password'),
+        "repeat-password": data.get('repeat-password') || data.get('repeat-password'),
+        discord_handle: data.get('discord_handle') || data.get('register-discord_handle'),
+        user_key: data.get('user_key') ||data.get('register-user_key')
     }
     let endpoint = 'auth/login';
     if (authData.discord_handle && authData.user_key) {
