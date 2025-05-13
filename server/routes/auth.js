@@ -36,7 +36,7 @@ router.post('/register', async (req, res, next) => {
             });
         }
         const player = await getAPlayerByDiscordHandle(data.discord_handle);
-        const accountData = { ...data, player_id : player._id };
+        const accountData = { ...data, player_id: player._id };
         accountData.password = await hashPassword(accountData.password);
         if (discord_handler.isAdmin) {
             accountData.isAdmin = true;
@@ -68,7 +68,7 @@ router.post('/login', async (req, res, next) => {
             const isValid = await isValidPassword(password, account.password);
             if (!isValid) {
                 return res.status(422).json({
-                    message: 'Invalid credentials.',
+                    message: 'Invalid credentials!',
                     errors: { credentials: 'Invalid username or password entered.' }
                 });
             }
@@ -79,17 +79,17 @@ router.post('/login', async (req, res, next) => {
                 adminToken = createAdminJSONToken(account.username);
             }
             const accountData = {
-                username : account.username,
+                username: account.username,
                 handle: account.discord_handle,
                 id: account._id,
                 player_id: account.player_id,
-                token,  
-                adminToken 
+                token,
+                adminToken
             }
-            return res.status(201).json({...accountData});
+            return res.status(201).json({ ...accountData });
         }
         catch (error) {
-            return res.status(401).json({ message: 'Authentication failed.', errors: error });
+            return res.status(401).json({ message: 'Authentication failed!' });
         }
     } catch (error) {
         next(error);

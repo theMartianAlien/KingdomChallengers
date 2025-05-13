@@ -3,8 +3,12 @@ const URL = import.meta.env.VITE_ENDPOINT || 'http://localhost:3000/';
 export async function useGetFetch(endpoint) {
     const response = await fetch(URL + endpoint);
 
-    if (!response.ok) {
+    if (response.status === 422 || response.status === 401) {
+        return response;
+    }
 
+    if (!response.ok) {
+        return response;
     }
 
     const resData = await response.json();
@@ -34,13 +38,11 @@ export async function usePatchPostFetch(endpoint, method, data, token) {
     });
 
     if (response.status === 422 || response.status === 401) {
-        const lol = await response.json();
-        console.log(lol);
         return response;
     }
 
     if (!response.ok) {
-
+        return response;
     }
 
     const resData = await response.json();
@@ -69,7 +71,7 @@ export async function useDeleteFetch(endpoint, token) {
     }
 
     if (!response.ok) {
-
+        return response;
     }
 
     const resData = await response.json();

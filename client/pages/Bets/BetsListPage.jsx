@@ -5,7 +5,7 @@ export default function BetsListPage() {
 
     return (
         <>
-            <h1>List of Bets</h1>
+            <h1 className="uppercase">Players List</h1>
             <BetsList />
         </>
     );

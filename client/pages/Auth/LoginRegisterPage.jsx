@@ -28,8 +28,8 @@ export async function action({ request, params }) {
         endpoint = 'auth/register';
     }
     const resData = await usePatchPostFetch(endpoint, request.method, authData);
-    if (!resData.token && !resData.player_id) {
-        return redirect('/login', resData);
+    if (resData.status === 422 || resData.status === 401) {
+        return resData;
     }
     const expiration = new Date();
     let expirationTime = expiration.getHours() + 1;

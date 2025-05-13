@@ -72,9 +72,16 @@
 }
 
 .bet-status {
-    color: pink;
+    color: var(--cloud-gray);
 }
 
 .bet-title {
     inline-size: 70%;
+}
+
+.title {
+    color: var(--crimson-red);
+}
+.subtitle {
+    color: var(--cloud-gray);
 }

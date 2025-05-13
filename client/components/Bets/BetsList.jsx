@@ -10,7 +10,7 @@ export default function BetsList() {
     const voidBets = bets.filter((bet) => { return (bet.status === 'void') });
     return (
         <>
-            <div className={classes.bets}>
+            <div className="flex flex-col items-center justify-center text-center">
                 <h1>List of all current {bets.length} bets</h1>
                 <div>
                     <BetCardList bets={ongoing} data={data} />
