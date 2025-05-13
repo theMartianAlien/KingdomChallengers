@@ -1,5 +1,6 @@
 import express from 'express';
 import { addChallenge, getAChallenge, getAllChallenges } from '../data/challenge.mjs';
+import { isAuthenticate } from '../util/auth.mjs';
 
 const router = express();
 
@@ -26,6 +27,8 @@ router.get('/:id', async (req, res, next) => {
         next(error);
     }
 });
+
+router.use(isAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {

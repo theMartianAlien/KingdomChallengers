@@ -1,6 +1,6 @@
 import express from 'express';
 import { getAllDiscordUsers, getDiscordHandler, getDiscordHandlerUser, writeADiscordHandler } from '../data/discord-users.mjs';
-import { isAuthenticate } from '../util/auth.mjs';
+import { isAdminAuthenticate, isAuthenticate } from '../util/auth.mjs';
 
 const router = express();
 
@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-// router.use(isAuthenticate);
+router.use(isAdminAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {
