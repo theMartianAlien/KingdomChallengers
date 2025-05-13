@@ -60,7 +60,7 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
     try {
-        console.log("registerUser called");
+        console.log("loginUserCalled called");
         const username = req.body.username;
         const password = req.body.password;
         try {
@@ -78,11 +78,18 @@ router.post('/login', async (req, res, next) => {
             if (account.isAdmin) {
                 adminToken = createAdminJSONToken(account.username);
             }
-
-            return res.status(201).json({ token, id: account._id, adminToken });
+            const accountData = {
+                username : account.username,
+                handle: account.discord_handle,
+                id: account._id,
+                player_id: account.player_id,
+                token,  
+                adminToken 
+            }
+            return res.status(201).json({...accountData});
         }
         catch (error) {
-            return res.status(401).json({ message: 'Authentication failed.' });
+            return res.status(401).json({ message: 'Authentication failed.', errors: error });
         }
     } catch (error) {
         next(error);
