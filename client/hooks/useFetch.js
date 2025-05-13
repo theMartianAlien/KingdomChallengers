@@ -34,6 +34,8 @@ export async function usePatchPostFetch(endpoint, method, data, token) {
     });
 
     if (response.status === 422 || response.status === 401) {
+        const lol = await response.json();
+        console.log(lol);
         return response;
     }
 

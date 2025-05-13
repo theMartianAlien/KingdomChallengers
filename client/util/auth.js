@@ -36,19 +36,23 @@ export function getAdminToken() {
     return admin;
 }
 
-export function getUserId() {
-    const userId = localStorage.getItem('userId');
-    if (!userId) {
+export function getPlayerId() {
+    const player_id = localStorage.getItem('player_id');
+    if (!player_id) {
         return null;
     }
-    return userId;
+    return player_id;
 }
 
 export function tokenLoader() {
     const token = getAuthToken();
     const adminToken = getAdminToken();
-    const userId = getUserId();
-    return { token, userId, adminToken }
+    const player_id = getPlayerId();
+    const username = localStorage.getItem('username');
+    const handle = localStorage.getItem('handle');
+    const id = localStorage.getItem('id');
+
+    return { token, player_id, adminToken, username, handle, id }
 }
 
 export function checkAuthLoader() {

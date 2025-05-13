@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, redirect, useRouteLoaderData } from "react-router-dom";
-import { getAuthToken, getUserId } from "../../util/auth";
+import { getAuthToken, getPlayerId } from "../../util/auth";
 import { sortByProperty } from "../../util/sort";
 import { usePatchPostFetch } from "../../hooks/useFetch";
 
@@ -102,7 +102,7 @@ export default function ChallengeForm({ method }) {
 }
 
 export async function action({ request, params }) {
-    const userId = getUserId();
+    const userId = getPlayerId();
     const method = request.method;
     const data = await request.formData();
 

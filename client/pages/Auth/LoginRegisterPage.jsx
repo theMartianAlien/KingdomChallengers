@@ -28,10 +28,9 @@ export async function action({ request, params }) {
         endpoint = 'auth/register';
     }
     const resData = await usePatchPostFetch(endpoint, request.method, authData);
-    if (!resData.token && !resData.userId) {
+    if (!resData.token && !resData.player_id) {
         return redirect('/login', resData);
     }
-
     const expiration = new Date();
     let expirationTime = expiration.getHours() + 1;
     if (resData.adminToken) {
@@ -39,8 +38,11 @@ export async function action({ request, params }) {
         expirationTime = expiration.getHours() + 12;
     }
     expiration.setHours(expirationTime);
+    localStorage.setItem('username', resData.username);
+    localStorage.setItem('handle', resData.handle);
+    localStorage.setItem('id', resData.id);
+    localStorage.setItem('player_id', resData.id);
     localStorage.setItem('token', resData.token);
-    localStorage.setItem('userId', resData.id);
     localStorage.setItem('expiration', expiration.toISOString());
 
     return redirect('/');

@@ -1,10 +1,10 @@
 import { Form, useRouteLoaderData } from "react-router-dom";
 import classes from './CounterTable.module.css';
-import { getUserId } from "../../util/auth";
+import { getPlayerId } from "../../util/auth";
 
 export default function CounterTable() {
     const { counters, players } = useRouteLoaderData("challenge-detail");
-    const userId = getUserId();
+    const userId = getPlayerId();
 
     if (!counters || counters.length <= 0) {
         return undefined;

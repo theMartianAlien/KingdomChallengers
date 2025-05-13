@@ -1,12 +1,12 @@
 import { redirect, useRouteLoaderData } from 'react-router-dom';
 import CounterChallengeForm from '../../components/Challenges/CounterChallengeForm';
 import { useState } from 'react';
-import { getUserId } from '../../util/auth';
+import { getPlayerId } from '../../util/auth';
 import CounterTable from '../../components/Challenges/CounterTable';
 import { useGetFetch } from '../../hooks/useFetch';
 
 export default function ChallengeDetailsPage() {
-    let userId = getUserId();
+    let userId = getPlayerId();
 
     const { challenge } = useRouteLoaderData("challenge-detail");
 
@@ -61,7 +61,7 @@ export async function loader({ request, params }) {
 }
 
 export async function action({ request, params }) {
-    const userId = getUserId();
+    const userId = getPlayerId();
     const method = request.method;
     const challengeId = params.id;
     const data = await request.formData();

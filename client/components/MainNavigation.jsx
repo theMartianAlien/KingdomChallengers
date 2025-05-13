@@ -12,43 +12,52 @@ import {
     NavbarCollapse,
     NavbarToggle,
 } from "flowbite-react";
+import { useState } from "react";
 
 export default function MainNavigation() {
-    const { token, userId } = useRouteLoaderData('root');
+    const { token, player_id, username, handle } = useRouteLoaderData('root');
     let imgProfile = 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg';
-    if (userId) {
+    if (player_id) {
         imgProfile = 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg';
     }
+
+    const [isDropDownExpanded, setIsDrowDownExpanded] = useState(false);
+
+    function OnClickDropDown() {
+        setIsDrowDownExpanded(prevState => !prevState);
+    }
+
     return (
         <Navbar fluid rounded>
             <NavLink to='/' className={`flex items-center ${({ isActive }) => isActive ? classes.active : undefined}`} end>
                 <img src={logoSvg} className="mx-3 h-6 sm:h-6" alt="Sword/Challenge" />
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Kingdom Challengers</span>
+                <span className="truncate xs:whitespace-normal xs:overflow-visible xs:text-clip">Kingdom Challengers</span>
             </NavLink>
             <div className="flex md:order-2 gap-2">
                 <Dropdown
                     arrowIcon={false}
+                    dismissOnClick={true}
                     inline
+                    // aria-expanded={isDropDownExpanded}
                     label={
                         <Avatar alt="User settings" img={imgProfile} rounded />
                     }
                 >{
-                        !userId && (
+                        !player_id && (
                             <DropdownHeader>
-                                <NavLink to="/login" >Sign In</NavLink>
+                                <Link to="/login" onClick={OnClickDropDown} >Sign In</Link>
                             </DropdownHeader>
                         )
                     }
                     {
-                        userId && (
+                        player_id && (
                             <>
                                 <DropdownHeader>
-                                    <span className="block text-sm">Bonnie Green</span>
-                                    <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+                                    <span className="block text-sm">{username}</span>
+                                    <span className="block truncate text-sm font-medium">{handle}</span>
                                 </DropdownHeader>
-                                <DropdownItem>Dashboard</DropdownItem>
-                                <DropdownItem>Settings</DropdownItem>
-                                <DropdownItem>Earnings</DropdownItem>
+                                <DropdownItem>Issue Challenge</DropdownItem>
+                                <DropdownItem>Current Bets</DropdownItem>
                                 <DropdownDivider />
                                 {/* <DropdownItem> */}
                                 <li className="menuitem">
@@ -68,19 +77,18 @@ export default function MainNavigation() {
             <NavbarCollapse>
                 <NavLink to='/' className={({ isActive }) => isActive ? classes.active : undefined} end>
                     Home
-                    <HR className="my-2" />
+                    <HR className="my-2 md:hidden" />
                 </NavLink>
                 <NavLink to='/players' className={({ isActive }) => isActive ? classes.active : undefined} >
                     Players
-                    <HR className="my-2" />
+                    <HR className="my-2 md:hidden" />
                 </NavLink>
                 <NavLink to='/bets' className={({ isActive }) => isActive ? classes.active : undefined}>
                     Bets
-                    <HR className="my-2" />
+                    <HR className="my-2 md:hidden" />
                 </NavLink>
                 <NavLink to='/challenges' className={({ isActive }) => isActive ? classes.active : undefined}>
                     Challenges
-                    <HR className="my-2" />
                 </NavLink>
             </NavbarCollapse>
         </Navbar>
