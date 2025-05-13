@@ -19,58 +19,61 @@ export default function PlayersList() {
     }
 
     return (
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" className="px-6 py-3">
-                            Discord Handler
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Display name
-                        </th>
-                        {adminToken && (
+        <div>
+            <h2 className="text-center text-lg font-semibold text-gray-700 mb-4 uppercase">Players List</h2>
+            <div className="overflow-x-auto shadow-md sm:rounded-lg ">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
                             <th scope="col" className="px-6 py-3">
-
+                                Discord Handler
                             </th>
-                        )}
-                        {adminToken && (
                             <th scope="col" className="px-6 py-3">
-
+                                Display name
                             </th>
-                        )}
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        players.map(
-                            (player) => (
-                                <tr key={player._id}>
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {player.handler}
-                                    </th>
-                                    <td className="px-6 py-4">
-                                        {player.display_name}
-                                    </td>
-                                    {adminToken && (
+                            {adminToken && (
+                                <th scope="col" className="px-6 py-3">
+
+                                </th>
+                            )}
+                            {adminToken && (
+                                <th scope="col" className="px-6 py-3">
+
+                                </th>
+                            )}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            players.map(
+                                (player) => (
+                                    <tr key={player._id}>
+                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {player.handler}
+                                        </th>
                                         <td className="px-6 py-4">
-                                            <Link to={`/players/${player._id}/edit`}>
-                                                Edit
-                                            </Link>
-                                        </td>)}
-                                    {adminToken && (
-                                        <td className="px-6 py-4">
-                                            <button
-                                                onClick={() => startDeleteHandler(player._id)}>
-                                                Delete
-                                            </button>
-                                        </td>)}
-                                </tr>
+                                            {player.display_name}
+                                        </td>
+                                        {adminToken && (
+                                            <td className="px-6 py-4">
+                                                <Link to={`/players/${player._id}/edit`}>
+                                                    Edit
+                                                </Link>
+                                            </td>)}
+                                        {adminToken && (
+                                            <td className="px-6 py-4">
+                                                <button
+                                                    onClick={() => startDeleteHandler(player._id)}>
+                                                    Delete
+                                                </button>
+                                            </td>)}
+                                    </tr>
+                                )
                             )
-                        )
-                    }
-                </tbody>
-            </table>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
