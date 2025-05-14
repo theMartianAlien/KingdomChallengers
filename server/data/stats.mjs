@@ -24,7 +24,7 @@ export async function getStatistics() {
                 const playerName = await getAPlayer(players[x]);
                 try{
 
-                    if(playerName.display_name === undefined) {
+                    if(playerName.display_name === 'Niyo') {
                         console.log(theBet)
                     }
                 }
