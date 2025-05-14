@@ -142,8 +142,16 @@ router.post('/discord', async (req, res, next) => {
 
             console.log("Discord Handler");
             const player = await getDiscordHandler(req.body.username);
-            console.log(player);
-            console.log("username " + req.body.username);
+            if (!player) {
+                errors.discord_signup = `Unable to register user ${req.body.username}`;
+                if (Object.keys(errors).length > 0) {
+                    return res.status(422).json({
+                        message: 'Discord login error!',
+                        errors,
+                    });
+                }
+            }
+
             let account = await getAccount(req.body.username);
             let accountData = {
                 username: req.body.username,
@@ -156,7 +164,6 @@ router.post('/discord', async (req, res, next) => {
                 player_id: player._id
             }
             if (!account) {
-                console.log('needs registration');
                 if (player.isAdmin) {
                     accountData.isAdmin = true;
                 }
