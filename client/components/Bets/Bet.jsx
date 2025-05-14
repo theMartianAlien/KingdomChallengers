@@ -66,14 +66,14 @@ export default function Bet({ bet }) {
                     <div>
                         <ul className="flex flex-wrap gap-1 justify-center list-none">
                             {bet.teamA.map(player => (
-                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="team-a" />
+                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="teamA" isWinner={bet.winner} isVoid={bet.status === 'void'}/>
                             ))}
                         </ul>
                     </div>
                     <div>
                         <ul className="flex flex-wrap gap-1 justify-center list-none">
                             {bet.teamB.map(player => (
-                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="team-b" />
+                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="teamB" isWinner={bet.winner} isVoid={bet.status === 'void'}/>
                             ))}
                         </ul>
                     </div>

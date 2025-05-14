@@ -7,22 +7,35 @@
     font-size: 0.85rem;
 }
 
-a.team-b span.tag {
-    display: inline-block;
-    color: var(--white);
-    padding: 0.3rem 0.8rem;
-    margin-right: 0.5rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
+a.teamB span.tag {
     background-color: var(--accent1);
 }
 
-a.team-a span.tag {
-    display: inline-block;
-    color: var(--white);
-    padding: 0.3rem 0.8rem;
-    margin-right: 0.5rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
+a.teamA span.tag {
     background-color: var(--accent2);
+}
+
+a.teamA.winner span.tag.winner {
+    background-color: var(--imperial-gold);
+    color: var(--crimson-red)
+}
+
+a.teamB.winner span.tag.winner {
+    background-color: var(--imperial-gold);
+    color: var(--crimson-red)
+}
+
+a.teamA.loser span.tag.loser {
+    background-color: var(--faded-blue);
+    color: var(--ash-grey)
+}
+
+a.teamB.loser span.tag.loser {
+    background-color: var(--faded-blue);
+    color: var(--ash-grey)
+}
+
+a span.tag.void {
+    background-color: var(--dull-earth);
+    color: var(--dead-mist);
 }
