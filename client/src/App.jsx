@@ -7,7 +7,9 @@ const HomePage = lazy(() => import('../pages/HomePage'));
 
 import { action as loginRegisterAction } from '../pages/Auth/LoginRegisterPage';
 import { action as logout } from '../pages/Auth/Logout';
+import { action as discordLogin } from '../pages/Auth/DiscordPage';
 const LoginRegisterPage = lazy(() => import('../pages/Auth/LoginRegisterPage'));
+const DiscordPage = lazy(() => import('../pages/Auth/DiscordPage'));
 
 import { loader as getAllPlayersLoader } from '../pages/Players/PlayersListPage';
 import { action as createUpdatePlayerAction } from '../components/Players/PlayerForm';
@@ -23,7 +25,7 @@ import { loader as getAllBetsLoader } from '../pages/Bets/BetsListPage';
 import { loader as getBedDetailsLoader } from '../pages/Bets/BetDetailsPage';
 import EditBetPage from '../pages/Bets/EditBetPage';
 import { action } from '../components/Challenges/ChallengesForm';
-import { loader } from '../pages/Challenges/ChallengeDetailsPage';
+import { loader as getChallengeDetailsLoader } from '../pages/Challenges/ChallengeDetailsPage';
 const BetDetailsPage = lazy(() => import('../pages/Bets/BetDetailsPage'));
 const BetsRootPage = lazy(() => import('../pages/Bets/BetsRootPage'));
 const BetsListPage = lazy(() => import('../pages/Bets/BetsListPage'));
@@ -32,6 +34,7 @@ const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRoot
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
 const ChallengeDetailsPage = lazy(() => import('../pages/Challenges/ChallengeDetailsPage'));
+
 
 const router = createBrowserRouter(
   [
@@ -50,6 +53,11 @@ const router = createBrowserRouter(
           path: 'login',
           element: <Suspense fallback={<p>Loading ....</p>}><LoginRegisterPage /></Suspense>,
           action: loginRegisterAction
+        },
+        {
+          path: 'auth/discord',
+          element: <Suspense fallback={<p>Loading ....</p>}><DiscordPage /></Suspense>,
+          action: discordLogin
         },
         {
           path: 'register',
@@ -142,7 +150,7 @@ const router = createBrowserRouter(
             {
               path: ':id',
               id: 'challenge-detail',
-              loader: loader,
+              loader: getChallengeDetailsLoader,
               children: [
                 {
                   index: true,

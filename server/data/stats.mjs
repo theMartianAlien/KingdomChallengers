@@ -22,15 +22,6 @@ export async function getStatistics() {
 
             if (!inside) {
                 const playerName = await getAPlayer(players[x]);
-                try{
-
-                    if(playerName.display_name === 'Niyo') {
-                        console.log(theBet)
-                    }
-                }
-                catch{
-                    console.log(theBet)
-                }
                 data.push(
                     {
                         id: players[x],

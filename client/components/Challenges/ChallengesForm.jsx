@@ -5,7 +5,7 @@ import { sortByProperty } from "../../util/sort";
 import { usePatchPostFetch } from "../../hooks/useFetch";
 
 export default function ChallengeForm({ method }) {
-    const { userId } = useRouteLoaderData('root');
+    const { player_id } = useRouteLoaderData('root');
     const date = new Date();
     const year = date.getFullYear();
     const month = date.getMonth().toString().padStart(2, '0');
@@ -13,7 +13,7 @@ export default function ChallengeForm({ method }) {
 
     const [participants, setParticipants] = useState([]);
     let players = useRouteLoaderData('challenges-root');
-    players = sortByProperty(players, "display_name").filter((p) => p.id !== userId);
+    players = sortByProperty(players, "display_name").filter((p) => p.id !== player_id);
     const [challengeType, setChallengeType] = useState("open");
 
     function OnChangeChallengeType() {

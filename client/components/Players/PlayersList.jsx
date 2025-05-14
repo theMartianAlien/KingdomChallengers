@@ -1,5 +1,4 @@
 import { Link, redirect, useLoaderData, useRouteLoaderData, useSubmit } from "react-router-dom";
-import classes from './PlayersList.module.css';
 import { useDeleteFetch } from "../../hooks/useFetch";
 import { getAdminToken } from "../../util/auth";
 
@@ -14,7 +13,7 @@ export default function PlayersList() {
         if (proceed) {
             const formData = new FormData();
             formData.append("id", id);
-            submit(formData, { method: 'delete', });
+            submit(formData, { method: 'delete' });
         }
     }
 

@@ -50,9 +50,11 @@ export function tokenLoader() {
     const player_id = getPlayerId();
     const username = localStorage.getItem('username');
     const handle = localStorage.getItem('handle');
+    const image = localStorage.getItem('image');
+    const nickname = localStorage.getItem('nickname');
     const id = localStorage.getItem('id');
 
-    return { token, player_id, adminToken, username, handle, id }
+    return { token, player_id, adminToken, username, handle, id,image,nickname }
 }
 
 export function checkAuthLoader() {

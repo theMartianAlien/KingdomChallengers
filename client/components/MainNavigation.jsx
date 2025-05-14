@@ -15,10 +15,15 @@ import {
 import { useState } from "react";
 
 export default function MainNavigation() {
-    const { token, player_id, username, handle } = useRouteLoaderData('root');
+    const { token, image, player_id, username, nickname, handle, id } = useRouteLoaderData('root');
     let imgProfile = 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg';
-    if (player_id) {
-        imgProfile = 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg';
+    if (image) {
+        imgProfile = image;
+    }
+
+    let userText = username || 'Guest';
+    if (nickname) {
+        userText = nickname;
     }
 
     const [isDropDownExpanded, setIsDrowDownExpanded] = useState(false);
@@ -30,10 +35,10 @@ export default function MainNavigation() {
     return (
         <Navbar className="sticky w-full z-20 top-0 start-0" fluid rounded>
             <NavLink to='/'>
-            <div className="flex items-center">
-                <img src={logoSvg} className="mx-3 h-6 sm:h-6" alt="Sword/Challenge" />
-                <span className="truncate xs:whitespace-normal xs:overflow-visible xs:text-clip">Kingdom Challengers</span>
-            </div>
+                <div className="flex items-center">
+                    <img src={logoSvg} className="mx-3 h-6 sm:h-6" alt="Sword/Challenge" />
+                    <span className="truncate xs:whitespace-normal xs:overflow-visible xs:text-clip">Kingdom Challengers</span>
+                </div>
             </NavLink>
             <div className="flex md:order-2 gap-2">
                 <Dropdown
@@ -54,8 +59,10 @@ export default function MainNavigation() {
                         player_id && (
                             <>
                                 <DropdownHeader>
-                                    <span className="block text-sm">{username}</span>
-                                    <span className="block truncate text-sm font-medium">{handle}</span>
+                                    <Link to="/profile">
+                                        <span className="block text-sm">{userText}</span>
+                                        <span className="block truncate text-sm font-medium">{handle}</span>
+                                    </Link>
                                 </DropdownHeader>
                                 <DropdownItem>Issue Challenge</DropdownItem>
                                 <DropdownItem>Current Bets</DropdownItem>
