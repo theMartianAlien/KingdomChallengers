@@ -5,8 +5,9 @@ import { error } from 'node:console';
 loadEnv();
 
 const URI = process.env.MONGO_URI;
+const DATABASE = process.env.MONGO_DATABASE;
 const client = new MongoClient(URI);
-const database = client.db('kingdom-challenge-dev');
+const database = client.db(DATABASE);
 
 export async function writeOne(file, data, filter) {
     try {
