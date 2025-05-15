@@ -103,8 +103,9 @@ export async function action({ request, params }) {
     localStorage.setItem('handle', resData.discord_handle);
     localStorage.setItem('image', resData.image);
     localStorage.setItem('nickname', resData.nickname);
-    localStorage.setItem('id', resData.id);
-    localStorage.setItem('player_id', resData.id);
+    localStorage.setItem('accountid', resData._id);
+    localStorage.setItem('player_id', resData.player_id);
     localStorage.setItem('token', resData.token);
+    console.log(resData.token);
     localStorage.setItem('expiration', expiration.toISOString());
 }

@@ -4,6 +4,7 @@ import ChallengeCard from "./ChallengeCard";
 
 export default function ChallengeList() {
     const { challenges } = useLoaderData();
+    console.log(challenges)
     return (
         <>
             <div className={classes["challenges-container"]}>
@@ -25,15 +26,6 @@ export default function ChallengeList() {
                         ))}
                     </ul>
                 </div>
-                {/* <div>
-                    <ul>
-                        {challenges.filter(x => x.status === 'agreed').map(challenge => (
-                            <li key={challenge.id}>
-                                <ChallengeCard challenge={challenge} />
-                            </li>
-                        ))}
-                    </ul>
-                </div> */}
             </div>
         </>
     );

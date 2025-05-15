@@ -14,11 +14,11 @@ export async function hashPassword(password) {
 }
 
 export function createAdminJSONToken(handle) {
-    return sign({ handle }, ADMIN, { expiresIn: '8h' });
+    return sign({ handle }, ADMIN, { expiresIn: '24h' });
 }
 
 export function createJSONToken(handle) {
-    return sign({ handle }, ADMIN, { expiresIn: '24h' });
+    return sign({ handle }, KEY, { expiresIn: '8h' });
 }
 
 export function validateADMINToken(token) {

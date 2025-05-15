@@ -1,17 +1,17 @@
 import { getAll, getOneBy, getOneById, writeOne, } from "../util/mongo.mjs";
 import { getAccountById } from "./auth.mjs";
-import { getAPlayer } from "./players.mjs";
+import { getAPlayer, getAPlayerByHandler } from "./players.mjs";
 
 const TABLE = "challenges";
 
 export async function getAllChallenges() {
     const challenges = await getAll(TABLE);
     const newChallenges = await Promise.all(challenges.map(async (challenge) => {
-        const aPlayer = await getAccountById(challenge.issuer);
-        const challenger = await getAPlayer(aPlayer.player_id);
+        const account = await getAccountById(challenge.issuer);
+        const player = await getAPlayerByHandler(account.player_id);
         return {
             ...challenge,
-            challenger: challenger.display_name
+            challenger: player.display_name
         }
     }));
     return newChallenges;
@@ -20,8 +20,8 @@ export async function getAllChallenges() {
 export async function getAChallenge(id) {
     const challenge = await getOneById(TABLE, id);
     const acc = await getAccountById(challenge.issuer);
-    const challenger = await getAPlayer(acc.player_id);
-    return { ...challenge, challenger: challenger.display_name };
+    const player = await getAPlayerByHandler(acc.player_id);
+    return { ...challenge, challenger: player.display_name };
 }
 
 export async function getAChallengeBy(filter) {

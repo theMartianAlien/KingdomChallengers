@@ -41,7 +41,6 @@ export async function getAll(file) {
 export async function getAllBy(file, filter) {
     if (!file)
         throw error(`Invalid collection name (${file})`);
-
     const collection = database.collection(file);
     client.connect();
     console.log("Connected to mongo atlast, getAllBy " + file);
@@ -66,6 +65,7 @@ export async function getOneBy(file, filter) {
 
     const collection = database.collection(file);
     client.connect();
+    console.log(filter)
     console.log("Connected to mongo atlast, getOneBy " + file);
     const data = await collection.findOne(filter)
     return data;

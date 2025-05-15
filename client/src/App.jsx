@@ -30,6 +30,7 @@ const BetDetailsPage = lazy(() => import('../pages/Bets/BetDetailsPage'));
 const BetsRootPage = lazy(() => import('../pages/Bets/BetsRootPage'));
 const BetsListPage = lazy(() => import('../pages/Bets/BetsListPage'));
 
+import { action as postCounterChallengeAction } from '../pages/Challenges/ChallengeDetailsPage';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -155,6 +156,7 @@ const router = createBrowserRouter(
                 {
                   index: true,
                   element: <Suspense fallback={<p>Loading ....</p>}><ChallengeDetailsPage /></Suspense>,
+                  action: postCounterChallengeAction,
                 }
               ]
             },

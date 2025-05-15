@@ -1,6 +1,8 @@
 import express from 'express';
 import { addChallenge, getAChallenge, getAllChallenges } from '../data/challenge.mjs';
 import { isAuthenticate } from '../util/auth.mjs';
+import { getCounterChallenge } from '../data/counter-challenge.mjs';
+import { getAllPlayers, getAPlayer, getAPlayerByHandler } from '../data/players.mjs';
 
 const router = express();
 
@@ -19,10 +21,17 @@ router.get('/:id', async (req, res, next) => {
         console.log("getChallenge called");
         const id = req.params.id;
         const challenge = await getAChallenge(id);
-        // const counters = await getCounterChallenge(id);
-        // const players = await getAllPlayers();
-        // res.json({ challenge, counters, players });
-        res.json({ challenge });
+        let counters = await getCounterChallenge(id);
+        
+        counters = await Promise.all(counters.map(async (counter) => {
+            console.log(counter);
+            const account = await getAPlayer(counter.playerId);
+            return {
+                ...challenge,
+                player_name: account.account
+            }
+        }));
+        res.json({ challenge, counters });
     } catch (error) {
         next(error);
     }

@@ -9,7 +9,7 @@ export function getTokenDuration() {
 }
 
 export function getAuthToken() {
-    const token = localStorage.getItem('admin');
+    const token = localStorage.getItem('token');
     const tokenDuration = getTokenDuration();
 
     if (!token) {
@@ -36,6 +36,14 @@ export function getAdminToken() {
     return admin;
 }
 
+export function getAccountId() {
+    const accountid = localStorage.getItem('accountid');
+    if (!accountid) {
+        return null;
+    }
+    return accountid;
+}
+
 export function getPlayerId() {
     const player_id = localStorage.getItem('player_id');
     if (!player_id) {
@@ -52,9 +60,9 @@ export function tokenLoader() {
     const handle = localStorage.getItem('handle');
     const image = localStorage.getItem('image');
     const nickname = localStorage.getItem('nickname');
-    const id = localStorage.getItem('id');
+    const accountid = localStorage.getItem('accountid');
 
-    return { token, player_id, adminToken, username, handle, id,image,nickname }
+    return { token, player_id, adminToken, username, handle, accountid, image, nickname }
 }
 
 export function checkAuthLoader() {

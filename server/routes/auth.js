@@ -139,8 +139,6 @@ router.post('/discord', async (req, res, next) => {
     try {
         console.log("discordLogin called");
         try {
-
-            console.log("Discord Handler");
             const player = await getDiscordHandler(req.body.username);
             if (!player) {
                 errors.discord_signup = `Unable to register user ${req.body.username}`;
@@ -151,7 +149,6 @@ router.post('/discord', async (req, res, next) => {
                     });
                 }
             }
-
             let account = await getAccount(req.body.username);
             let accountData = {
                 username: req.body.username,
@@ -174,14 +171,12 @@ router.post('/discord', async (req, res, next) => {
                 delete accountData.user_key;
                 account = await getAccount(accountData.discord_handle)
             } else {
-                accountData._id = account.id;
+                accountData._id = account._id;
             }
-
             accountData.token = createJSONToken(account.username);
             if (player.isAdmin) {
                 accountData.adminToken = createAdminJSONToken(account.username);
             }
-
             return res.status(201).json({ ...accountData });
         }
         catch (error) {

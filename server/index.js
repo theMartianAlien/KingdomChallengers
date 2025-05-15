@@ -7,6 +7,7 @@ import playersRoutes from './routes/players.js';
 import betsRoutes from './routes/bets.js';
 import authRoutes from './routes/auth.js';
 import challengesRoutes from './routes/challenges.js';
+import counterChallengeRoutes from './routes/counter-challenge.js';
 import homepageRoutes from './routes/stats.js';
 import testDataRoutes from './routes/data-inserts.js'
 
@@ -33,6 +34,7 @@ app.use('/bets', betsRoutes);
 app.use('/discord', discordUsersRoutes);
 app.use('/players', playersRoutes);
 app.use('/challenges', challengesRoutes);
+app.use('/counter-challenge', counterChallengeRoutes);
 
 app.listen(PORT,
     () => {

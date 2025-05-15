@@ -5,13 +5,14 @@ import { getPlayerId } from "../../util/auth";
 export default function CounterTable() {
     const { counters, players } = useRouteLoaderData("challenge-detail");
     const userId = getPlayerId();
-
+console.log(counters);
+console.log(players);
     if (!counters || counters.length <= 0) {
         return undefined;
     }
 
     function getPlayer(id) {
-        return players.find((player) => player.id === id).name;
+        return players.find((player) => player._id === id).display_name;
     }
 
     return (
@@ -27,7 +28,7 @@ export default function CounterTable() {
                 </thead>
                 <tbody>
                     {counters.map((counter) => (
-                        <tr key={counter.id}>
+                        <tr key={counter._id}>
                             <td>
                                 {counter.challenge}
                             </td>

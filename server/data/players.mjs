@@ -15,6 +15,10 @@ export async function getAPlayer(id) {
     return await getOneById(TABLE, id);
 }
 
+export async function getAPlayerBy(id) {
+    return await getOneById(TABLE, id);
+}
+
 export async function addAPlayer(data) {
     return await writeOne(TABLE, data);
 }
@@ -24,7 +28,7 @@ export async function getAPlayerByDiscordHandle(handle) {
 }
 
 export async function getAPlayerByHandler(id) {
-    return await getOneBy(TABLE, {"discord_handler_id": new ObjectId(id)});
+    return await getOneBy(TABLE, {"discord_handler_id": id});
 }
 
 export async function replaceAPlayer(data){
