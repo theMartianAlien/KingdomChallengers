@@ -6,25 +6,30 @@ loadEnv();
 
 const URI = process.env.MONGO_URI;
 const client = new MongoClient(URI);
-const database = client.db('kingdom-challenge');
+const database = client.db('kingdom-challenge-dev');
 
 export async function writeOne(file, data, filter) {
-    if (!file)
-        throw error(`Invalid collection name (${file})`);
+    try {
+        if (!file)
+            throw error(`Invalid collection name (${file})`);
 
-    const collection = database.collection(file);
-    client.connect();
-    console.log("Connected to mongo atlast, writeOneRecord " + file);
-    if (filter) {
-        const exist = await collection.findOne(filter);
-        if (exist) {
-            // record exist so we go out and not try to insert.
-            return null;
+        const collection = database.collection(file);
+        client.connect();
+        console.log("Connected to mongo atlast, writeOneRecord " + file);
+        if (filter) {
+            const exist = await collection.findOne(filter);
+            if (exist) {
+                // record exist so we go out and not try to insert.
+                return null;
+            }
         }
+        await collection.insertOne(data);
+        // retrun 1, number of records we added.
+        return 1;
     }
-    await collection.insertOne(data);
-    // retrun 1, number of records we added.
-    return 1;
+    catch (error) {
+        console.log(error);
+    }
 }
 
 export async function getAll(file) {
@@ -65,7 +70,6 @@ export async function getOneBy(file, filter) {
 
     const collection = database.collection(file);
     client.connect();
-    console.log(filter)
     console.log("Connected to mongo atlast, getOneBy " + file);
     const data = await collection.findOne(filter)
     return data;

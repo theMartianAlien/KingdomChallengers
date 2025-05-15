@@ -2,6 +2,7 @@ import { redirect } from "react-router-dom";
 import LoginForm from "../../components/Auth/LoginForm";
 import RegistrationForm from "../../components/Auth/RegistrationForm";
 import { usePatchPostFetch } from "../../hooks/useFetch";
+import { setUserData } from "../../util/auth";
 
 export default function LoginRegisterPage({ isLogin = true }) {
     let form = <RegistrationForm />;
@@ -18,6 +19,8 @@ export default function LoginRegisterPage({ isLogin = true }) {
 export async function action({ request, params }) {
     const data = await request.formData();
     let authData = {
+        display_name: data.get('register-username'),
+        nickname: data.get('register-username'),
         username: data.get('username') || data.get('register-username'),
         password: data.get('password') || data.get('register-password'),
         "repeat-password": data.get('repeat-password') || data.get('repeat-password'),
@@ -32,19 +35,7 @@ export async function action({ request, params }) {
     if (resData.status === 422 || resData.status === 401) {
         return resData;
     }
-    const expiration = new Date();
-    let expirationTime = expiration.getHours() + 1;
-    if (resData.adminToken) {
-        localStorage.setItem('admin', resData.adminToken);
-        expirationTime = expiration.getHours() + 12;
-    }
-    expiration.setHours(expirationTime);
-    localStorage.setItem('username', resData.username);
-    localStorage.setItem('handle', resData.handle);
-    localStorage.setItem('id', resData.id);
-    localStorage.setItem('player_id', resData.id);
-    localStorage.setItem('token', resData.token);
-    localStorage.setItem('expiration', expiration.toISOString());
 
+    setUserData({...resData});
     return redirect('/');
 }

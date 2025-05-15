@@ -4,7 +4,6 @@ import ChallengeCard from "./ChallengeCard";
 
 export default function ChallengeList() {
     const { challenges } = useLoaderData();
-    console.log(challenges)
     return (
         <>
             <div className={classes["challenges-container"]}>

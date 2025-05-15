@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 export default function TableHeaderName({ label, column, isAsc, onClickHeader }) {
-
     const [isUp, setIsUp] = useState(isAsc);
 
     let upIcon = "M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7"
@@ -13,6 +12,7 @@ export default function TableHeaderName({ label, column, isAsc, onClickHeader })
 
     return (
         <th
+            key={column}
             scope="col"
             className="px-6 py-3 text-gray-800 dark:text-white cursor-pointer"
             onClick={IconChangeHandler}>

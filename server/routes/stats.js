@@ -5,6 +5,7 @@ const router = express();
 
 router.get('/', async (req, res, next) => {
     try {
+        console.log("getStatistics called");
         const statistics = await getStatistics();
         res.json(statistics);
     } catch (error) {

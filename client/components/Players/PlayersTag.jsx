@@ -16,7 +16,7 @@ export default function PlayerTag({ playerId, playerName, team, isWinner, isVoid
 
     return (
         <>
-            <li>
+            <li key={playerId}>
                 <Link to={`/players/${playerId}`} className={classes[team] + winner}>
                     <span className={classes.tag + winner}>{playerName}</span>
                 </Link>

@@ -10,12 +10,13 @@ router.post('/register', async (req, res, next) => {
     try {
         console.log("registerUser called");
         const data = req.body;
+        console.log(data);
         let errors = {};
 
         const isNotTheSame = (data.password.toUpperCase() !== data["repeat-password"].toUpperCase())
 
         if (!data.username || (data.username.length <= 3 && data.username.length >= 20)) {
-            errors.passwords = "Invalid username"
+            errors.username = "Invalid username"
             if (Object.keys(errors).length > 0) {
                 return res.status(422).json({
                     message: 'User signup failed due to validation errors.',
@@ -24,8 +25,8 @@ router.post('/register', async (req, res, next) => {
             }
         }
 
-        if (!data.passwords || (data.passwords.length <= 3 && data.passwords.length >= 20)) {
-            errors.passwords = "Invalid passwords"
+        if (!data.password || (data.password.length <= 3 && data.password.length >= 20)) {
+            errors.password = "Invalid passwords"
             if (Object.keys(errors).length > 0) {
                 return res.status(422).json({
                     message: 'User signup failed due to validation errors.',
@@ -44,7 +45,7 @@ router.post('/register', async (req, res, next) => {
             }
         }
 
-        const account = await getAccount(data.discord_handle);
+        let account = await getAccount(data.discord_handle);
 
         if (account) {
             errors.user_exist = "The user has an account, please try to login.";
@@ -67,18 +68,17 @@ router.post('/register', async (req, res, next) => {
                 });
             }
         }
-
         const player = await getAPlayerByDiscordHandle(data.discord_handle);
         const accountData = { ...data, player_id: player._id };
         accountData.password = await hashPassword(accountData.password);
         if (discord_handler.isAdmin) {
             accountData.isAdmin = true;
         }
-
         accountData.image = 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'
-        accountData.nickname = data.display_name;
+        delete accountData["repeat-password"]
 
         await registerUser(accountData);
+        account = await getAccount(accountData.discord_handle);
         let userToken = createJSONToken(accountData.discord_handle);
         let adminToken;
         if (discord_handler.isAdmin) {
@@ -87,8 +87,14 @@ router.post('/register', async (req, res, next) => {
         res.status(201).json({
             message: `Registration Complete, Welcome ${data.display_name}!`,
             token: userToken,
+            adminToken,
             player_id: player._id,
-            adminToken
+            _id: account._id,
+            image: accountData.image,
+            nickname: accountData.nickname,
+            display_name: accountData.display_name,
+            discord_handle: accountData.discord_handle,
+            username: accountData.username,
         });
     } catch (error) {
         next(error);
@@ -117,11 +123,15 @@ router.post('/login', async (req, res, next) => {
             }
             const accountData = {
                 username: account.username,
-                handle: account.discord_handle,
-                id: account._id,
+                discord_handle: account.discord_handle,
+                _id: account._id,
                 player_id: account.player_id,
                 token,
-                adminToken
+                adminToken,
+                nickname: account.nickname,
+                image: account.image,
+                display_name: account.display_name,
+                message: `Welcome back, ${account.display_name}!`
             }
             return res.status(201).json({ ...accountData });
         }
@@ -139,8 +149,8 @@ router.post('/discord', async (req, res, next) => {
     try {
         console.log("discordLogin called");
         try {
-            const player = await getDiscordHandler(req.body.username);
-            if (!player) {
+            const discordUser = await getDiscordHandler(req.body.username);
+            if (!discordUser) {
                 errors.discord_signup = `Unable to register user ${req.body.username}`;
                 if (Object.keys(errors).length > 0) {
                     return res.status(422).json({
@@ -149,6 +159,7 @@ router.post('/discord', async (req, res, next) => {
                     });
                 }
             }
+            const player = await getAPlayerByDiscordHandle(discordUser.discord_handle);
             let account = await getAccount(req.body.username);
             let accountData = {
                 username: req.body.username,
@@ -161,23 +172,27 @@ router.post('/discord', async (req, res, next) => {
                 player_id: player._id
             }
             if (!account) {
-                if (player.isAdmin) {
+                if (discordUser.isAdmin) {
                     accountData.isAdmin = true;
                 }
-                accountData.user_key = player.user_key;
+                accountData.user_key = discordUser.user_key;
                 await registerUser(accountData);
 
                 delete accountData.isAdmin;
                 delete accountData.user_key;
+                delete accountData.discord_id;
                 account = await getAccount(accountData.discord_handle)
             } else {
                 accountData._id = account._id;
             }
             accountData.token = createJSONToken(account.username);
-            if (player.isAdmin) {
+            if (account.isAdmin) {
                 accountData.adminToken = createAdminJSONToken(account.username);
             }
-            return res.status(201).json({ ...accountData });
+            return res.status(201).json({
+                ...accountData,
+                message: `Registration Complete, Welcome ${account.display_name}!`
+            });
         }
         catch (error) {
             console.log(error);

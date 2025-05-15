@@ -233,13 +233,6 @@ export default function BetForm() {
                         defaultValue={bet?.tags}
                     />
                 </div>
-                {/* {formState.errors && (
-                    <ul className="errors">
-                        {formState.errors.map(error => (
-                            <li key={error}>{error}</li>
-                        ))}
-                    </ul>
-                )} */}
                 <div className={classes.actions}>
                     {token.adminToken && (<button className={classes.actions}>Save Bet</button>)}
                     <Link className={classes.actions} to=".." relative="path">

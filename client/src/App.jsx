@@ -31,11 +31,13 @@ const BetsRootPage = lazy(() => import('../pages/Bets/BetsRootPage'));
 const BetsListPage = lazy(() => import('../pages/Bets/BetsListPage'));
 
 import { action as postCounterChallengeAction } from '../pages/Challenges/ChallengeDetailsPage';
+import { loader } from '../pages/Auth/ProfilePage';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
 const ChallengeDetailsPage = lazy(() => import('../pages/Challenges/ChallengeDetailsPage'));
 
+const ProfilePage = lazy(() => import('../pages/Auth/ProfilePage'));
 
 const router = createBrowserRouter(
   [
@@ -135,7 +137,8 @@ const router = createBrowserRouter(
         },
         {
           path: 'profile',
-          element: <p>Page currently unavailable</p>
+          element: <Suspense fallback={<p>Loading ....</p>}><ProfilePage /></Suspense>,
+          loader: loader
         },
         {
           path: 'challenges',

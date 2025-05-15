@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
         }
         const newPlayers = players.map((player) => ({
             _id: player._id,
-            handler: player.handler,
+            discord_handle: player.discord_handle,
             display_name: player.display_name
         }));
         res.json(newPlayers);
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res, next) => {
         const player = await getAPlayer(id);
         const playerData = {
             _id: player._id,
-            handler: player.handler,
+            discord_handle: player.discord_handle,
             display_name: player.display_name
         }
         res.json({ player: playerData });

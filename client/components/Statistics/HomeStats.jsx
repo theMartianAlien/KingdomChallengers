@@ -1,5 +1,4 @@
 import { Link, useLoaderData } from 'react-router-dom';
-import classes from './HomeStats.module.css'
 import { useState } from 'react';
 import TableHeaderName from '../UI/TableHeaderName';
 
@@ -66,7 +65,7 @@ export default function HomeStats() {
                     <tbody>
                         {
                             sortedBets.map((data) => (
-                                <tr key={data.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                                <tr key={data._id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
                                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <Link to={`/players/${data.id}`}>
                                             <span>{data.display_name}</span>

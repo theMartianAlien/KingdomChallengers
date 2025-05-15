@@ -15,5 +15,9 @@ export async function getDiscordHandlerUser(user_key, handle) {
 }
 
 export async function writeADiscordHandler(data) {
-    return await writeOne(TABLE, data);
+    return await writeADiscordHandlerBy(TABLE, data, null);
+}
+
+export async function writeADiscordHandlerBy(data, filter) {
+    return await writeOne(TABLE, data, filter);
 }

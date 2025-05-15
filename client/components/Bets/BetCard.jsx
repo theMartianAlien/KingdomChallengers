@@ -2,7 +2,7 @@ import classes from './BetsList.module.css';
 import images from '../../util/IMAGES';
 import { Card } from 'flowbite-react';
 
-export default function BetCard({bet, data}) {
+export default function BetCard({ bet, data }) {
     return (
         <Card className="max-w-sm" imgSrc={`${images[bet.status === 'ongoing' ?
             bet.status : bet.status === 'complete' ?
@@ -14,9 +14,17 @@ export default function BetCard({bet, data}) {
                 Status: <span className={classes.status}>{bet.status}</span>
             </h4>
             <p className="font-normal text-gray-700 dark:text-gray-400">
-                {data.filter((p) => bet.teamA.includes(p._id)).map((p) => (p.display_name)).join(", ")}
+                {data
+                    .filter((p) =>
+                        bet.teamA.find(player => player.player_id.toString() === p._id.toString()))
+                    .map((p) => (p.display_name))
+                    .join(", ")}
                 &nbsp;VS&nbsp;
-                {data.filter((p) => bet.teamB.includes(p._id)).map((p) => (p.display_name)).join(", ")}
+                {data
+                    .filter((p) =>
+                        bet.teamB.find(player => player.player_id.toString() === p._id.toString()))
+                    .map((p) => (p.display_name))
+                    .join(", ")}
             </p>
         </Card>
     );

@@ -103,5 +103,29 @@
     {
         "user_key": "p24",
         "discord_handle": ".kaisercatze"
+    },
+    {
+        "discord_handle": "abz_capone",
+        "user_key": "p25"
+    },
+    {
+        "discord_handle": "lusitano300",
+        "user_key": "p26"
+    },
+    {
+        "discord_handle": "nuno_alvares_pereira",
+        "user_key": "p27"
+    },
+    {
+        "discord_handle": "ordo8076",
+        "user_key": "p28"
+    },
+    {
+        "discord_handle": "notabadmemory",
+        "user_key": "p29"
+    },
+    {
+        "discord_handle": "test_record",
+        "user_key": "p1"
     }
 ]

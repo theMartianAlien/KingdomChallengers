@@ -1142,5 +1142,27 @@
         },
         "punishment": "The loser of the bet will have to answer to Ironlance that Yoko Yoko is better every time he mentions SBS, occasionally adding the following image, for a month.",
         "tags": []
+    },
+    {
+        "title": "RKK will help Nei open the doors",
+        "players": {
+            "teamA": [
+                "p25"
+            ],
+            "teamB": [
+                "p2"
+            ]
+        },
+        "dateCompleted": "",
+        "link": "https://discord.com/channels/400120926592696342/400121599639945216/1372270425832296540",
+        "text": "@KokoThizzba #LieutenantOfKou and @An Ordinary Strike Are betting whether or not RKK will help Nei before or after Nei opens the gate. Thizz believes RKK will wait to help her until the gates are open. Strike believes that RKK will provide assistance to Nei in opening the gate. Punishment is a one week name change. If RKK doesn’t help her at all Thizz wins in that scenario. Help also includes sending troops directly to help Nei",
+        "status": "ongoing",
+        "winner": "",
+        "chapter": {
+            "spoilers": "",
+            "sense": ""
+        },
+        "punishment": "No Punishments indicated for loser.",
+        "tags": []
     }
 ]

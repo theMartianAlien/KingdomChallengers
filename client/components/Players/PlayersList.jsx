@@ -6,7 +6,6 @@ export default function PlayersList() {
     const players = useLoaderData();
     const submit = useSubmit();
     const { adminToken } = useRouteLoaderData('root');
-
     function startDeleteHandler(id) {
         const proceed = window.confirm('Are you sure?');
 
@@ -48,7 +47,7 @@ export default function PlayersList() {
                                 (player) => (
                                     <tr key={player._id}>
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {player.handler}
+                                            {player.discord_handle}
                                         </th>
                                         <td className="px-6 py-4">
                                             {player.display_name}

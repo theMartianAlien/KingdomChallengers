@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useSubmit } from "react-router-dom";
 import { usePatchPostFetch } from "../../hooks/useFetch";
+import { setUserData } from "../../util/auth";
 const guildID = import.meta.env.VITE_GUILD_ID
 
 export default function DiscordPage() {
@@ -91,21 +92,5 @@ export async function action({ request, params }) {
     if (resData.status === 422 || resData.status === 401) {
         return resData;
     }
-
-        const expiration = new Date();
-    let expirationTime = expiration.getHours() + 1;
-    if (resData.adminToken) {
-        localStorage.setItem('admin', resData.adminToken);
-        expirationTime = expiration.getHours() + 12;
-    }
-    expiration.setHours(expirationTime);
-    localStorage.setItem('username', resData.username);
-    localStorage.setItem('handle', resData.discord_handle);
-    localStorage.setItem('image', resData.image);
-    localStorage.setItem('nickname', resData.nickname);
-    localStorage.setItem('accountid', resData._id);
-    localStorage.setItem('player_id', resData.player_id);
-    localStorage.setItem('token', resData.token);
-    console.log(resData.token);
-    localStorage.setItem('expiration', expiration.toISOString());
+    setUserData({...resData});
 }
