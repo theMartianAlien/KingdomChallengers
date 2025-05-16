@@ -64,10 +64,7 @@ export default function CustomTable({ data, columns, primaryColumn, isAsc, heade
                             sortedData.map((data) => (
                                 <tr key={data._id}>
                                     <th scope="row" className={rowStyle}>
-                                        <CustomLink label={data[columns[0].column]} to={data._id} prefix="/bets/"/>
-                                        {/* <Link to={`${data._id}`}>
-                                            <span></span>
-                                        </Link> */}
+                                        <CustomLink label={data[columns[0].column]} to={data._id} prefix={prefix}/>
                                     </th>
                                     {[...columns].slice(1).map((col) => (
                                         <td className={colSize} key={col.column}>

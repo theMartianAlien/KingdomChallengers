@@ -1,5 +1,4 @@
-import { ObjectId } from "mongodb";
-import { getAllBy, writeOne } from "../util/mongo.mjs";
+import { getAllBy, getOneById, updateOne, writeOne } from "../util/mongo.mjs";
 
 const TABLE = "counter-challenge";
 
@@ -9,4 +8,13 @@ export async function addCounterChallenge(data) {
 
 export async function getCounterChallenge(id) {
     return await getAllBy(TABLE, { "challengeId": id })
+}
+
+export async function getCounterChallengeById(id) {
+    console.log(id + "  my id ? " );
+    return await getOneById(TABLE, id);
+}
+
+export async function updateCounterChallenge(id, data) {
+    return await updateOne(TABLE, id, data);
 }

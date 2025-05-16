@@ -24,18 +24,20 @@ const PlayersRootPage = lazy(() => import('../pages/Players/PlayerRootPage'));
 import { loader as getAllBetsLoader } from '../pages/Bets/BetsListPage';
 import { loader as getBedDetailsLoader } from '../pages/Bets/BetDetailsPage';
 import EditBetPage from '../pages/Bets/EditBetPage';
-import { action } from '../components/Challenges/ChallengesForm';
+import { action as patchPostChallengeAction } from '../components/Challenges/ChallengesForm';
 import { loader as getChallengeDetailsLoader } from '../pages/Challenges/ChallengeDetailsPage';
 const BetDetailsPage = lazy(() => import('../pages/Bets/BetDetailsPage'));
 const BetsRootPage = lazy(() => import('../pages/Bets/BetsRootPage'));
 const BetsListPage = lazy(() => import('../pages/Bets/BetsListPage'));
 
 import { action as postCounterChallengeAction } from '../pages/Challenges/ChallengeDetailsPage';
-import { loader } from '../pages/Auth/ProfilePage';
+import { loader as getProfileLoader } from '../pages/Auth/ProfilePage';
+import { action as patchCounterChallengeAction } from '../components/Challenges/CounterTable';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
 const ChallengeDetailsPage = lazy(() => import('../pages/Challenges/ChallengeDetailsPage'));
+const ChallengeEditPage = lazy(() => import('../pages/Challenges/ChallengeEditPage'));
 
 const ProfilePage = lazy(() => import('../pages/Auth/ProfilePage'));
 
@@ -138,7 +140,7 @@ const router = createBrowserRouter(
         {
           path: 'profile',
           element: <Suspense fallback={<p>Loading ....</p>}><ProfilePage /></Suspense>,
-          loader: loader
+          loader: getProfileLoader
         },
         {
           path: 'challenges',
@@ -160,13 +162,22 @@ const router = createBrowserRouter(
                   index: true,
                   element: <Suspense fallback={<p>Loading ....</p>}><ChallengeDetailsPage /></Suspense>,
                   action: postCounterChallengeAction,
+                },
+                {
+                  path: 'edit',
+                  element: <Suspense fallback={<p>Loading ....</p>}><ChallengeEditPage /></Suspense>,
+                  action: patchPostChallengeAction
+                },
+                {
+                  path: ':counterId/counter/:action',
+                  action: patchCounterChallengeAction
                 }
               ]
             },
             {
               path: 'new',
               element: <Suspense fallback={<p>Loading ....</p>}><NewChallengePage /></Suspense>,
-              action: action
+              action: patchPostChallengeAction
             }
           ]
         }

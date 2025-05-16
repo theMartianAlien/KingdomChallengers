@@ -1,5 +1,5 @@
-import { Link, useLoaderData, useRouteLoaderData } from "react-router-dom";
-import { getAccountId, getPlayerId } from "../../util/auth";
+import { useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { getPlayerId } from "../../util/auth";
 import { useGetFetch } from "../../hooks/useFetch";
 import CustomTable from "../../components/UI/CustomTable";
 import NoOpenCustomLink from "../../components/UI/NoOpenCustomLink";
@@ -29,48 +29,50 @@ export default function ProfilePage() {
                         </div>
                     </div>
                 </div>
-                <CustomTable
-                prefix={"bets"}
-                    primaryColumn="title"
-                    isAsc={false}
-                    data={
-                        bets.map((bet) => {
-                            return {
-                                _id: bet._id,
-                                title: bet.title,
-                                status: bet.status,
-                                link: bet.link,
-                                "date-added": bet["date-added"],
-                                "date-ended": bet["date-ended"]
-                            }
-                        })}
-                    columns={[
-                        {
-                            "column_name": "Title",
-                            "column": "title",
-                            element: CustomLink
-                        },
-                        {
-                            "column_name": "Status",
-                            "column": "status"
-                        },
-                        {
-                            "column_name": "Link",
-                            "column": "link",
-                            element: NoOpenCustomLink
-                        },
-                        {
-                            "column_name": "Date Added",
-                            "column": "date-added"
-                        },
-                        {
-                            "column_name": "Date Ended",
-                            "column": "date-ended"
-                        }]}
-                        headerStyle= "text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                {data && data.length > 0 && (
+                    <CustomTable
+                        prefix={"bets"}
+                        primaryColumn="title"
+                        isAsc={false}
+                        data={
+                            bets.map((bet) => {
+                                return {
+                                    _id: bet._id,
+                                    title: bet.title,
+                                    status: bet.status,
+                                    link: bet.link,
+                                    "date-added": bet["date-added"],
+                                    "date-ended": bet["date-ended"]
+                                }
+                            })}
+                        columns={[
+                            {
+                                "column_name": "Title",
+                                "column": "title",
+                                element: CustomLink
+                            },
+                            {
+                                "column_name": "Status",
+                                "column": "status"
+                            },
+                            {
+                                "column_name": "Link",
+                                "column": "link",
+                                element: NoOpenCustomLink
+                            },
+                            {
+                                "column_name": "Date Added",
+                                "column": "date-added"
+                            },
+                            {
+                                "column_name": "Date Ended",
+                                "column": "date-ended"
+                            }]}
+                        headerStyle="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
                         rowStyle="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         colSize="px-6 py-3"
-                />
+                    />
+                )}
             </div>
         </>
     );

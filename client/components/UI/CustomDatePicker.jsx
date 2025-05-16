@@ -12,7 +12,7 @@ const customTheme = {
     }
 };
 
-export function CustomDatePicker({ name, title, minDate, maxDate, value }) {
+export function CustomDatePicker({ name, title, minDate, maxDate, value, readOnly }) {
     return <Datepicker
         theme={customTheme}
         name={name}
@@ -22,5 +22,6 @@ export function CustomDatePicker({ name, title, minDate, maxDate, value }) {
         defaultValue={value}
         title={title}
         minDate={minDate}
-        maxDate={maxDate} />;
+        maxDate={maxDate} 
+        disabled={readOnly}/>;
 }

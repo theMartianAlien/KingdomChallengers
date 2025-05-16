@@ -30,6 +30,7 @@ router.get('/:id', async (req, res, next) => {
         console.log("getAPlayer called");
         const id = req.params.id;
         const player = await getAPlayer(id);
+        console.log(player);
         const playerData = {
             _id: player._id,
             discord_handle: player.discord_handle,

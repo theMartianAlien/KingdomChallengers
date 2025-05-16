@@ -1,13 +1,14 @@
-import { redirect, useRouteLoaderData } from 'react-router-dom';
+import { Link, redirect, useRouteLoaderData } from 'react-router-dom';
 import { useState } from 'react';
-import { getPlayerId } from '../../util/auth';
+import { getAccountId, getPlayerId } from '../../util/auth';
 import CounterChallengeForm from '../../components/Challenges/CounterChallengeForm';
 import CounterTable from '../../components/Challenges/CounterTable';
 import { useGetFetch } from '../../hooks/useFetch';
 
 export default function ChallengeDetailsPage() {
-    let userId = getPlayerId();
-    const { challenge } = useRouteLoaderData("challenge-detail");
+    const accountId = getAccountId();
+    const playerId = getPlayerId();
+    const { challenge, counters } = useRouteLoaderData("challenge-detail");
     const [isJoining, setIsJoining] = useState(false);
     let counterCHallenge;
     function IsJoiningHandler() {
@@ -23,12 +24,12 @@ export default function ChallengeDetailsPage() {
     }
 
     let isOpen;
-    if (userId && challenge.issuer !== userId) {
+    if (accountId && challenge.issuer !== accountId && challenge.status === 'ready') {
         if (challenge.challengeType === 'open' ||
-            (challenge.challengeType === 'close' && userId && challenge.participants.includes(userId))) {
+            (challenge.challengeType === 'close' && userId && challenge.participants.includes(playerId))) {
             isOpen = (
                 <div className='py-2'>
-                    <button className="px-3 py-2 relative flex
+                    <button className="px-3 py-2 relative flext
                  items-center justify-center rounded-lg 
                  text-center font-medium focus:outline-none 
                  focus:ring-4 bg-gray-800 text-white hover:bg-gray-900
@@ -41,6 +42,9 @@ export default function ChallengeDetailsPage() {
             );
         }
     }
+
+    const tangina = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept'))
+
     return (
         <>
             <div className="max-w-4xl mx-auto p-5 lg:p-2 bg-white dark:bg-gray-900 rounded-lg shadow-lg space-y-2 my-10">
@@ -58,6 +62,17 @@ export default function ChallengeDetailsPage() {
                     <br />
                     {challenge.loserPunishment}
                 </div>
+                {challenge.issuer === accountId && (
+                    <Link to={`/challenges/${challenge._id}/edit`}>
+                        Edit Challenge
+                    </Link>
+                )}
+                {tangina && (<div>
+                    <button>
+                        'LOCK IT!'
+                    </button>
+                </div>
+                )}
                 {isOpen && isOpen}
                 <div className='py-1'>
                     <CounterTable />

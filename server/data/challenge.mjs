@@ -1,6 +1,6 @@
-import { getAll, getOneBy, getOneById, writeOne, } from "../util/mongo.mjs";
+import { getAll, getOneBy, getOneById, updateOne, writeOne, } from "../util/mongo.mjs";
 import { getAccountById } from "./auth.mjs";
-import { getAPlayer, getAPlayerByHandler } from "./players.mjs";
+import { getAPlayerByObjectId } from "./players.mjs";
 
 const TABLE = "challenges";
 
@@ -8,7 +8,7 @@ export async function getAllChallenges() {
     const challenges = await getAll(TABLE);
     const newChallenges = await Promise.all(challenges.map(async (challenge) => {
         const account = await getAccountById(challenge.issuer);
-        const player = await getAPlayerByHandler(account.player_id);
+        const player = await getAPlayerByObjectId(account.player_id);
         return {
             ...challenge,
             challenger: player.display_name
@@ -20,7 +20,7 @@ export async function getAllChallenges() {
 export async function getAChallenge(id) {
     const challenge = await getOneById(TABLE, id);
     const acc = await getAccountById(challenge.issuer);
-    const player = await getAPlayerByHandler(acc.player_id);
+    const player = await getAPlayerByObjectId(acc.player_id);
     return { ...challenge, challenger: player.display_name };
 }
 
@@ -30,4 +30,10 @@ export async function getAChallengeBy(filter) {
 
 export async function addChallenge(data) {
     return await writeOne(TABLE, data);
+}
+
+export async function updateChallenge(data){
+    const id = data._id;
+    delete data._id;
+    return await updateOne(TABLE, id, data);
 }

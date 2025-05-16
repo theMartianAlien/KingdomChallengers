@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useSubmit } from "react-router-dom";
+import { Link, redirect, useLocation, useSubmit } from "react-router-dom";
 import { usePatchPostFetch } from "../../hooks/useFetch";
 import { setUserData } from "../../util/auth";
 const guildID = import.meta.env.VITE_GUILD_ID
@@ -28,22 +28,29 @@ export default function DiscordPage() {
                 },
             })
             const resData = await response.json();
-            setDiscordLoginData(
-                {
-                    discord_id: resData.user.id,
-                    username: resData.user.username,
-                    display_name: resData.user.global_name,
-                    image: `https://cdn.discordapp.com/avatars/${resData.user.id}/${resData.user.avatar}.jpg`,
-                    nickname: resData.nick,
+            if (resData.status !== 401) {
+                try {
+                    setDiscordLoginData(
+                        {
+                            discord_id: resData.user.id,
+                            username: resData.user.username,
+                            display_name: resData.user.global_name,
+                            image: `https://cdn.discordapp.com/avatars/${resData.user.id}/${resData.user.avatar}.jpg`,
+                            nickname: resData.nick,
+                        }
+                    );
+                    const formData = new FormData();
+                    formData.append("discord_id", resData.user.id);
+                    formData.append("username", resData.user.username);
+                    formData.append("display_name", resData.user.global_name);
+                    formData.append("image", `https://cdn.discordapp.com/avatars/${resData.user.id}/${resData.user.avatar}.jpg`);
+                    formData.append("nickname", resData.nick);
+                    submit(formData, { method: 'post' });
+                } catch {
+                    return redirect('/login');
                 }
-            );
-            const formData = new FormData();
-            formData.append("discord_id", resData.user.id);
-            formData.append("username", resData.user.username);
-            formData.append("display_name", resData.user.global_name);
-            formData.append("image", `https://cdn.discordapp.com/avatars/${resData.user.id}/${resData.user.avatar}.jpg`);
-            formData.append("nickname", resData.nick);
-            submit(formData, { method: 'post' });
+                return;
+            }
         }
 
         fetchData();
@@ -92,5 +99,5 @@ export async function action({ request, params }) {
     if (resData.status === 422 || resData.status === 401) {
         return resData;
     }
-    setUserData({...resData});
+    setUserData({ ...resData });
 }
