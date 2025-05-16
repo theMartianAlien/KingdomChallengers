@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, StrictMode } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import RootPage from '../pages/Layout/RootPage';
 import { checkAuthLoader, tokenLoader } from '../util/auth';
@@ -40,6 +41,14 @@ const ChallengeDetailsPage = lazy(() => import('../pages/Challenges/ChallengeDet
 const ChallengeEditPage = lazy(() => import('../pages/Challenges/ChallengeEditPage'));
 
 const ProfilePage = lazy(() => import('../pages/Auth/ProfilePage'));
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 10,
+    },
+  },
+})
 
 const router = createBrowserRouter(
   [
@@ -188,7 +197,13 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        {/* <ReactQueryDevtools buttonPosition="bottom-right" /> */}
+      </QueryClientProvider>
+    </StrictMode>
+    // <RouterProvider router={router} />
   )
 }
 
