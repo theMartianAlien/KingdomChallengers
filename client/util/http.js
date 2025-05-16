@@ -3,8 +3,9 @@ const guildID = import.meta.env.VITE_GUILD_ID
 
 export const queryClient = new QueryClient();
 
-export async function discordFetchData({params}){
+export async function discordFetchData({hash}){
 
+    const params = new URLSearchParams(hash.substring(1));
     let tokenType = params.get("token_type");
     let accessToken = params.get("access_token");
 

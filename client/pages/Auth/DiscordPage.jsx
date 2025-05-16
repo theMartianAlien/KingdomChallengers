@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, redirect, useLocation, useSubmit } from "react-router-dom";
 import { usePatchPostFetch } from "../../hooks/useFetch";
 import { setUserData } from "../../util/auth";
@@ -18,27 +18,27 @@ export default function DiscordPage() {
     });
     const submit = useSubmit();
 
-    const { discord_id, username, display_name, image, nickname } = useQuery({
-        queryKey: ['discordData', { params }],
+    const { data, isPending } = useQuery({
+        queryKey: ['discordData', { theParams: params }],
         queryFn: () => discordFetchData({ params })
     });
-    if (discord_id) {
+    if (!isPending) {
         try {
             setDiscordLoginData(
                 {
-                    discord_id: resData.user.id,
-                    username: resData.user.username,
-                    display_name: resData.user.global_name,
-                    image: `https://cdn.discordapp.com/avatars/${resData.user.id}/${resData.user.avatar}.jpg`,
-                    nickname: resData.nick,
+                    discord_id: data.discord_id,
+                    username: data.username,
+                    display_name: data.display_name,
+                    image: data.image,
+                    nickname: data.nickname,
                 }
             );
             const formData = new FormData();
-            formData.append("discord_id", resData.user.id);
-            formData.append("username", resData.user.username);
-            formData.append("display_name", resData.user.global_name);
-            formData.append("image", `https://cdn.discordapp.com/avatars/${resData.user.id}/${resData.user.avatar}.jpg`);
-            formData.append("nickname", resData.nick);
+            formData.append("discord_id", data.discord_id);
+            formData.append("username", data.username);
+            formData.append("display_name", data.display_name);
+            formData.append("image", data.image);
+            formData.append("nickname", data.nickname);
             submit(formData, { method: 'post' });
         } catch {
             return redirect('/login');
