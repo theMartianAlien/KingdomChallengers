@@ -40,7 +40,7 @@ export default function CounterChallengeForm({ onSubmit }) {
                         </label>
                     </div>
                     <div className="flex items-center">
-                        <input id="team-pro" type="radio" value="pro" name="team" checked
+                        <input id="team-pro" type="radio" value="pro" name="team"
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500
                   dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2
                   dark:bg-gray-700 dark:border-gray-600" onChange={onChange}/>
@@ -54,7 +54,7 @@ export default function CounterChallengeForm({ onSubmit }) {
                  text-center font-medium focus:outline-none 
                  focus:ring-4 bg-gray-800 text-white hover:bg-gray-900
                   focus:ring-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 
-                  dark:focus:ring-gray-700">fuck this</button>
+                  dark:focus:ring-gray-700">Join Bet</button>
             </Form>
         </>
     );

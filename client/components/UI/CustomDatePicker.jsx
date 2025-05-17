@@ -1,4 +1,5 @@
 import { Datepicker } from "flowbite-react";
+import { useState } from "react";
 
 const customTheme = {
     views: {
@@ -12,16 +13,20 @@ const customTheme = {
     }
 };
 
-export function CustomDatePicker({ name, title, minDate, maxDate, value, readOnly }) {
+export function CustomDatePicker({ name, title, minDate, maxDate, defaultValue, readOnly }) {
+    const [selectedDate, setSelectedDate] = useState(defaultValue || null);
+
     return <Datepicker
-        theme={customTheme}
-        name={name}
-        showTodayButton={true}
-        showClearButton={true}
-        autoHide={true}
-        defaultValue={value}
-        title={title}
-        minDate={minDate}
-        maxDate={maxDate} 
-        disabled={readOnly}/>;
+    theme={customTheme}
+    name={name}
+    showTodayButton={true}
+    showClearButton={true}
+    autoHide={true}
+    value={selectedDate}
+    onChange={setSelectedDate}
+    title={title}
+    minDate={minDate}
+    maxDate={maxDate}
+    disabled={readOnly}
+    />
 }

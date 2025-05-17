@@ -6,6 +6,7 @@ import { NotAuthError } from './errors.js';
 
 loadEnv();
 
+const SKIP_AUTHENTICATION = process.env.SKIP_AUTHENTICATION;
 const KEY = process.env.USER_KEY;
 const ADMIN = process.env.ADMIN_KEY;
 
@@ -56,6 +57,10 @@ function validate(req, res, next) {
 }
 
 export function isAuthenticate(req, res, next) {
+    if (SKIP_AUTHENTICATION) {
+        console.log("Authentication skipped");
+        return;
+    }
     const isNext = validate(req, res, next);
     if (isNext) {
         return next(new NotAuthError(isNext));
@@ -73,6 +78,10 @@ export function isAuthenticate(req, res, next) {
 }
 
 export function isAdminAuthenticate(req, res, next) {
+    if (SKIP_AUTHENTICATION) {
+        console.log("Authentication skipped");
+        return;
+    }
     const isNext = validate(req, res, next);
     if (isNext) {
         return next(new NotAuthError('Not authenticated.'));

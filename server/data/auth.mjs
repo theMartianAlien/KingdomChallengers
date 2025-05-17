@@ -21,3 +21,7 @@ export async function getUserAccount(username, password) {
 export async function getAccountById(id) {
     return await getOneById(TABLE, id);
 }
+
+export async function getAccountByPlayerId(id) {
+    return await getOneById(TABLE, id);
+}

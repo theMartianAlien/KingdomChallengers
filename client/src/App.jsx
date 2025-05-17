@@ -164,6 +164,7 @@ const router = createBrowserRouter(
           children: [
             {
               index: true,
+              id: 'challenges-list',
               element: <Suspense fallback={<p>Loading ....</p>}><ChallengesListPage /></Suspense>,
               loader: () => import('../pages/Challenges/ChallengesListPage').then((module) => module.loader()),
             },

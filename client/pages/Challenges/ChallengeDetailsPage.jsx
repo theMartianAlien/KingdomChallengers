@@ -26,7 +26,7 @@ export default function ChallengeDetailsPage() {
     let isOpen;
     if (accountId && challenge.issuer !== accountId && challenge.status === 'ready') {
         if (challenge.challengeType === 'open' ||
-            (challenge.challengeType === 'close' && userId && challenge.participants.includes(playerId))) {
+            (challenge.challengeType === 'close' && playerId && challenge.participants.includes(playerId))) {
             isOpen = (
                 <div className='py-2'>
                     <button className="px-3 py-2 relative flext
@@ -44,7 +44,14 @@ export default function ChallengeDetailsPage() {
     }
 
     const tangina = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept'))
-
+    let lockButton;
+    if (tangina > 1) {
+        lockButton = (<div>
+            <button>
+                'LOCK IT!'
+            </button>
+        </div>);
+    }
     return (
         <>
             <div className="max-w-4xl mx-auto p-5 lg:p-2 bg-white dark:bg-gray-900 rounded-lg shadow-lg space-y-2 my-10">
@@ -67,12 +74,7 @@ export default function ChallengeDetailsPage() {
                         Edit Challenge
                     </Link>
                 )}
-                {tangina && (<div>
-                    <button>
-                        'LOCK IT!'
-                    </button>
-                </div>
-                )}
+                {lockButton && (lockButton)}
                 {isOpen && isOpen}
                 <div className='py-1'>
                     <CounterTable />

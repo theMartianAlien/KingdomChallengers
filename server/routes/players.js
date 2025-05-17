@@ -2,6 +2,7 @@ import express from 'express';
 import { addAPlayer, getAllPlayers, getAPlayer, getAPlayerByHandler, removeAPlayer, replaceAPlayer } from '../data/players.mjs';
 import { getDiscordHandler } from '../data/discord-users.mjs';
 import { isAdminAuthenticate } from '../util/auth.mjs';
+import { getBetsByPlayer } from '../controller/player.mjs';
 
 const router = express();
 
@@ -9,7 +10,6 @@ router.get('/', async (req, res, next) => {
     try {
         console.log("getAllPlayers called");
         const players = await getAllPlayers();
-
         if (!players || players.length === 0) {
             res.json("No players currently in the database.");
             return;
@@ -35,7 +35,8 @@ router.get('/:id', async (req, res, next) => {
             discord_handle: player.discord_handle,
             display_name: player.display_name
         }
-        res.json({ player: playerData });
+        const bets = await getBetsByPlayer(player._id);
+        res.json({ player: playerData, bets });
     } catch (error) {
         next(error);
     }
@@ -74,7 +75,7 @@ router.patch('/:id', async (req, res, next) => {
         if (!data.handler) {
             return res.status(422).json({ message: "Unable to update player: " + data.handler });
         }
-        
+
         const handler = await getAPlayer(data._id);
 
         if (!handler) {

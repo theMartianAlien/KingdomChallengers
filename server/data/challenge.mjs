@@ -8,7 +8,17 @@ export async function getAllChallenges() {
     const challenges = await getAll(TABLE);
     const newChallenges = await Promise.all(challenges.map(async (challenge) => {
         const account = await getAccountById(challenge.issuer);
+        // console.log("acoount")
+        // console.log(account);
+        if(!account) {
+            console.log("The challenge");
+            console.log(account);
+            console.log(challenge);
+        }
         const player = await getAPlayerByObjectId(account.player_id);
+        // console.log("player")
+        // console.log(player);
+        // console.log("before return")
         return {
             ...challenge,
             challenger: player.display_name

@@ -1,9 +1,12 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useRouteLoaderData } from "react-router-dom";
 import classes from './ChallengeList.module.css';
 import ChallengeCard from "./ChallengeCard";
 
 export default function ChallengeList() {
+
+    // const { challenges } = useRouteLoaderData("challenges-list")
     const { challenges } = useLoaderData();
+    console.log(challenges);
     return (
         <>
             <div className={classes["challenges-container"]}>
