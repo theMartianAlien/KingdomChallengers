@@ -1,26 +1,29 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Form, redirect, useRouteLoaderData } from "react-router-dom";
 import { getAuthToken, getAccountId } from "../../util/auth";
 import { sortByProperty } from "../../util/sort";
 import { usePatchPostFetch } from "../../hooks/useFetch";
 import { CustomDatePicker } from "../UI/CustomDatePicker";
+import InputField from "../UI/Fields/InputField";
+import TextAreaField from "../UI/Fields/TextAreaField";
+import RadioField from "../UI/Fields/RadioField";
+import DropDownField from "../UI/Fields/DropDownField";
 
 export default function ChallengeForm({ method }) {
     const { player_id } = useRouteLoaderData('root');
     const data = useRouteLoaderData('challenge-detail');
     let challenge;
-    if(data && data.challenge){
-        challenge = data.challege;
+    if (data && data.challenge) {
+        challenge = data.challenge;
     }
     let players = useRouteLoaderData('challenges-root');
     players = sortByProperty(players, "display_name").filter((p) => p.id !== player_id);
-
     const date = new Date();
     const year = date.getFullYear();
     const month = date.getMonth().toString().padStart(2, '0');
     const day = date.getDate();
     const [participants, setParticipants] = useState([]);
-    const [challengeType, setChallengeType] = useState("open");
+    const [challengeType, setChallengeType] = useState(challenge?.challengeType || 'open');
 
     function OnChangeChallengeType() {
         let leChallenge = challengeType;
@@ -33,76 +36,91 @@ export default function ChallengeForm({ method }) {
         setChallengeType(leChallenge);
     }
 
-    function OnClickParticipants(event) {
-        const value = event.target.value;
-        setParticipants((prevSelectedValues) => {
-            if (prevSelectedValues.includes(value)) {
-                return prevSelectedValues.filter((item) => item !== value);
-            } else {
-                return [...prevSelectedValues, value];
-            }
-        });
-    }
+    // function OnClickParticipants(event) {     
+    //     const value = event.target.value;
+    //     setParticipants((prevSelectedValues) => {
+    //         if (prevSelectedValues.includes(value)) {
+    //             return prevSelectedValues.filter((item) => item !== value);
+    //         } else {
+    //             return [...prevSelectedValues, value];
+    //         }
+    //     });
+    // }
 
-    let playerList;
-    if (challengeType === 'close') {
-        playerList = (
-            <div className="mb-5">
-                <label htmlFor="participants" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issue challenge to:</label>
-                <select multiple className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="participants"
-                    id="participants"
-                    defaultChecked={participants}
-                    onChange={OnClickParticipants}
-                    size="15">
-                    {players.map(player => (
-                        <option key={player._id} value={player._id}>
-                            {player.display_name}
-                        </option>
-                    ))}
-                </select>
-            </div>
+    const playerList = useMemo(() => {
+        if (challengeType !== 'close') return null;
+
+        return (
+            <DropDownField
+                multiple={true}
+                elementName="participants"
+                defaultValue={participants}
+                label="Issue challenge to:"
+                size={15}
+                options={players.map(player => ({
+                    value: player._id,
+                    text: player.display_name
+                }))}
+            />
         );
-    }
+    }, [challengeType, participants, players]);
 
     return (
         <>
             <Form method={method} className="max-w-sm mx-auto">
                 <h2 className="block mb-2 text-3xl font-semibold  text-gray-900 dark:text-white">New Challenge</h2>
-                <div className="mb-5">
-                    <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                    <input type="text" defaultValue={challenge?.title} id="title" name="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="This is my challenge!" required />
-                </div>
-                <div className="mb-5">
-                    <label htmlFor="statement" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Challenge</label>
-                    <textarea id="statement" defaultValue={challenge?.statement} name="statement" rows={10} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Something will happen, I am sure of it!" required />
-                </div>
-                <div className="mb-5">
-                    <label htmlFor="loser-punishment" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Punishment</label>
-                    <textarea id="loser-punishment" defaultValue={challenge?.loserPunishment} name="loser-punishment" rows={10} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Something will happen, I am sure of it!" required />
-                </div>
+                <InputField
+                    label="Title"
+                    defaultValue={challenge?.title}
+                    elementName="title"
+                    placeholder="This is my challenge!"
+                    required
+                />
+                <TextAreaField
+                    label="Challenge"
+                    elementName="statement"
+                    defaultValue={challenge?.statement}
+                    placeholder="Something will happen, I am sure of it!"
+                    required
+                />
+                <TextAreaField
+                    label="Punishment"
+                    elementName="loser-punishment"
+                    defaultValue={challenge?.loserPunishment}
+                    placeholder="Your punishment is my joy!"
+                    required
+                />
                 <div className="mb-5">
                     <fieldset>
                         <div className="flex items-center mb-4">
                             <label htmlFor="challengeType" className="block ms-2 text-m font-medium text-gray-900 dark:text-gray-300">Challenge Type</label>
                         </div>
-                        <div className="flex items-center mb-4">
-                            <input type="radio" id="open-challenge" disabled={challenge} defaultChecked={!challenge ? true : challenge?.challengeType === 'open'} name="challengeType" value="open" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600" onChange={(event) => OnChangeChallengeType(event)} />
-                            <label htmlFor="open-challenge" className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                Open Challenge
-                            </label>
-                        </div>
-                        <div className="flex items-center mb-4">
-                            <input type="radio" id="close-challenge" disabled={challenge} defaultChecked={challenge?.challengeType === 'close'} name="challengeType" value="close" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600" onChange={(event) => OnChangeChallengeType(event)} />
-                            <label htmlFor="close-challenge" className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                Close Challenge
-                            </label>
-                        </div>
+                        <RadioField
+                            elementName="open-challenge"
+                            checked={challengeType === 'open'}
+                            // defaultChecked={!challenge ? true : challenge?.challengeType === 'open'}
+                            groupName="challengeType"
+                            value="open"
+                            label="Open Challenge"
+                            disabled={challenge}
+                            onChange={(e) => OnChangeChallengeType(e)}
+                        />
+                        <RadioField
+                            elementName="close-challenge"
+                            checked={challengeType === 'close'}
+                            // defaultChecked={!challenge ? true : challenge?.challengeType === 'close'}
+                            groupName="challengeType"
+                            value="close"
+                            label="Close Challenge"
+                            disabled={challenge}
+                            onChange={(e) => OnChangeChallengeType(e)}
+                        />
                     </fieldset>
                 </div>
                 {playerList && playerList}
                 <div className="mb-5">
-                    <CustomDatePicker readOnly={challenge}
+                    <CustomDatePicker
+                        readOnly={challenge}
                         name="challenge-enddate"
                         title="Challenge Duration Date"
                         minDate={new Date(year, month, day)}
@@ -141,7 +159,7 @@ export async function action({ request, params }) {
         participants
     }
     let redirectText = '/challenges';
-    if(method==='PATCH') {
+    if (method === 'PATCH') {
         challengeData._id = params.id
         redirectText += '/' + params.id;
     }
