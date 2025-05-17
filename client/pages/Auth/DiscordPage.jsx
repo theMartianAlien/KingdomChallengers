@@ -5,70 +5,88 @@ import { setUserData } from "../../util/auth";
 const guildID = import.meta.env.VITE_GUILD_ID
 
 export default function DiscordPage() {
-    const { hash } = useLocation();
-    const params = new URLSearchParams(hash.substring(1));
-    let tokenType = params.get("token_type");
-    let accessToken = params.get("access_token");
-    const [discordLoginData, setDiscordLoginData] = useState({
-        discord_id: '',
-        username: '',
-        display_name: '',
-        image: '',
-        nickname: ''
-    });
-    const submit = useSubmit();
+    try {
+        const { hash } = useLocation();
+        const params = new URLSearchParams(hash.substring(1));
+        let tokenType = params.get("token_type");
+        let accessToken = params.get("access_token");
+        const [discordLoginData, setDiscordLoginData] = useState({
+            discord_id: '',
+            username: '',
+            display_name: '',
+            image: '',
+            nickname: ''
+        });
+        const submit = useSubmit();
 
-    useEffect(() => {
+        useEffect(() => {
 
-        const fetchData = async () => {
-
-            const response = await fetch(`https://discord.com/api/users/@me/guilds/${guildID}/member`, {
-                headers: {
-                    authorization: `${tokenType} ${accessToken}`,
-                },
-            })
-            const resData = await response.json();
-            setDiscordLoginData(
-                {
-                    discord_id: resData.user.id,
-                    username: resData.user.username,
-                    display_name: resData.user.global_name,
-                    image: `https://cdn.discordapp.com/avatars/${resData.user.id}/${resData.user.avatar}.jpg`,
-                    nickname: resData.nick,
+            const fetchData = async () => {
+                try {
+                    const response = await fetch(`https://discord.com/api/users/@me/guilds/${guildID}/member`, {
+                        headers: {
+                            authorization: `${tokenType} ${accessToken}`,
+                        },
+                    })
+                    const resData = await response.json();
+                    if (resData.code !== 0) {
+                        setDiscordLoginData(
+                            {
+                                discord_id: resData.user.id,
+                                username: resData.user.username,
+                                display_name: resData.user.global_name,
+                                image: `https://cdn.discordapp.com/avatars/${resData.user.id}/${resData.user.avatar}.jpg`,
+                                nickname: resData.nick,
+                            }
+                        );
+                        const formData = new FormData();
+                        formData.append("discord_id", resData.user.id);
+                        formData.append("username", resData.user.username);
+                        formData.append("display_name", resData.user.global_name);
+                        formData.append("image", `https://cdn.discordapp.com/avatars/${resData.user.id}/${resData.user.avatar}.jpg`);
+                        formData.append("nickname", resData.nick);
+                        submit(formData, { method: 'post' });
+                    }
                 }
-            );
-            const formData = new FormData();
-            formData.append("discord_id", resData.user.id);
-            formData.append("username", resData.user.username);
-            formData.append("display_name", resData.user.global_name);
-            formData.append("image", `https://cdn.discordapp.com/avatars/${resData.user.id}/${resData.user.avatar}.jpg`);
-            formData.append("nickname", resData.nick);
-            submit(formData, { method: 'post' });
-        }
+                catch (error) {
+                    console.log(error);
+                    throw new Response({ message: "Error somewhere", error });
+                }
+            }
 
-        fetchData();
-    }, []);
-    return (
-        <>
-            {discordLoginData && (
-                <div className="flex items-center justify-center h-96 bg-discord-gray text-white flex-col">
-                    <div className="text-2xl">Welcome to the Kingdom Challenges,</div>
-                    <div className="text-4xl mt-3 flex items-center font-medium" >
-                        {discordLoginData && discordLoginData.image && (
-                            <p className="flex">
-                                <img src={discordLoginData.image} id="avatar" className="rounded-full w-12 h-12 mr-3" />
-                                <span id="name">{discordLoginData.nickname}</span>
-                            </p>
-                        )}
+            fetchData();
+        }, []);
+        return (
+            <>
+                {discordLoginData && (
+                    <div className="flex items-center justify-center h-96 bg-discord-gray text-white flex-col">
+                        <div className="text-2xl">Welcome to the Kingdom Challenges,</div>
+                        <div className="text-4xl mt-3 flex items-center font-medium" >
+                            {discordLoginData && discordLoginData.image && (
+                                <p className="flex">
+                                    <img src={discordLoginData.image} id="avatar" className="rounded-full w-12 h-12 mr-3" />
+                                    <span id="name">{discordLoginData.nickname}</span>
+                                </p>
+                            )}
+                        </div>
+                        <div className="flex justtify-center gap-2">
+                            <Link to="/" className="text-sm mt-5 p-2 border rounded">Continue</Link>
+                            <Link to="/logout" className="text-sm mt-5 p-2 border rounded">Logout</Link>
+                        </div>
                     </div>
-                    <div className="flex justtify-center gap-2">
-                        <Link to="/" className="text-sm mt-5 p-2 border rounded">Continue</Link>
-                        <Link to="/logout" className="text-sm mt-5 p-2 border rounded">Logout</Link>
-                    </div>
-                </div>
-            )}
-        </>
-    );
+                )}
+            </>
+        );
+    }
+    catch (error) {
+        console.log(error);
+        return (
+            <>
+                <p>Unable to fetch web data</p>
+                <Link to="/"></Link>
+            </>
+        );
+    }
 }
 
 export async function action({ request, params }) {

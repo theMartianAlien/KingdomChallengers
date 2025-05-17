@@ -11,9 +11,9 @@ const HomePage = lazy(() => import('../pages/HomePage'));
 
 import { action as loginRegisterAction } from '../pages/Auth/LoginRegisterPage';
 import { action as logout } from '../pages/Auth/Logout';
-import { action as discordLogin } from '../pages/Auth/DiscordPage';
+import DiscordPage, { action as discordLogin } from '../pages/Auth/DiscordPage';
 const LoginRegisterPage = lazy(() => import('../pages/Auth/LoginRegisterPage'));
-const DiscordPage = lazy(() => import('../pages/Auth/DiscordPage'));
+// const DiscordPage = lazy(() => import('../pages/Auth/DiscordPage'));
 
 import { loader as getAllPlayersLoader } from '../pages/Players/PlayersListPage';
 import { action as createUpdatePlayerAction } from '../components/Players/PlayerForm';
@@ -75,7 +75,8 @@ const router = createBrowserRouter(
         },
         {
           path: 'auth/discord',
-          element: <Suspense fallback={<p>Loading ....</p>}><DiscordPage /></Suspense>,
+          // element: <Suspense fallback={<p>Loading ....</p>}><DiscordPage /></Suspense>,
+          element: <DiscordPage/>,
           action: discordLogin
         },
         {
