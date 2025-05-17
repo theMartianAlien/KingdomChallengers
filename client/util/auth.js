@@ -125,7 +125,6 @@ export function tokenLoader() {
 
 export function checkAuthLoader() {
     const token = getAdminToken();
-    console.log("token for admin : " + token);
     if (!token) {
         return redirect('/login');
     }

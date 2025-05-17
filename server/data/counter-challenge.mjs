@@ -11,7 +11,6 @@ export async function getCounterChallenge(id) {
 }
 
 export async function getCounterChallengeById(id) {
-    console.log(id + "  my id ? " );
     return await getOneById(TABLE, id);
 }
 

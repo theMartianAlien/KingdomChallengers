@@ -48,7 +48,7 @@ export async function insertPlayers() {
 export async function insertOldBets() {
     const BETS = await readJson("bets");
     const PLAYERS = await readJson("old-players");
-    console.log("Players with missing data");
+    console.log("Players with missing data: ");
     for (let i = 0; i < PLAYERS.length; i++) {
         const player = PLAYERS[i];
         if (player._id) {

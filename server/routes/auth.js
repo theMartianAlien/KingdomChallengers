@@ -10,7 +10,6 @@ router.post('/register', async (req, res, next) => {
     try {
         console.log("registerUser called");
         const data = req.body;
-        console.log(data);
         let errors = {};
 
         const isNotTheSame = (data.password.toUpperCase() !== data["repeat-password"].toUpperCase())
@@ -136,7 +135,6 @@ router.post('/login', async (req, res, next) => {
             return res.status(201).json({ ...accountData });
         }
         catch (error) {
-            console.log(req.body);
             console.log(error);
             return res.status(401).json({ message: 'Authentication failed!' });
         }

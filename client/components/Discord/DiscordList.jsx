@@ -4,7 +4,6 @@ import { getAdminToken } from "../../util/auth";
 
 export default function DiscordList() {
     const players = useLoaderData();
-console.log(players);
     return (
         <>
             <h2>

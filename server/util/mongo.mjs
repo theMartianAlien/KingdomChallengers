@@ -25,7 +25,7 @@ export async function writeOne(file, data, filter) {
             }
         }
         await collection.insertOne(data);
-        // retrun 1, number of records we added.
+        // return 1, number of records we added.
         return 1;
     }
     catch (error) {
