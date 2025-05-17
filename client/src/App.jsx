@@ -149,7 +149,12 @@ const router = createBrowserRouter(
         {
           path: 'profile',
           element: <Suspense fallback={<p>Loading ....</p>}><ProfilePage /></Suspense>,
-          loader: getProfileLoader
+          loader: getProfileLoader,
+          children: [{
+            path: ':id/edit',
+            element: <p>Page under construction</p>
+          }
+          ]
         },
         {
           path: 'challenges',

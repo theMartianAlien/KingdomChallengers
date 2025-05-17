@@ -1,5 +1,5 @@
-import { useLoaderData, useRouteLoaderData } from "react-router-dom";
-import { getPlayerId } from "../../util/auth";
+import { Link, useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { getAccountId, getPlayerId } from "../../util/auth";
 import { useGetFetch } from "../../hooks/useFetch";
 import CustomTable from "../../components/UI/CustomTable";
 import NoOpenCustomLink from "../../components/UI/NoOpenCustomLink";
@@ -7,6 +7,7 @@ import CustomLink from "../../components/UI/CustomLink";
 
 export default function ProfilePage() {
     const data = useRouteLoaderData("root");
+    const accountId = getAccountId();
     const { bets } = useLoaderData();
     return (
         <>
@@ -23,7 +24,9 @@ export default function ProfilePage() {
                             </div>
                             {data.token && (
                                 <div className="flex mt-4 md:mt-6">
-                                    <a href="#" className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Profile</a>
+                                    <Link to={`/profile/${accountId}/edit`} className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white 
+                                    bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none 
+                                    focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Profile</Link>
                                 </div>
                             )}
                         </div>

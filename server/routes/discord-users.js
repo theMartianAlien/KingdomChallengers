@@ -4,7 +4,7 @@ import { isAdminAuthenticate, isAuthenticate } from '../util/auth.mjs';
 
 const router = express();
 
-// router.use(isAdminAuthenticate);
+router.use(isAdminAuthenticate);
 
 router.get('/', async (req, res, next) => {
     try {

@@ -1,7 +1,10 @@
 import express from 'express';
 import { addCounterChallenge, getCounterChallengeById, updateCounterChallenge } from '../data/counter-challenge.mjs';
+import { isAuthenticate } from '../util/auth.mjs';
 
 const router = express();
+
+router.use(isAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {

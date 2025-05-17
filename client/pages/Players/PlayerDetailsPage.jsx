@@ -4,7 +4,6 @@ import { useGetFetch } from "../../hooks/useFetch";
 export default function PlayerDetailsPage() {
     const { player } = useRouteLoaderData('player-detail');
     const { adminToken } = useRouteLoaderData('root');
-console.log(player);
     return (
         <section>
             <h1>Player Details</h1>
