@@ -59,7 +59,7 @@ function validate(req, res, next) {
 export function isAuthenticate(req, res, next) {
     if (SKIP_AUTHENTICATION) {
         console.log("Authentication skipped");
-        return;
+        return next();
     }
     const isNext = validate(req, res, next);
     if (isNext) {
@@ -80,7 +80,7 @@ export function isAuthenticate(req, res, next) {
 export function isAdminAuthenticate(req, res, next) {
     if (SKIP_AUTHENTICATION) {
         console.log("Authentication skipped");
-        return;
+        return next();
     }
     const isNext = validate(req, res, next);
     if (isNext) {

@@ -1,6 +1,7 @@
 import express from 'express';
 import { addCounterChallenge, getCounterChallengeById, updateCounterChallenge } from '../data/counter-challenge.mjs';
 import { isAuthenticate } from '../util/auth.mjs';
+import { deleteCounterChallengeById } from '../controller/counter-challenge.mjs';
 
 const router = express();
 
@@ -16,7 +17,6 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-
 router.patch('/:id', async (req, res, next) => {
     try {
         console.log("addCounterChallenge called");
@@ -29,6 +29,16 @@ router.patch('/:id', async (req, res, next) => {
         }
         await updateCounterChallenge(_id, counter);
         res.status(201).json({ message: 'Counter Updated!' });
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.delete('/:id', async (req, res, next) => {
+    try {
+        console.log("deleteCounterChallenge called");
+        const data = await deleteCounterChallengeById(req.params.id);
+        res.status(201).json({ message: 'Counter Challenge Deleted!' });
     } catch (error) {
         next(error);
     }

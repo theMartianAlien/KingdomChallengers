@@ -108,7 +108,7 @@ export async function action({ request, params }) {
 
     let url = 'http://localhost:3000/counter-challenge/';
     if (method === 'DELETE') {
-        const id = data.get('id');
+        const id = data.get("delete-id");
         url += id;
     }
 

@@ -58,7 +58,6 @@ export default function CounterTable() {
                                 acceptReject && (
                                     <td className="px-6 py-3">
                                         <Form method="patch" action={`${counter._id}/counter/accept`}>
-
                                             <input type="hidden" name="action" value="accept" />
                                             <input type="hidden" name="id" value={counter._id} />
                                             <button className="">Accept</button>
@@ -69,7 +68,6 @@ export default function CounterTable() {
                                 acceptReject && (
                                     <td className="px-6 py-3">
                                         <Form method="patch" action={`${counter._id}/counter/reject`}>
-
                                             <input type="hidden" name="action" value="reject" />
                                             <input type="hidden" name="id" value={counter._id} />
                                             <button>Reject</button>
@@ -80,6 +78,7 @@ export default function CounterTable() {
                                 deleteCounter && (
                                     <td className="px-6 py-3">
                                         <Form method="delete">
+                                            <input type="hidden" name="delete-id" value={counter._id} />
                                             <button>Delete</button>
                                         </Form>
                                     </td>)
