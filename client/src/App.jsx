@@ -34,6 +34,8 @@ const BetsListPage = lazy(() => import('../pages/Bets/BetsListPage'));
 import { action as postCounterChallengeAction } from '../pages/Challenges/ChallengeDetailsPage';
 import { loader as getProfileLoader } from '../pages/Auth/ProfilePage';
 import { action as patchCounterChallengeAction } from '../components/Challenges/CounterTable';
+import DiscordRootPage from '../pages/Discord/DiscordRootPage';
+import DiscordListPage from '../pages/Discord/DiscordListPage';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -189,6 +191,17 @@ const router = createBrowserRouter(
               action: patchPostChallengeAction
             }
           ]
+        }, {
+          path: 'discord',
+          id: 'discord-root',
+          element: <Suspense fallback={<p>Loading ....</p>}><DiscordRootPage /></Suspense>,
+          children: [
+            {
+              index: true,
+              element: <Suspense fallback={<p>Loading ....</p>}><DiscordListPage /></Suspense>,
+              loader: () => import('../pages/Discord/DiscordListPage').then((module) => module.loader()),
+            },
+          ]
         }
       ]
     }
@@ -200,10 +213,8 @@ function App() {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-        {/* <ReactQueryDevtools buttonPosition="bottom-right" /> */}
       </QueryClientProvider>
     </StrictMode>
-    // <RouterProvider router={router} />
   )
 }
 

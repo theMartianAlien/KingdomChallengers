@@ -4,18 +4,17 @@ import { isAdminAuthenticate, isAuthenticate } from '../util/auth.mjs';
 
 const router = express();
 
+// router.use(isAdminAuthenticate);
+
 router.get('/', async (req, res, next) => {
     try {
         const players = await getAllDiscordUsers();
         const data = players.map((player) => player.discord_handle);
-        console.log(data.join(','));
         res.json(data);
     } catch (error) {
         next(error);
     }
 });
-
-router.use(isAdminAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {
