@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, redirect, useLocation, useSubmit } from "react-router-dom";
 import { usePatchPostFetch } from "../../hooks/useFetch";
+import { setUserData } from "../../util/auth";
 const guildID = import.meta.env.VITE_GUILD_ID
 
 export default function DiscordPage() {
