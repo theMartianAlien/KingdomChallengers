@@ -1,6 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { lazy, Suspense, StrictMode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { inject } from '@vercel/analytics';
+ 
+inject();
 
 import RootPage from '../pages/Layout/RootPage';
 import { checkAuthLoader, tokenLoader } from '../util/auth';
