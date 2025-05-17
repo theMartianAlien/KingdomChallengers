@@ -7,7 +7,11 @@ import { CustomDatePicker } from "../UI/CustomDatePicker";
 
 export default function ChallengeForm({ method }) {
     const { player_id } = useRouteLoaderData('root');
-    const { challenge } = useRouteLoaderData('challenge-detail');
+    const data = useRouteLoaderData('challenge-detail');
+    let challenge;
+    if(data && data.challenge){
+        challenge = data.challege;
+    }
     let players = useRouteLoaderData('challenges-root');
     players = sortByProperty(players, "display_name").filter((p) => p.id !== player_id);
 

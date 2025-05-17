@@ -29,7 +29,7 @@ export default function DiscordPage() {
                         },
                     })
                     const resData = await response.json();
-                    if (resData.code !== 0) {
+                    if (!resData.code) {
                         setDiscordLoginData(
                             {
                                 discord_id: resData.user.id,

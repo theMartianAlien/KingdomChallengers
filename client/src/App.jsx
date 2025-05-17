@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { lazy, Suspense, StrictMode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { inject } from '@vercel/analytics';
- 
+
 inject();
 
 import RootPage from '../pages/Layout/RootPage';
@@ -11,9 +11,9 @@ const HomePage = lazy(() => import('../pages/HomePage'));
 
 import { action as loginRegisterAction } from '../pages/Auth/LoginRegisterPage';
 import { action as logout } from '../pages/Auth/Logout';
-import DiscordPage, { action as discordLogin } from '../pages/Auth/DiscordPage';
+import { action as discordLogin } from '../pages/Auth/DiscordPage';
 const LoginRegisterPage = lazy(() => import('../pages/Auth/LoginRegisterPage'));
-// const DiscordPage = lazy(() => import('../pages/Auth/DiscordPage'));
+const DiscordPage = lazy(() => import('../pages/Auth/DiscordPage'));
 
 import { loader as getAllPlayersLoader } from '../pages/Players/PlayersListPage';
 import { action as createUpdatePlayerAction } from '../components/Players/PlayerForm';
@@ -72,12 +72,6 @@ const router = createBrowserRouter(
           path: 'login',
           element: <Suspense fallback={<p>Loading ....</p>}><LoginRegisterPage /></Suspense>,
           action: loginRegisterAction
-        },
-        {
-          path: 'auth/discord',
-          // element: <Suspense fallback={<p>Loading ....</p>}><DiscordPage /></Suspense>,
-          element: <DiscordPage/>,
-          action: discordLogin
         },
         {
           path: 'register',
@@ -208,7 +202,13 @@ const router = createBrowserRouter(
           ]
         }
       ]
-    }
+    },
+    {
+      path: '/auth/discord',
+      element: <Suspense fallback={<p>Loading ....</p>}><DiscordPage /></Suspense>,
+      // element: <DiscordPage />,
+      action: discordLogin,
+    },
   ]
 );
 
