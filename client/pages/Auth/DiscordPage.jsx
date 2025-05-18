@@ -58,7 +58,9 @@ export default function DiscordPage() {
         <>
             {discordLoginData && (
                 <div className="flex items-center justify-center h-96 bg-discord-gray text-white flex-col">
-                    <div className="text-2xl">Welcome to the Kingdom Challenges,</div>
+                    <div className="text-2xl">
+                        <p>Welcome to the Kingdom Challenges,</p>
+                    </div>
                     <div className="text-4xl mt-3 flex items-center font-medium" >
                         {discordLoginData && discordLoginData.image && (
                             <p className="flex">

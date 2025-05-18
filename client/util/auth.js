@@ -120,7 +120,7 @@ export function tokenLoader() {
     const display_name = getDisplayName();
     const accountId = getAccountId();
 
-    return { token, adminToken, username, discord_handle, accountId, player_id, image, display_name, nickname }
+    return { token, adminToken, username, discord_handle, accountId, player_id, image, display_name, nickname };
 }
 
 export function checkAuthLoader() {

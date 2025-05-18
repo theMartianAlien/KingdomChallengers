@@ -1,6 +1,9 @@
 import { Link, redirect, useLoaderData, useRouteLoaderData, useSubmit } from "react-router-dom";
 import { useDeleteFetch } from "../../hooks/useFetch";
 import { getAdminToken } from "../../util/auth";
+import CustomTable from "../UI/CustomTable";
+import CustomLink from "../UI/CustomLink";
+import DeleteButton from "../UI/Buttons/DeleteButton";
 
 export default function PlayersList() {
     const players = useLoaderData();
@@ -16,31 +19,54 @@ export default function PlayersList() {
         }
     }
 
+    let column = [
+        {
+            "column_name": "Discord Handler",
+            "column": "discord_handle",
+            element: CustomLink
+        },
+        {
+            "column_name": "Display Namer",
+            "column": "display_name"
+        }
+    ]
+    if (adminToken) {
+        column.push({
+            "column_name": "",
+            "column": "edit",
+            "label" : "Edit",
+            element: CustomLink
+        })
+        column.push({
+            "column_name": "",
+            "column": "delete",
+            "label" : "Delete",
+            element: DeleteButton
+        })
+    }
+
     return (
         <div>
             <h2 className="text-center text-lg font-semibold text-gray-700 mb-4 uppercase">Players List</h2>
-            <div className="overflow-x-auto shadow-md sm:rounded-lg ">
+            <CustomTable
+                prefix={"players"}
+                primaryColumn={"display_name"}
+                isAsc={true}
+                columns={column}
+                data={
+                    players.map((player) => {
+                        return {
+                            _id: player._id,
+                            discord_handle: player.discord_handle,
+                            display_name: player.display_name,
+                            edit: "players/" + player._id + "/edit",
+                            delete: player._id
+                        }
+                    })
+                }
+            />
+            {/* <div className="overflow-x-auto shadow-md sm:rounded-lg ">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" className="px-6 py-3">
-                                Discord Handler
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Display name
-                            </th>
-                            {adminToken && (
-                                <th scope="col" className="px-6 py-3">
-
-                                </th>
-                            )}
-                            {adminToken && (
-                                <th scope="col" className="px-6 py-3">
-
-                                </th>
-                            )}
-                        </tr>
-                    </thead>
                     <tbody>
                         {
                             players.map(
@@ -71,7 +97,7 @@ export default function PlayersList() {
                         }
                     </tbody>
                 </table>
-            </div>
+            </div> */}
         </div>
     );
 }

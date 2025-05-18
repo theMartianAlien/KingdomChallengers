@@ -72,7 +72,7 @@ export default function ProfilePage() {
                                 "column": "date-ended"
                             }]}
                         headerStyle="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-                        rowStyle="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        rowClass="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         colSize="px-6 py-3"
                     />
                 )}

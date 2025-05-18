@@ -3,6 +3,7 @@ import { useGetFetch } from "../../hooks/useFetch";
 import CustomTable from '../../components/UI/CustomTable';
 import CustomLink from "../../components/UI/CustomLink";
 import NoOpenCustomLink from "../../components/UI/NoOpenCustomLink";
+import MyBetsPieChart from "../../components/UI/Charts/MyBetsPieChart";
 
 export default function PlayerDetailsPage() {
     const data = useRouteLoaderData('player-detail');
@@ -13,9 +14,6 @@ export default function PlayerDetailsPage() {
         if (data.bets)
             bets = data.bets;
     }
-
-    const { adminToken } = useRouteLoaderData('root');
-
     function getVerdict(bet) {
         if (bet.status === 'ongoing')
             return '';
@@ -31,6 +29,27 @@ export default function PlayerDetailsPage() {
         return 'LOSS';
     }
 
+    let chartData = []
+    for (let i = 0; i < bets.length; i++) {
+        const bet = bets[i];
+        let exist = chartData.find((x) => x.key === bet.status);
+        if (!exist) {
+            chartData.push({
+                key: bet.status,
+                total: 1
+            });
+        } else {
+            chartData.map((obj) => {
+                if (obj.key === bet.status) {
+                    obj.total = obj.total + 1;
+                    return {
+                        ...obj
+                    }
+                }
+            })
+        }
+    }
+
     return (
         <section>
             <div>
@@ -41,10 +60,22 @@ export default function PlayerDetailsPage() {
                 <p>
                     {player.display_name}
                 </p>
+                <div>
+                    <MyBetsPieChart
+                        data={chartData}
+                        colors={
+                            [
+                                'rgba(34, 197, 94, 1)', // blue
+                                'rgba(239, 68, 68, 1)', // green
+                                'rgba(250, 204, 21, 1)',  // red
+                            ]
+                        }
+                    />
+                </div>
             </div>
             {bets && bets.length > 0 && (
                 <CustomTable
-                    prefix={"/bets/"}
+                    prefix={"bets"}
                     primaryColumn="status"
                     isAsc={true}
                     data={
@@ -76,9 +107,6 @@ export default function PlayerDetailsPage() {
                             "column": "link",
                             element: NoOpenCustomLink
                         }]}
-                    headerStyle="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-                    rowStyle="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    colSize="px-6 py-3"
                 />
             )}
         </section>
