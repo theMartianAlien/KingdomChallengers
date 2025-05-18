@@ -95,3 +95,14 @@ export async function deleteOneById(file, id) {
     console.log("Connected to mongo atlast, deleteOneById " + file);
     await collection.deleteOne({ _id: new ObjectId(id) });
 }
+
+export async function deleteOneBy(file, filter){
+    if (!file)
+        throw error(`Invalid collection name (${file})`);
+
+    const collection = database.collection(file);
+    client.connect();
+    console.log("Connected to mongo atlast, getOneBy " + file);
+    const data = await collection.deleteOne(filter)
+    return data;
+}

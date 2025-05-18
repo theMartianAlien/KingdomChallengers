@@ -1,4 +1,4 @@
-import { deleteOneById, getAllBy, getOneById, updateOne, writeOne } from "../util/mongo.mjs";
+import { deleteOneBy, deleteOneById, getAllBy, getOneById, updateOne, writeOne } from "../util/mongo.mjs";
 
 const TABLE = "counter-challenge";
 
@@ -20,4 +20,12 @@ export async function updateCounterChallenge(id, data) {
 
 export async function deleteCounterChallenge(id) {
     return await deleteOneById(TABLE, id);
+}
+
+export async function findAllCounters(challengeId){
+    return await getAllBy(TABLE, { "challengeId": challengeId })
+}
+
+export async function deleteAllCountersByPlayer(challengeId, playerId) {
+    return await deleteOneBy(TABLE, {"challengeId": challengeId, "playerId": playerId});
 }

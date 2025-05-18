@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form } from "react-router-dom";
 
-export default function CounterChallengeForm({ onSubmit }) {
+export default function CounterChallengeForm() {
 
     const [teamValue, setTeamValue] = useState('pro');
 

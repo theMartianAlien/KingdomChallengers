@@ -5,15 +5,18 @@ export default function CustomTable({
     data,
     columns,
     primaryColumn,
-    isAsc,                
+    isAsc,
     prefix,
+    sortable = true,
     divClass = "relative overflow-x-auto shadow-md sm:rounded-lg lg:p-8",
     tableClass = "w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400",
     headerClass = "text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400",
     rowClass = "odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-20",
     firstColClass = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white",
-    colSize="px-6 py-4 text-center"
+    colSize = "px-6 py-4 text-center"
 }) {
+    console.log("CustomTable render");
+    console.log(data);
     const [sortedData, SortBetsHandler] = useState(sortByColumn(data, primaryColumn, isAsc));
     const [columnSorting, SortColumnHandler] = useState(columns);
     function onSortDataByColumn(column) {
@@ -29,6 +32,11 @@ export default function CustomTable({
     }
 
     function sortByColumn(arr, column, ascending = true) {
+
+        if (!primaryColumn) {
+            return [...arr]
+        }
+
         return [...arr].sort((a, b) => {
             let valueA = a[column]
             let valueB = b[column]
@@ -51,8 +59,8 @@ export default function CustomTable({
     }
     const CustomLink = columns[0].element;
 
-    const Edit = columns.find((x)=>x.label === "Edit");
-    const Delete = columns.find((x)=>x.label === "Delete");
+    const Edit = columns.find((x) => x.label === "Edit");
+    const Delete = columns.find((x) => x.label === "Delete");
 
     return (
         <>
@@ -63,6 +71,7 @@ export default function CustomTable({
                             {
                                 columns.map((column) => (
                                     <TableHeaderName
+                                        sortable={sortable}
                                         key={column.column}
                                         label={column.column_name}
                                         column={column.column}
@@ -78,7 +87,10 @@ export default function CustomTable({
                             sortedData.map((data) => (
                                 <tr key={data._id} className={rowClass}>
                                     <th scope="row" className={firstColClass}>
-                                        <CustomLink label={data[columns[0].column]} to={data._id} prefix={prefix} />
+                                        {columns[0].element && (
+                                            <CustomLink label={data[columns[0].column]} to={data._id} prefix={prefix} />
+                                        )}
+                                        {!columns[0].element && data[columns[0].column]}
                                     </th>
                                     {[...columns].slice(1).map((col) => (
                                         <td className={colSize} key={col.column}>
@@ -90,7 +102,7 @@ export default function CustomTable({
                                             )}
                                             {col.element && col.label === 'Delete' && (
                                                 <col.element _id={data[Delete.column]} label="Delete" />
-                                            )}                                               
+                                            )}
                                             {!col.element && data[col.column]}
                                         </td>
                                     ))}

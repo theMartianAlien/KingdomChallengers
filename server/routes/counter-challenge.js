@@ -1,15 +1,18 @@
 import express from 'express';
-import { addCounterChallenge, getCounterChallengeById, updateCounterChallenge } from '../data/counter-challenge.mjs';
+import { getCounterChallengeById, updateCounterChallenge } from '../data/counter-challenge.mjs';
 import { isAuthenticate } from '../util/auth.mjs';
-import { deleteCounterChallengeById } from '../controller/counter-challenge.mjs';
+import { addCounterChallenge, deleteCounterChallengeById } from '../controller/counter-challenge.mjs';
 
 const router = express();
 
+console.log("check authentication");
 router.use(isAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {
         console.log("addCounterChallenge called");
+        
+console.log("check authentication in add counter challenge");
         await addCounterChallenge(req.body);
         res.status(201).json({ message: 'Counter Challenge issued' });
     } catch (error) {
@@ -19,7 +22,7 @@ router.post('/', async (req, res, next) => {
 
 router.patch('/:id', async (req, res, next) => {
     try {
-        console.log("addCounterChallenge called");
+        console.log("updateCounterChallenge called");
         let counter = await getCounterChallengeById(req.body._id);
         const _id = counter._id;
         delete counter._id;

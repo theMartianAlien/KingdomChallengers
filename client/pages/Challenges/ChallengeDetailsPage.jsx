@@ -1,9 +1,9 @@
 import { Link, redirect, useRouteLoaderData } from 'react-router-dom';
 import { useState } from 'react';
-import { getAccountId, getPlayerId } from '../../util/auth';
+import { getAccountId, getAuthToken, getPlayerId } from '../../util/auth';
 import CounterChallengeForm from '../../components/Challenges/CounterChallengeForm';
 import CounterTable from '../../components/Challenges/CounterTable';
-import { useGetFetch } from '../../hooks/useFetch';
+import { useDeleteFetch, useGetFetch, usePatchPostFetch } from '../../hooks/useFetch';
 
 export default function ChallengeDetailsPage() {
     const accountId = getAccountId();
@@ -43,9 +43,9 @@ export default function ChallengeDetailsPage() {
         }
     }
 
-    const tangina = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept'))
+    const lockable = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept'))
     let lockButton;
-    if (tangina > 1) {
+    if (lockable > 1) {
         lockButton = (<div>
             <button>
                 'LOCK IT!'
@@ -106,25 +106,16 @@ export async function action({ request, params }) {
         playerId,
     }
 
-    let url = 'http://localhost:3000/counter-challenge/';
-    if (method === 'DELETE') {
+    let endpoint = "counter-challenge"
+    const token = getAuthToken();
+    let resData;
+    if (method === 'POST') {
+        resData = await usePatchPostFetch(endpoint, method, counterChallengeData, token);
+    } else if (method === 'DELETE') {
         const id = data.get("delete-id");
-        url += id;
+        endpoint += "/" + id;
+        resData = await useDeleteFetch(endpoint, token);
     }
-
-    const response = await fetch(url, {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(counterChallengeData)
-    });
-
-    if (!response.ok) {
-
-    }
-
-    const resData = await response.json();
 
     return redirect('/challenges/' + challengeId);
 }

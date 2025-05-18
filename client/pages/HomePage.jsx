@@ -6,7 +6,7 @@ import { queryClient } from '../util/http';
 
 export default function HomePage() {
     const data = useLoaderData();
-    console.log(data);
+    // console.log(data);
     // let chartData = []
     // for (let i = 0; i < bets.length; i++) {
     //     const bet = bets[i];

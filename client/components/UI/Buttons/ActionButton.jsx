@@ -1,6 +1,6 @@
 import { useSubmit } from "react-router-dom";
 
-export default function DeleteButton({ _id }) {
+export default function ActionButton({ _id }) {
     const submit = useSubmit();
 
     function startDeleteHandler(id) {
@@ -15,7 +15,9 @@ export default function DeleteButton({ _id }) {
 
     return (
         <button
-            className="            
+            className="
+            w-1/2
+            
             text-white
             font-medium 
 
