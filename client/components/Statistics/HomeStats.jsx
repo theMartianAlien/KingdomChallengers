@@ -9,7 +9,7 @@ export default function HomeStats() {
             <CustomTable
                 prefix={"players"}
                 primaryColumn="total"
-                isAsc={true}
+                isAsc={false}
                 data={
                     data.map((bet) => {
                         return {

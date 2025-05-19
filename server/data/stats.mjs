@@ -5,7 +5,6 @@ export async function getStatistics() {
     let data = [];
     const bets = await getAllBets();
     for (let i = 0; i < bets.length; i++) {
-    // for (let i = 0; i < 5; i++) {
         let theBet = bets[i];
         let players = theBet.teamA;
         players.push.apply(players, theBet.teamB);

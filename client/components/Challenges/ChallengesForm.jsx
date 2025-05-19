@@ -36,17 +36,6 @@ export default function ChallengeForm({ method }) {
         setChallengeType(leChallenge);
     }
 
-    // function OnClickParticipants(event) {     
-    //     const value = event.target.value;
-    //     setParticipants((prevSelectedValues) => {
-    //         if (prevSelectedValues.includes(value)) {
-    //             return prevSelectedValues.filter((item) => item !== value);
-    //         } else {
-    //             return [...prevSelectedValues, value];
-    //         }
-    //     });
-    // }
-
     const playerList = useMemo(() => {
         if (challengeType !== 'close') return null;
 
@@ -98,7 +87,6 @@ export default function ChallengeForm({ method }) {
                         <RadioField
                             elementName="open-challenge"
                             checked={challengeType === 'open'}
-                            // defaultChecked={!challenge ? true : challenge?.challengeType === 'open'}
                             groupName="challengeType"
                             value="open"
                             label="Open Challenge"
@@ -108,7 +96,6 @@ export default function ChallengeForm({ method }) {
                         <RadioField
                             elementName="close-challenge"
                             checked={challengeType === 'close'}
-                            // defaultChecked={!challenge ? true : challenge?.challengeType === 'close'}
                             groupName="challengeType"
                             value="close"
                             label="Close Challenge"

@@ -50,28 +50,36 @@ export default function PlayerDetailsPage() {
         }
     }
 
+    let playerDetailsClass = "md:w-1/2";
+    if (chartData.length <= 0) {
+        playerDetailsClass = "md:w-full"
+    }
     return (
-        <section>
-            <div>
-                <h1>Player Details</h1>
-                <p>
-                    {player.handler}
-                </p>
-                <p>
-                    {player.display_name}
-                </p>
-                {chartData.length>0 && (
-                    <div>
-                        <MyBetsPieChart
-                            data={chartData}
-                            colors={
-                                [
-                                    'rgba(34, 197, 94, 1)', // blue
-                                    'rgba(239, 68, 68, 1)', // green
-                                    'rgba(250, 204, 21, 1)',  // red
-                                ]
-                            }
-                        />
+        <section className="w-full max-w-[calc(100%-30em)] mx-auto">
+            <div className="flex flex-col md:flex-row gap-6">
+                <div className={playerDetailsClass}>
+                    <div className="w-1/2 mx-auto py-2 px-2">
+                        <h1 className="text-xl font-bold mb-2">Player Details</h1>
+                        <p>
+                            {player.discord_handle}
+                        </p>
+                        <p>
+                            {player.display_name}
+                        </p>
+                    </div>
+                </div>
+                {chartData.length > 0 && (
+                    <div className="md:w-1/2">
+                        <div>
+                            <MyBetsPieChart
+                                data={chartData}
+                                colors={[
+                                    'rgba(34, 197, 94, 1)',
+                                    'rgba(239, 68, 68, 1)',
+                                    'rgba(250, 204, 21, 1)',
+                                ]}
+                            />
+                        </div>
                     </div>
                 )}
             </div>

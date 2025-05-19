@@ -11,19 +11,6 @@ export default function BetForm() {
     const token = useRouteLoaderData('root');
     const message = useActionData();
     const winner = useRef(bet?.winner);
-    const sortedPlayer = players.sort((a, b) => {
-        const nameA = a.display_name.toUpperCase(); // ignore upper and lowercase
-        const nameB = b.display_name.toUpperCase(); // ignore upper and lowercase
-        if (nameA < nameB) {
-            return -1;
-        }
-        if (nameA > nameB) {
-            return 1;
-        }
-        // names must be equal
-        return 0;
-    });
-
     const [teams, setTeams] = useState({
         teamA: bet.teamA,
         teamB: bet.teamB

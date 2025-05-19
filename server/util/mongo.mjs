@@ -24,9 +24,8 @@ export async function writeOne(file, data, filter) {
                 return null;
             }
         }
-        await collection.insertOne(data);
         // return 1, number of records we added.
-        return 1;
+        return await collection.insertOne(data);
     }
     catch (error) {
         console.log(error);

@@ -1,4 +1,4 @@
-import { Link, redirect, useLoaderData, useRouteLoaderData, useSubmit } from "react-router-dom";
+import { redirect, useLoaderData, useRouteLoaderData } from "react-router-dom";
 import { useDeleteFetch } from "../../hooks/useFetch";
 import { getAdminToken } from "../../util/auth";
 import CustomTable from "../UI/CustomTable";
@@ -7,18 +7,7 @@ import DeleteButton from "../UI/Buttons/DeleteButton";
 
 export default function PlayersList() {
     const players = useLoaderData();
-    const submit = useSubmit();
     const { adminToken } = useRouteLoaderData('root');
-    function startDeleteHandler(id) {
-        const proceed = window.confirm('Are you sure?');
-
-        if (proceed) {
-            const formData = new FormData();
-            formData.append("id", id);
-            submit(formData, { method: 'delete' });
-        }
-    }
-
     let column = [
         {
             "column_name": "Discord Handler",
@@ -65,39 +54,6 @@ export default function PlayersList() {
                     })
                 }
             />
-            {/* <div className="overflow-x-auto shadow-md sm:rounded-lg ">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <tbody>
-                        {
-                            players.map(
-                                (player) => (
-                                    <tr key={player._id}>
-                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {player.discord_handle}
-                                        </th>
-                                        <td className="px-6 py-4">
-                                            {player.display_name}
-                                        </td>
-                                        {adminToken && (
-                                            <td className="px-6 py-4">
-                                                <Link to={`/players/${player._id}/edit`}>
-                                                    Edit
-                                                </Link>
-                                            </td>)}
-                                        {adminToken && (
-                                            <td className="px-6 py-4">
-                                                <button
-                                                    onClick={() => startDeleteHandler(player._id)}>
-                                                    Delete
-                                                </button>
-                                            </td>)}
-                                    </tr>
-                                )
-                            )
-                        }
-                    </tbody>
-                </table>
-            </div> */}
         </div>
     );
 }

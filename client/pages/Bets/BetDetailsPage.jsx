@@ -1,4 +1,4 @@
-import { Link, useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { Link, useRouteLoaderData } from "react-router-dom";
 import classes from './BetDetailsPage.module.css';
 import Bet from "../../components/Bets/Bet";
 import { useGetFetch } from "../../hooks/useFetch";

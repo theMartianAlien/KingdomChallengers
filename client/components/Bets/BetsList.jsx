@@ -1,5 +1,4 @@
 import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
-import classes from './BetsList.module.css';
 import BetCardList from './BetCardList';
 
 export default function BetsList() {

@@ -5,13 +5,10 @@ import { usePatchPostFetch } from "../../hooks/useFetch";
 import { setUserData } from "../../util/auth";
 
 export default function LoginRegisterPage({ isLogin = true }) {
-    let form = <RegistrationForm />;
-    if (isLogin) {
-        form = <LoginForm />
-    }
     return (
         <>
-            {form}
+            {isLogin && (<LoginForm />)}
+            {!isLogin && (<RegistrationForm />)}
         </>
     );
 }

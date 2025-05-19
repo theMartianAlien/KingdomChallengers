@@ -38,7 +38,8 @@ import { action as postCounterChallengeAction } from '../pages/Challenges/Challe
 import { loader as getProfileLoader } from '../pages/Auth/ProfilePage';
 import { action as patchCounterChallengeAction } from '../components/Challenges/CounterTable';
 import DiscordRootPage from '../pages/Discord/DiscordRootPage';
-import DiscordListPage from '../pages/Discord/DiscordListPage';
+import { loader as getProfileAccountLoader } from '../pages/Auth/EditProfilePage';
+const DiscordListPage = lazy(() => import('../pages/Discord/DiscordListPage'));
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -46,6 +47,7 @@ const ChallengeDetailsPage = lazy(() => import('../pages/Challenges/ChallengeDet
 const ChallengeEditPage = lazy(() => import('../pages/Challenges/ChallengeEditPage'));
 
 const ProfilePage = lazy(() => import('../pages/Auth/ProfilePage'));
+const EditProfilePage = lazy(() => import('../pages/Auth/EditProfilePage'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -148,12 +150,20 @@ const router = createBrowserRouter(
         },
         {
           path: 'profile',
-          element: <Suspense fallback={<p>Loading ....</p>}><ProfilePage /></Suspense>,
+          id: 'profile-root',
           loader: getProfileLoader,
-          children: [{
-            path: ':id/edit',
-            element: <p>Page under construction</p>
-          }
+          children: [
+            {
+              index: true,
+           id: '-root',
+              id: 'profile-detail',
+              element: <Suspense fallback={<p>Loading ....</p>}><ProfilePage /></Suspense>,
+            },
+            {
+              path: 'edit',
+              element: <Suspense fallback={<p>Loading ....</p>}><EditProfilePage /></Suspense>,
+              loader: getProfileAccountLoader
+            }
           ]
         },
         {
@@ -212,7 +222,6 @@ const router = createBrowserRouter(
     {
       path: '/auth/discord',
       element: <Suspense fallback={<p>Loading ....</p>}><DiscordPage /></Suspense>,
-      // element: <DiscordPage />,
       action: discordLogin,
     },
   ]

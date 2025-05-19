@@ -1,8 +1,8 @@
 import express from 'express';
 import { getDiscordHandler, getDiscordHandlerUser } from '../data/discord-users.mjs';
-import { getAccount, getAccountByUserName, registerUser } from '../data/auth.mjs';
-import { createAdminJSONToken, createJSONToken, hashPassword, isValidPassword } from '../util/auth.mjs';
-import { getAPlayerByDiscordHandle, getAPlayerByHandler } from '../data/players.mjs';
+import { getAccount, getAccountById, getAccountByUserName, registerUser } from '../data/auth.mjs';
+import { createAdminJSONToken, createJSONToken, hashPassword, isAdminAuthenticate, isValidPassword } from '../util/auth.mjs';
+import { getAPlayerByDiscordHandle } from '../data/players.mjs';
 
 const router = express();
 
@@ -198,6 +198,27 @@ router.post('/discord', async (req, res, next) => {
         }
 
     } catch { }
+});
+
+router.use(isAdminAuthenticate);
+
+router.get('/:id', async (req, res, next) => {
+    try {
+        console.log("getAccountData called");
+        const id = req.params.id;
+        const account = await getAccountById(id);
+        const accountData = {
+            _id: account._id,
+            display_name: account.display_name,
+            nickname: account.nickname,
+            username: account.username,
+            discord_handle: account.discord_handle,
+            image: 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'
+        }
+        res.json({ account: accountData });
+    } catch (error) {
+        next(error);
+    }
 });
 
 export default router;

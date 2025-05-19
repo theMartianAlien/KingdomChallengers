@@ -36,7 +36,6 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-
 router.get('/player/:id', async (req, res, next) => {
     try {
         console.log("getABet called");
