@@ -1,6 +1,7 @@
 import express from 'express';
 import { getAllDiscordUsers, getDiscordHandler, getDiscordHandlerUser, writeADiscordHandler } from '../data/discord-users.mjs';
-import { isAdminAuthenticate, isAuthenticate } from '../util/auth.mjs';
+import { isAdminAuthenticate } from '../util/auth.mjs';
+import {logMessage} from '../util/logging.mjs';
 
 const router = express();
 
@@ -18,18 +19,18 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        console.log("writeADiscordHandler called");
+        logMessage("writeADiscordHandler called");
         const discordHandler = await getDiscordHandler(req.body.discord_handle);
 
         if (discordHandler) {
-            console.log("this discord handle already in the database discord_handler");
+            logMessage("this discord handle already in the database discord_handler");
             return res.status(401).json({ message: "Unable to add this discord handle" });
         }
 
         const user_key = await getDiscordHandlerUser(req.body.discord_handle, req.body.user_key);
 
         if (user_key) {
-            console.log("this discord handle already in the database user_key");
+            logMessage("this discord handle already in the database user_key");
             return res.status(401).json({ message: "Unable to add this discord handle" });
         }
         await writeADiscordHandler(req.body);

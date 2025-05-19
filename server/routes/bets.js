@@ -2,11 +2,14 @@ import express from 'express';
 import { getABet, getAllBets, getAllBetsByPlayer } from '../data/bets.mjs';
 import { getAllPlayers, getAllPlayersBy } from '../data/players.mjs';
 import { isAdminAuthenticate } from '../util/auth.mjs';
+import { logMessage } from '../util/logging.mjs';
+// import logMessage from '../util/logging.mjs';
+// import { logMessage } from '../util/logging.mjs';
 const router = express();
 
 router.get('/', async (req, res, next) => {
     try {
-        console.log("getAllBets called");
+        logMessage("getAllBets called");
         const bets = await getAllBets();
         if (!bets || bets.length === 0) {
             res.json("No bets currently in the database.");
@@ -20,7 +23,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        console.log("getABet called");
+        logMessage("getABet called");
         const id = req.params.id;
         const bet = await getABet(id);
         const teamA = await getAllPlayersBy({ _id: { $in: bet.teamA.map((a) => a.player_id) } });
@@ -41,7 +44,7 @@ router.use(isAdminAuthenticate);
 
 router.get('/player/:id', async (req, res, next) => {
     try {
-        console.log("getABet called");
+        logMessage("getABet called");
         const id = req.params.id;
         const bets = await getAllBetsByPlayer(id);
         res.json({ bets });

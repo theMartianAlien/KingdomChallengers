@@ -4,8 +4,10 @@ import { getAccountId, getAuthToken } from "../../util/auth";
 
 export default function EditProfilePage() {
     return (
-        // <p>Page under construction</p>
-        <ProfileForm />
+        <>
+            <p>Page under construction</p>
+            {/* <ProfileForm /> */}
+        </>
     );
 }
 
@@ -40,7 +42,6 @@ export async function action({ request, params }) {
         register_password,
         password
     }
-    console.log(profileData);
     const token = getAuthToken();
     const resData = await usePatchPostFetch("auth", method, profileData, token)
 }

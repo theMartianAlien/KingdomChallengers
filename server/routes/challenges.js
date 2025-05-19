@@ -2,13 +2,15 @@ import express from 'express';
 import { addChallenge, getAChallenge, getAllChallenges, updateChallenge } from '../data/challenge.mjs';
 import { isAuthenticate } from '../util/auth.mjs';
 import { getCounterChallenge } from '../data/counter-challenge.mjs';
-import { getAllPlayers, getAPlayer, getAPlayerByHandler } from '../data/players.mjs';
+import { getAPlayer } from '../data/players.mjs';
+import { logMessage } from '../util/logging.mjs';
+// import { logMessage } from '../util/logging.mjs';
 
 const router = express();
 
 router.get('/', async (req, res, next) => {
     try {
-        console.log("getAllChallenges called");
+        logMessage("getAllChallenges called");
         const challenges = await getAllChallenges();
         res.json({ challenges });
     } catch (error) {
@@ -18,7 +20,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        console.log("getChallenge called");
+        logMessage("getChallenge called");
         const id = req.params.id;
         const challenge = await getAChallenge(id);
         let counters = await getCounterChallenge(id);
@@ -41,7 +43,7 @@ router.use(isAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {
-        console.log("addChallenge called");
+        logMessage("addChallenge called");
         await addChallenge(req.body);
         res.status(201).json({ message: 'Challenge issued' });
     } catch (error) {
@@ -51,10 +53,10 @@ router.post('/', async (req, res, next) => {
 
 router.patch('/:id', async (req, res, next) => {
     try {
-        console.log("updateChallenge called");
+        logMessage("updateChallenge called");
         const id = req.params.id;
         const data = req.body;
-        console.log(data);
+        logMessage(data);
         const challenge = await updateChallenge(data);
         res.status(201).json({ message: "Challenge updated" });
     } catch (error) {

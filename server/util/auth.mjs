@@ -3,6 +3,7 @@ const { sign, verify } = pkg;
 import { compare, hash } from 'bcryptjs';
 import { loadEnv } from './configLoader.mjs';
 import { NotAuthError } from './errors.js';
+import { logMessage } from './logging.mjs';
 
 loadEnv();
 
@@ -37,19 +38,19 @@ export async function isValidPassword(password, storedPassword) {
 function validate(req, res, next) {
     try {
         if (SKIP_AUTHENTICATION) {
-            console.log("Authentication skipped");
+            logMessage("Authentication skipped");
             return null;
         }
         if (req.method === 'OPTIONS') {
             return next();
         }
         if (!req.headers.authorization) {
-            console.log('NOT AUTH. AUTH HEADER MISSING.');
+            logMessage('NOT AUTH. AUTH HEADER MISSING.');
             return 'Not authenticated.';
         }
         const authFragments = req.headers.authorization.split(' ');
         if (authFragments.length !== 2) {
-            console.log('NOT AUTH. AUTH HEADER INVALID.');
+            logMessage('NOT AUTH. AUTH HEADER INVALID.');
             return 'Not authenticated.';
         }
     }
@@ -62,7 +63,7 @@ function validate(req, res, next) {
 
 export function isAuthenticate(req, res, next) {
     if (SKIP_AUTHENTICATION) {
-        console.log("Authentication skipped");
+        logMessage("Authentication skipped");
         return next();
     }
     const isNext = validate(req, res, next);
@@ -72,11 +73,11 @@ export function isAuthenticate(req, res, next) {
     const authFragments = req.headers.authorization.split(' ');
     const authToken = authFragments[1];
     try {
-        console.log(SKIP_AUTHENTICATION);
+        logMessage(SKIP_AUTHENTICATION);
         const validatedToken = validateJSONToken(authToken);
         req.token = validatedToken;
     } catch (error) {
-        console.log('NOT AUTH. TOKEN INVALID.');
+        logMessage('NOT AUTH. TOKEN INVALID.');
         return next(new NotAuthError('Not authenticated.'));
     }
     next();
@@ -84,7 +85,7 @@ export function isAuthenticate(req, res, next) {
 
 export function isAdminAuthenticate(req, res, next) {
     if (SKIP_AUTHENTICATION) {
-        console.log("Authentication skipped");
+        logMessage("Authentication skipped");
         return next();
     }
     const isNext = validate(req, res, next);
@@ -97,7 +98,7 @@ export function isAdminAuthenticate(req, res, next) {
         const validatedToken = validateADMINToken(authToken);
         req.token = validatedToken;
     } catch (error) {
-        console.log('NOT AUTH. TOKEN INVALID.');
+        logMessage('NOT AUTH. TOKEN INVALID.');
         return next(new NotAuthError('Not authenticated.'));
     }
     next();

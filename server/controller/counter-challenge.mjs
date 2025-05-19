@@ -6,7 +6,6 @@ export async function deleteCounterChallengeById(id){
 }
 
 export async function addCounterChallenge(data) {
-    console.log(data);
     // delete what you have initially
     await deleteAllCountersByPlayer(data.challengeId, data.playerId)
     await writeCounterChallenge(data);

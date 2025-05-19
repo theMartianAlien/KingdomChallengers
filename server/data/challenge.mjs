@@ -1,3 +1,4 @@
+import {logMessage} from "../util/logging.mjs";
 import { getAll, getOneBy, getOneById, updateOne, writeOne, } from "../util/mongo.mjs";
 import { getAccountById } from "./auth.mjs";
 import { getAPlayerByObjectId } from "./players.mjs";
@@ -9,9 +10,10 @@ export async function getAllChallenges() {
     const newChallenges = await Promise.all(challenges.map(async (challenge) => {
         const account = await getAccountById(challenge.issuer);
         if(!account) {
-            console.log("The challenge");
-            console.log(account);
-            console.log(challenge);
+            logMessage
+            logMessage("The challenge");
+            logMessage(account);
+            logMessage(challenge);
         }
         const player = await getAPlayerByObjectId(account.player_id);
         return {

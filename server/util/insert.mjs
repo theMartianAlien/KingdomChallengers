@@ -1,9 +1,10 @@
 import { readFile } from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { getDiscordHandler, writeADiscordHandler, writeADiscordHandlerBy } from '../data/discord-users.mjs';
-import { addAPlayerBy, getAllPlayers, getAllPlayersBy, getAPlayer, getAPlayerByDiscordHandle } from '../data/players.mjs';
+import { getDiscordHandler, writeADiscordHandlerBy } from '../data/discord-users.mjs';
+import { addAPlayerBy, getAllPlayers, getAPlayerByDiscordHandle } from '../data/players.mjs';
 import { addABetBy } from '../data/bets.mjs';
+import { logMessage } from './logging.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,8 +34,8 @@ export async function insertPlayers() {
         const player = PLAYERS[i];
         const discordHandler = await getDiscordHandler(player.discord_handle);
         if (!discordHandler) {
-            console.log("Player was not added: ");
-            console.log(player)
+            logMessage("Player was not added: ");
+            logMessage(player)
             continue;
         }
         const playerData = {
@@ -48,23 +49,23 @@ export async function insertPlayers() {
 export async function insertOldBets() {
     const BETS = await readJson("bets");
     const PLAYERS = await readJson("old-players");
-    console.log("Players with missing data: ");
+    logMessage("Players with missing data: ");
     for (let i = 0; i < PLAYERS.length; i++) {
         const player = PLAYERS[i];
         if (player._id) {
-            console.log(player);
+            logMessage(player);
             continue;
         }
         if (!player.alternate.includes(player.name)) {
-            console.log(player);
+            logMessage(player);
             continue;
         }
         const aPlayer = await getAPlayerByDiscordHandle(player.name);
         if (!aPlayer) {
-            console.log(player);
+            logMessage(player);
         }
     }
-    console.log("Inserting OLD BETS data");
+    logMessage("Inserting OLD BETS data");
     for (let i = 0; i < BETS.length; i++) {
         const BET = BETS[i];
         const allPlayers = await getAllPlayers();
@@ -76,7 +77,7 @@ export async function insertOldBets() {
                     const oldPlayer = PLAYERS.find(p => p.id === team);
                     const player = allPlayers.find(p => p.discord_handle === oldPlayer.name);
                     if (!player) {
-                        console.log(oldPlayer);
+                        logMessage(oldPlayer);
                     }
                     return {
                         player_id: player._id
@@ -91,8 +92,8 @@ export async function insertOldBets() {
                     }
                 });
         } catch (error) {
-            console.log(BET);
-            console.log(error);
+            logMessage(BET);
+            logMessage(error);
             continue;
         }
         var utc = new Date().toJSON().slice(0, 10).replace(/-/g, '/');

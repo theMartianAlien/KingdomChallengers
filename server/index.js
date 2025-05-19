@@ -10,6 +10,7 @@ import challengesRoutes from './routes/challenges.js';
 import counterChallengeRoutes from './routes/counter-challenge.js';
 import homepageRoutes from './routes/stats.js';
 import testDataRoutes from './routes/data-inserts.js'
+import {logMessage} from './util/logging.mjs';
 
 loadEnv();
 
@@ -38,6 +39,6 @@ app.use('/counter-challenge', counterChallengeRoutes);
 
 app.listen(PORT,
     () => {
-        console.log(`API listening to port ${PORT}`);
+        logMessage(`API listening to port ${PORT}`);
     }
 );

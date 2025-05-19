@@ -3,12 +3,13 @@ import { getDiscordHandler, getDiscordHandlerUser } from '../data/discord-users.
 import { getAccount, getAccountById, getAccountByUserName, registerUser, replaceImage, updateAccount } from '../data/auth.mjs';
 import { createAdminJSONToken, createJSONToken, hashPassword, isAdminAuthenticate, isValidPassword } from '../util/auth.mjs';
 import { getAPlayerByDiscordHandle } from '../data/players.mjs';
+import {logMessage} from '../util/logging.mjs';
 
 const router = express();
 
 router.post('/register', async (req, res, next) => {
     try {
-        console.log("registerUser called");
+        logMessage("registerUser called");
         const data = req.body;
         let errors = {};
 
@@ -102,7 +103,7 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
     try {
-        console.log("loginUserCalled called");
+        logMessage("loginUserCalled called");
         const username = req.body.username;
         const password = req.body.password;
         try {
@@ -135,7 +136,7 @@ router.post('/login', async (req, res, next) => {
             return res.status(201).json({ ...accountData });
         }
         catch (error) {
-            console.log(error);
+            logMessage(error);
             return res.status(401).json({ message: 'Authentication failed!' });
         }
     } catch (error) {
@@ -145,7 +146,7 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/discord', async (req, res, next) => {
     try {
-        console.log("discordLogin called");
+        logMessage("discordLogin called");
         try {
             const discordUser = await getDiscordHandler(req.body.username);
             if (!discordUser) {
@@ -182,7 +183,7 @@ router.post('/discord', async (req, res, next) => {
                 account = await getAccount(accountData.discord_handle)
             } else {
                 accountData._id = account._id;
-                console.log("replace image");
+                logMessage("replace image");
                 await replaceImage(account._id, { ...accountData });
             }
             accountData.token = createJSONToken(account.username);
@@ -195,7 +196,7 @@ router.post('/discord', async (req, res, next) => {
             });
         }
         catch (error) {
-            console.log(error);
+            logMessage(error);
             return res.status(401).json({ message: 'Authentication failed!' });
         }
 
@@ -206,7 +207,7 @@ router.use(isAdminAuthenticate);
 
 router.get('/:id', async (req, res, next) => {
     try {
-        console.log("getAccountData called");
+        logMessage("getAccountData called");
         const id = req.params.id;
         const account = await getAccountById(id);
         const accountData = {
@@ -225,7 +226,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.patch('/:id', async (req, res, next) => {
     try {
-        console.log("modifyAccountData called");
+        logMessage("modifyAccountData called");
         const id = req.body._id;
 
         let accountData = { ...req.body};
@@ -233,7 +234,7 @@ router.patch('/:id', async (req, res, next) => {
         delete accountData._id;
 
         const account = await updateAccount(id, accountData);
-        console.log("we good ?");
+        logMessage("we good ?");
         res.json({ account: accountData });
     } catch (error) {
         next(error);

@@ -1,6 +1,5 @@
 export default function TestButton({ _id, label, onClick }) {
     function onClickHandler() {
-        console.log(_id + " clicked");
         onClick(_id);
     }
 

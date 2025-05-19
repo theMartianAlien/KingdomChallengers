@@ -1,6 +1,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { loadEnv } from "./configLoader.mjs";
 import { error } from 'node:console';
+import { logMessage } from "./logging.mjs";
 
 loadEnv();
 
@@ -16,7 +17,7 @@ export async function writeOne(file, data, filter) {
 
         const collection = database.collection(file);
         client.connect();
-        console.log("Connected to mongo atlast, writeOneRecord " + file);
+        logMessage("Connected to mongo atlast, writeOneRecord " + file);
         if (filter) {
             const exist = await collection.findOne(filter);
             if (exist) {
@@ -28,7 +29,7 @@ export async function writeOne(file, data, filter) {
         return await collection.insertOne(data);
     }
     catch (error) {
-        console.log(error);
+        logMessage(error);
     }
 }
 
@@ -38,7 +39,7 @@ export async function getAll(file) {
 
     const collection = database.collection(file);
     client.connect();
-    console.log("Connected to mongo atlast, getAll " + file);
+    logMessage("Connected to mongo atlast, getAll " + file);
     const data = await collection.find().toArray();
     return data;
 }
@@ -48,7 +49,7 @@ export async function getAllBy(file, filter) {
         throw error(`Invalid collection name (${file})`);
     const collection = database.collection(file);
     client.connect();
-    console.log("Connected to mongo atlast, getAllBy " + file);
+    logMessage("Connected to mongo atlast, getAllBy " + file);
     const data = await collection.find(filter).toArray();
     return data;
 }
@@ -59,7 +60,7 @@ export async function getOneById(file, id) {
 
     const collection = database.collection(file);
     client.connect();
-    console.log("Connected to mongo atlast, getOneById " + file);
+    logMessage("Connected to mongo atlast, getOneById " + file);
     const data = await collection.findOne({ _id: new ObjectId(id) })
     return data;
 }
@@ -70,7 +71,7 @@ export async function getOneBy(file, filter) {
 
     const collection = database.collection(file);
     client.connect();
-    console.log("Connected to mongo atlast, getOneBy " + file);
+    logMessage("Connected to mongo atlast, getOneBy " + file);
     const data = await collection.findOne(filter)
     return data;
 }
@@ -81,7 +82,7 @@ export async function updateOne(file, id, data) {
 
     const collection = database.collection(file);
     client.connect();
-    console.log("Connected to mongo atlast, updateOne " + file);
+    logMessage("Connected to mongo atlast, updateOne " + file);
     await collection.replaceOne({ _id: new ObjectId(id) }, data);
 }
 
@@ -91,7 +92,7 @@ export async function deleteOneById(file, id) {
 
     const collection = database.collection(file);
     client.connect();
-    console.log("Connected to mongo atlast, deleteOneById " + file);
+    logMessage("Connected to mongo atlast, deleteOneById " + file);
     await collection.deleteOne({ _id: new ObjectId(id) });
 }
 
@@ -101,7 +102,7 @@ export async function deleteOneBy(file, filter){
 
     const collection = database.collection(file);
     client.connect();
-    console.log("Connected to mongo atlast, getOneBy " + file);
+    logMessage("Connected to mongo atlast, getOneBy " + file);
     const data = await collection.deleteOne(filter)
     return data;
 }

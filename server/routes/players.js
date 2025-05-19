@@ -3,12 +3,13 @@ import { addAPlayer, getAllPlayers, getAPlayer, getAPlayerByHandler, removeAPlay
 import { getDiscordHandler } from '../data/discord-users.mjs';
 import { isAdminAuthenticate } from '../util/auth.mjs';
 import { getBetsByPlayer } from '../controller/player.mjs';
+import { logMessage } from '../util/logging.mjs';
 
 const router = express();
 
 router.get('/', async (req, res, next) => {
     try {
-        console.log("getAllPlayers called");
+        logMessage("getAllPlayers called");
         const players = await getAllPlayers();
         if (!players || players.length === 0) {
             res.json("No players currently in the database.");
@@ -27,7 +28,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        console.log("getAPlayer called");
+        logMessage("getAPlayer called");
         const id = req.params.id;
         const player = await getAPlayer(id);
         const playerData = {
@@ -46,7 +47,7 @@ router.use(isAdminAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {
-        console.log("addAPlayer called");
+        logMessage("addAPlayer called");
         const discordHandler = await getDiscordHandler(req.body.handler);
 
         if (!discordHandler) {
@@ -81,7 +82,7 @@ router.patch('/:id', async (req, res, next) => {
         if (!handler) {
             return res.status(422).json({ message: "Unable to update player: " + data.handler });
         }
-        console.log("replaceAPlayer called");
+        logMessage("replaceAPlayer called");
         await replaceAPlayer(data);
         res.status(201).json({ message: 'Player updated!', player: data });
     } catch (error) {
@@ -91,7 +92,7 @@ router.patch('/:id', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
     try {
-        console.log("removeAPlayer called");
+        logMessage("removeAPlayer called");
         await removeAPlayer(req.params.id);
         res.status(201).json({ message: 'Player successfully deleted.' });
     } catch (error) {

@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 export default function ProfileForm() {
     const { account } = useLoaderData();
-    console.log(account);
     const [formData, setFormData] = useState({
         display_name: account?.display_name,
         nickname: account?.nickname,
