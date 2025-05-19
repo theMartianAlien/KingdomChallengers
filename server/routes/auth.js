@@ -213,7 +213,7 @@ router.get('/:id', async (req, res, next) => {
             nickname: account.nickname,
             username: account.username,
             discord_handle: account.discord_handle,
-            image: 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'
+            image: account.image
         }
         res.json({ account: accountData });
     } catch (error) {

@@ -5,22 +5,22 @@ import { Link } from 'react-router-dom';
 import { FaDiscord } from 'react-icons/fa'
 
 export default function Bet({ bet }) {
-    let betContent = cleanText(bet.text, []);
+    let betContent = cleanText(bet?.text, []);
     let status;
-    if (bet.status === 'ongoing') {
+    if (bet?.status === 'ongoing') {
         status = "On Going";
-    } else if (bet.status === 'void') {
+    } else if (bet?.status === 'void') {
         status = "Void";
-    } else if (bet.status === 'complete') {
+    } else if (bet?.status === 'complete') {
         status = "Completed";
     }
 
     let tags;
-    if (bet.tags && bet.tags.length > 0) {
+    if (bet?.tags && bet?.tags.length > 0) {
         tags = (
             <div>
                 <ul className="flex gap-4 list-none">
-                    {bet.tags.map((tag) => (
+                    {bet?.tags.map((tag) => (
                         <Tag tag={tag} key={tag} />
                     ))}
                 </ul>
@@ -28,19 +28,19 @@ export default function Bet({ bet }) {
         );
     }
 
-    let betPunishment = cleanText(bet.punishment, []);
+    let betPunishment = cleanText(bet?.punishment, []);
 
     return (
         <>
             <div className="max-w-4xl mx-auto p-5 lg:p-2 bg-white dark:bg-gray-900 rounded-lg shadow-lg space-y-8 my-10">
                 <div className="text-center">
                     <h1 className="text-4xl font-semibold text-gray-900 dark:text-white">
-                        {bet.title}
+                        {bet?.title}
                     </h1>
                     <p className="text-lg text-gray-700 dark:text-gray-300 text-center font-medium">
-                        {bet.teamA.map(a => a.display_name).join(", ")}&nbsp;
+                        {bet?.teamA.map(a => a.display_name).join(", ")}&nbsp;
                         <span className="text-sm text-gray-500">VS</span>&nbsp;
-                        {bet.teamB.map(b => b.display_name).join(", ")}
+                        {bet?.teamB.map(b => b.display_name).join(", ")}
                     </p>
                 </div>
                 <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded text-sm text-gray-800 dark:text-gray-200 space-y-1">
@@ -48,14 +48,14 @@ export default function Bet({ bet }) {
                         <span className="font-semibold">Bet Status:</span>
                         <span>{status}</span>
                     </p>
-                    {bet.status === 'complete' && (
+                    {bet?.status === 'complete' && (
                         <>
                             <p className='text-center'>
-                                <span className="font-semibold">Date Completed:</span> {bet.status}
+                                <span className="font-semibold">Date Completed:</span> {bet?.status}
                             </p>
-                            {bet.winner && (
+                            {bet?.winner && (
                                 <p className='text-center'>
-                                    <span className="font-semibold">Winner:</span> {bet.winner}
+                                    <span className="font-semibold">Winner:</span> {bet?.winner}
                                 </p>
                             )}
                         </>
@@ -65,15 +65,15 @@ export default function Bet({ bet }) {
                 <div className="flex justify-evenly gap-3 flex-wrap">
                     <div>
                         <ul className="flex flex-wrap gap-1 justify-center list-none">
-                            {bet.teamA.map(player => (
-                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="teamA" isWinner={bet.winner} isVoid={bet.status === 'void'}/>
+                            {bet?.teamA.map(player => (
+                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="teamA" isWinner={bet?.winner} isVoid={bet?.status === 'void'}/>
                             ))}
                         </ul>
                     </div>
                     <div>
                         <ul className="flex flex-wrap gap-1 justify-center list-none">
-                            {bet.teamB.map(player => (
-                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="teamB" isWinner={bet.winner} isVoid={bet.status === 'void'}/>
+                            {bet?.teamB.map(player => (
+                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="teamB" isWinner={bet?.winner} isVoid={bet?.status === 'void'}/>
                             ))}
                         </ul>
                     </div>
@@ -88,10 +88,10 @@ export default function Bet({ bet }) {
                         {betPunishment}
                     </div>
                 )}
-                {bet.link && (
+                {bet?.link && (
                     <div className="text-center mt-4">
                         <Link
-                            to={bet.link}
+                            to={bet?.link}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-block text-blue-600 dark:text-blue-400 font-medium underline hover:text-blue-800 dark:hover:text-blue-300"

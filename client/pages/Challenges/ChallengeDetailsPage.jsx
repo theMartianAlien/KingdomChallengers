@@ -44,7 +44,7 @@ export default function ChallengeDetailsPage() {
         }
     }
 
-    function onClickLockButton(_id){
+    function onClickLockButton(_id) {
 
     }
 
@@ -52,7 +52,7 @@ export default function ChallengeDetailsPage() {
     let lockButton;
     if (accountId && challenge.issuer === accountId && lockable > 0) {
         lockButton = (<div className='gap-1 py-1'>
-            <TestButton _id={challenge._id} label={"LOCK IT!"} onClick={onClickLockButton}/>
+            <TestButton _id={challenge._id} label={"LOCK IT!"} onClick={onClickLockButton} />
         </div>);
     }
     return (
@@ -93,8 +93,15 @@ export async function loader({ request, params }) {
     const data = await useGetFetch("challenges/" + id);
     const accountId = getAccountId();
     const isEdit = url.pathname.includes("/edit");
-    if(!accountId || !data || !data.challenge || (accountId !== data.challenge.issuer && isEdit)){
+    if (isEdit && (
+        !accountId ||
+        !data ||
+        !data.challenge && 
+        (accountId !== data.challenge.issuer))
+    ) {
         return redirect('/login');
+    } else if (isEdit && (accountId !== data.challenge.issuer)){
+        return redirect('/challenges/' + id);
     }
     return data;
 }

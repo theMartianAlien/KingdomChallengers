@@ -1,6 +1,7 @@
 import express from 'express';
 import { getABet, getAllBets, getAllBetsByPlayer } from '../data/bets.mjs';
 import { getAllPlayers, getAllPlayersBy } from '../data/players.mjs';
+import { isAdminAuthenticate } from '../util/auth.mjs';
 const router = express();
 
 router.get('/', async (req, res, next) => {
@@ -35,6 +36,8 @@ router.get('/:id', async (req, res, next) => {
         next(error);
     }
 });
+
+router.use(isAdminAuthenticate);
 
 router.get('/player/:id', async (req, res, next) => {
     try {
