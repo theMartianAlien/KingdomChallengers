@@ -11,6 +11,7 @@ import {
     Navbar,
     NavbarCollapse,
     NavbarToggle,
+    NavbarLink,
 } from "flowbite-react";
 import { useState } from "react";
 
@@ -45,7 +46,6 @@ export default function MainNavigation() {
                     arrowIcon={false}
                     dismissOnClick={true}
                     inline
-                    // aria-expanded={isDropDownExpanded}
                     label={
                         <Avatar alt="User settings" img={imgProfile} rounded />
                     }>{
@@ -59,15 +59,22 @@ export default function MainNavigation() {
                         player_id && (
                             <>
                                 <DropdownHeader>
-                                    <Link to="/profile">
+                                    <NavLink to="/profile" className={({ isActive }) => isActive ? "active" : ""} end>
                                         <span className="block text-sm">{userText}</span>
                                         <span className="block truncate text-sm font-medium">{discord_handle}</span>
-                                    </Link>
+                                    </NavLink>
                                 </DropdownHeader>
-                                <DropdownItem>Issue Challenge</DropdownItem>
-                                <DropdownItem>Current Bets</DropdownItem>
+                                <DropdownItem>
+                                    <NavLink to="/challenges/new" className={({ isActive }) => isActive ? "active" : ""}>
+                                        Issue Challenge
+                                    </NavLink>
+                                </DropdownItem>
+                                <DropdownItem>
+                                    <NavLink to={`/players/${player_id}`} className={({ isActive }) => isActive ? "active" : ""}>
+                                        Current Bet
+                                    </NavLink>
+                                </DropdownItem>
                                 <DropdownDivider />
-                                {/* <DropdownItem> */}
                                 <li className="menuitem">
                                     <Form action="/logout" method="post">
                                         <button className="flex w-full cursor-pointer items-center justify-start px-4 py-2 text-sm text-gray-700 
@@ -75,7 +82,6 @@ export default function MainNavigation() {
                                         dark:focus:text-black">Logout</button>
                                     </Form>
                                 </li>
-                                {/* </DropdownItem> */}
                             </>
                         )
                     }

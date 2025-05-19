@@ -60,18 +60,20 @@ export default function PlayerDetailsPage() {
                 <p>
                     {player.display_name}
                 </p>
-                <div>
-                    <MyBetsPieChart
-                        data={chartData}
-                        colors={
-                            [
-                                'rgba(34, 197, 94, 1)', // blue
-                                'rgba(239, 68, 68, 1)', // green
-                                'rgba(250, 204, 21, 1)',  // red
-                            ]
-                        }
-                    />
-                </div>
+                {chartData.length>0 && (
+                    <div>
+                        <MyBetsPieChart
+                            data={chartData}
+                            colors={
+                                [
+                                    'rgba(34, 197, 94, 1)', // blue
+                                    'rgba(239, 68, 68, 1)', // green
+                                    'rgba(250, 204, 21, 1)',  // red
+                                ]
+                            }
+                        />
+                    </div>
+                )}
             </div>
             {bets && bets.length > 0 && (
                 <CustomTable

@@ -36,6 +36,10 @@ export async function isValidPassword(password, storedPassword) {
 
 function validate(req, res, next) {
     try {
+        if (SKIP_AUTHENTICATION) {
+            console.log("Authentication skipped");
+            return null;
+        }
         if (req.method === 'OPTIONS') {
             return next();
         }
@@ -68,6 +72,7 @@ export function isAuthenticate(req, res, next) {
     const authFragments = req.headers.authorization.split(' ');
     const authToken = authFragments[1];
     try {
+        console.log(SKIP_AUTHENTICATION);
         const validatedToken = validateJSONToken(authToken);
         req.token = validatedToken;
     } catch (error) {

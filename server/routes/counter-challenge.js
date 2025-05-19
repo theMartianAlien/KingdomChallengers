@@ -5,14 +5,11 @@ import { addCounterChallenge, deleteCounterChallengeById } from '../controller/c
 
 const router = express();
 
-console.log("check authentication");
 router.use(isAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {
         console.log("addCounterChallenge called");
-        
-console.log("check authentication in add counter challenge");
         await addCounterChallenge(req.body);
         res.status(201).json({ message: 'Counter Challenge issued' });
     } catch (error) {

@@ -4,6 +4,7 @@ import { getAccountId, getAuthToken, getPlayerId } from '../../util/auth';
 import CounterChallengeForm from '../../components/Challenges/CounterChallengeForm';
 import CounterTable from '../../components/Challenges/CounterTable';
 import { useDeleteFetch, useGetFetch, usePatchPostFetch } from '../../hooks/useFetch';
+import TestButton from '../../components/UI/Buttons/TestButton';
 
 export default function ChallengeDetailsPage() {
     const accountId = getAccountId();
@@ -43,13 +44,15 @@ export default function ChallengeDetailsPage() {
         }
     }
 
+    function onClickLockButton(_id){
+
+    }
+
     const lockable = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept'))
     let lockButton;
-    if (lockable > 1) {
-        lockButton = (<div>
-            <button>
-                'LOCK IT!'
-            </button>
+    if (lockable > 0) {
+        lockButton = (<div className='gap-1 py-1'>
+            <TestButton _id={challenge._id} label={"LOCK IT!"} onClick={onClickLockButton}/>
         </div>);
     }
     return (
@@ -74,7 +77,7 @@ export default function ChallengeDetailsPage() {
                         Edit Challenge
                     </Link>
                 )}
-                {lockButton && (lockButton)}
+                {lockButton && lockButton}
                 {isOpen && isOpen}
                 <div className='py-1'>
                     <CounterTable />

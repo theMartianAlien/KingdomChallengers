@@ -15,8 +15,6 @@ export default function CustomTable({
     firstColClass = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white",
     colSize = "px-6 py-4 text-center"
 }) {
-    console.log("CustomTable render");
-    console.log(data);
     const [sortedData, SortBetsHandler] = useState(sortByColumn(data, primaryColumn, isAsc));
     const [columnSorting, SortColumnHandler] = useState(columns);
     function onSortDataByColumn(column) {

@@ -13,6 +13,7 @@ export default function CounterTable() {
     const colSize = "px-6 py-4 text-center";
 
     const playerId = getPlayerId();
+    const token = getAuthToken();
     const { counters } = useRouteLoaderData("challenge-detail");
     if (!counters || counters.length <= 0) {
         return undefined;
@@ -29,11 +30,11 @@ export default function CounterTable() {
                         <th className={colSize}>Team</th>
                         <th className={colSize}>Player</th>
                         {
-                            acceptReject && (
+                            acceptReject && token && (
                                 <th className={colSize}>Accept</th>)
                         }
                         {
-                            acceptReject && (
+                            acceptReject && token && (
                                 <th className={colSize}>Reject</th>)
                         }
                         {
@@ -58,7 +59,7 @@ export default function CounterTable() {
                                 {counter.player_name}
                             </td>
                             {
-                                acceptReject && (
+                                acceptReject && token && (
                                     <td className={colSize}>
                                         <Form method="patch" action={`${counter._id}/counter/accept`}>
                                             <input type="hidden" name="action" value="accept" />
@@ -68,7 +69,7 @@ export default function CounterTable() {
                                     </td>)
                             }
                             {
-                                acceptReject && (
+                                acceptReject && token && (
                                     <td className={colSize}>
                                         <Form method="patch" action={`${counter._id}/counter/reject`}>
                                             <input type="hidden" name="action" value="reject" />
