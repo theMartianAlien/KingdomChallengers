@@ -41,7 +41,7 @@ import { action as patchCounterChallengeAction } from '../components/Challenges/
 const DiscordRootPage = lazy(() => import('../pages/Discord/DiscordRootPage'));
 const DiscordListPage = lazy(() => import('../pages/Discord/DiscordListPage'));
 
-import { loader as getProfileAccountLoader } from '../pages/Auth/EditProfilePage';
+import { action as patchProfileAccountAction, loader as getProfileAccountLoader } from '../pages/Auth/EditProfilePage';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -182,7 +182,8 @@ const router = createBrowserRouter(
             {
               path: 'edit',
               element: <Suspense fallback={<p>Loading ....</p>}><EditProfilePage /></Suspense>,
-              loader: getProfileAccountLoader
+              loader: getProfileAccountLoader,
+              action: patchProfileAccountAction
             }
           ]
         },

@@ -1,6 +1,6 @@
 import express from 'express';
 import { getDiscordHandler, getDiscordHandlerUser } from '../data/discord-users.mjs';
-import { getAccount, getAccountById, getAccountByUserName, registerUser } from '../data/auth.mjs';
+import { getAccount, getAccountById, getAccountByUserName, registerUser, replaceImage, updateAccount } from '../data/auth.mjs';
 import { createAdminJSONToken, createJSONToken, hashPassword, isAdminAuthenticate, isValidPassword } from '../util/auth.mjs';
 import { getAPlayerByDiscordHandle } from '../data/players.mjs';
 
@@ -182,6 +182,8 @@ router.post('/discord', async (req, res, next) => {
                 account = await getAccount(accountData.discord_handle)
             } else {
                 accountData._id = account._id;
+                console.log("replace image");
+                await replaceImage(account._id, { ...accountData });
             }
             accountData.token = createJSONToken(account.username);
             if (account.isAdmin) {
@@ -215,6 +217,23 @@ router.get('/:id', async (req, res, next) => {
             discord_handle: account.discord_handle,
             image: account.image
         }
+        res.json({ account: accountData });
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.patch('/:id', async (req, res, next) => {
+    try {
+        console.log("modifyAccountData called");
+        const id = req.body._id;
+
+        let accountData = { ...req.body};
+        delete accountData.accountId;
+        delete accountData._id;
+
+        const account = await updateAccount(id, accountData);
+        console.log("we good ?");
         res.json({ account: accountData });
     } catch (error) {
         next(error);

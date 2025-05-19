@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { Form, useLoaderData } from "react-router-dom";
 import { useState } from 'react';
 
 export default function ProfileForm() {
@@ -9,48 +9,54 @@ export default function ProfileForm() {
         nickname: account?.nickname,
         username: account?.username,
         discord_handle: account?.discord_handle,
-        password: '',
-        confirmPassword: '',
-        profilePic: null,
-        notifications: false,
-        darkMode: false,
+        profilePic: account?.image
     });
 
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [display_name]: type === 'checkbox' ? checked : value,
-        }));
-    };
+    const [imageURL, setImageURL] = useState(account?.image || '');
+    const [submittedURL, setSubmittedURL] = useState(formData?.profilePic);
+    const [isClickable, setIsClickable] = useState(false);
+    const [error, setError] = useState('');
 
-    const handleFileChange = (e) => {
-        setFormData((prev) => ({
-            ...prev,
-            profilePic: e.target.files[0],
-        }));
-    };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log('Form submitted:', formData);
+        if (!imageURL.trim()) return;
+
+        const isValid = await checkImageURL(imageURL.trim());
+
+        if (isValid) {
+            setSubmittedURL(imageURL.trim());
+            setError('');
+            setIsClickable(true);
+        } else {
+            setError('Invalid image URL');
+            setSubmittedURL(null);
+            setIsClickable(true);
+        }
+    };
+
+    const checkImageURL = async (url) => {
+        try {
+            const response = await fetch(url, { method: 'HEAD' });
+            const contentType = response.headers.get('Content-Type');
+            return contentType && contentType.startsWith('image/');
+        } catch (e) {
+            return false; // In case of network error or invalid URL
+        }
     };
 
     return (
         <section className="w-[30em] mx-auto py-10">
             <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 text-gray-900 dark:text-white">
                 <h2 className="text-2xl font-semibold mb-4">Update Your Profile</h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <Form className="space-y-6" action="/profile/edit" method="patch">
                     <div>
                         <label htmlFor="discord_handle" className="block text-sm font-medium">Discord Handle</label>
                         <input
                             type="text"
                             id="discord_handle"
                             name="discord_handle"
-                            value={formData.discord_handle}
-                            onChange={handleChange}
-                            disabled={true}
+                            defaultValue={formData.discord_handle}
+                            readOnly={true}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             required
                         />
@@ -61,21 +67,18 @@ export default function ProfileForm() {
                             type="text"
                             id="display_name"
                             name="display_name"
-                            value={formData.display_name}
-                            onChange={handleChange}
+                            defaultValue={formData.display_name}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             required
                         />
                     </div>
-
                     <div>
                         <label htmlFor="nickname" className="block text-sm font-medium">Nickname</label>
                         <input
                             type="text"
                             id="nickname"
                             name="nickname"
-                            value={formData.nickname}
-                            onChange={handleChange}
+                            defaultValue={formData.nickname}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             required
                         />
@@ -83,34 +86,67 @@ export default function ProfileForm() {
                     <div>
                         <label htmlFor="username" className="block text-sm font-medium">UserName</label>
                         <input
-                            type="email"
+                            type="text"
                             id="username"
                             name="username"
-                            value={formData.username}
-                            onChange={handleChange}
+                            defaultValue={formData.username}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             required
                         />
                     </div>
-
+                    <div >
+                        <label htmlFor="register-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
+                        <input 
+                        type="password" 
+                        id="register-password" 
+                        name="register-password" 
+                        autoComplete="off" 
+                        className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" placeholder="***********" />
+                    </div>
+                    <div >
+                        <label htmlFor="repeat-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Repeat password</label>
+                        <input type="password" id="repeat-password" name="repeat-password" autoComplete="off" className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" placeholder="***********" />
+                    </div>
                     <div>
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="user_avatar">Avatar</label>
-                        <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
-                        aria-describedby="user_avatar_help"
-                         id="user_avatar" 
-                         type="file"
-                          accept="image/*" />
+                        <div className="flex items-center justify-start gap-2">
+                            {submittedURL && (
+                                <img
+                                    src={submittedURL}
+                                    alt="Preview"
+                                    style={{ width: '200px', height: 'auto', objectFit: 'cover' }}
+                                />
+                            )}
+                            <div>
+                                <button
+                                    disabled={isClickable}
+                                    type="submit"
+                                    className="block w-1/2 text-sm border border-gray-300 rounded-lg py-2"
+                                >
+                                    Upload
+                                </button>
+                                <input
+                                    type="text"
+                                    id="user_avatar"
+                                    name="user_avatar"
+                                    placeholder="Paste image URL here"
+                                    value={imageURL}
+                                    onChange={(e) => setImageURL(e.target.value)}
+                                    className="w-full bg-blue-950 dark:bg-blue-700"
+                                    style={{ width: '250px' }}
+                                />
+                            </div>
+                        </div>
                     </div>
-
                     <div className="flex justify-end">
                         <button
-                            type="submit"
+                            // type="submit"
                             className="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-800 rounded-md"
                         >
                             Save Changes
                         </button>
                     </div>
-                </form>
+                </Form>
             </div>
         </section>
     );

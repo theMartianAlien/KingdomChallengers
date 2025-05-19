@@ -1,4 +1,4 @@
-import { getOneBy, getOneById, writeOne } from "../util/mongo.mjs";
+import { getOneBy, getOneById, updateOne, writeOne } from "../util/mongo.mjs";
 
 const TABLE = "accounts";
 
@@ -24,4 +24,12 @@ export async function getAccountById(id) {
 
 export async function getAccountByPlayerId(id) {
     return await getOneById(TABLE, id);
+}
+
+export async function replaceImage(id, data){
+    return await updateOne(TABLE, id, data);
+}
+
+export async function updateAccount(id, data){
+    return await updateOne(TABLE, id, data);
 }
