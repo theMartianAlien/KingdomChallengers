@@ -6,7 +6,7 @@ import { inject } from '@vercel/analytics';
 inject();
 
 import RootPage from '../pages/Layout/RootPage';
-import { checkAuthLoader, tokenLoader } from '../util/auth';
+import { checkAdminAuthLoader, checkAuthLoader, tokenLoader } from '../util/auth';
 const HomePage = lazy(() => import('../pages/HomePage'));
 
 import { action as loginRegisterAction } from '../pages/Auth/LoginRegisterPage';
@@ -26,10 +26,10 @@ const PlayersListPage = lazy(() => import('../pages/Players/PlayersListPage'));
 const PlayersRootPage = lazy(() => import('../pages/Players/PlayerRootPage'));
 
 import { loader as getAllBetsLoader } from '../pages/Bets/BetsListPage';
-import { loader as getBedDetailsLoader } from '../pages/Bets/BetDetailsPage';
-import EditBetPage from '../pages/Bets/EditBetPage';
+import { loader as getBetDetailsLoader } from '../pages/Bets/BetDetailsPage';
 import { action as patchPostChallengeAction } from '../components/Challenges/ChallengesForm';
 import { loader as getChallengeDetailsLoader } from '../pages/Challenges/ChallengeDetailsPage';
+const EditBetPage = lazy(() => import('../pages/Bets/EditBetPage'));
 const BetDetailsPage = lazy(() => import('../pages/Bets/BetDetailsPage'));
 const BetsRootPage = lazy(() => import('../pages/Bets/BetsRootPage'));
 const BetsListPage = lazy(() => import('../pages/Bets/BetsListPage'));
@@ -37,9 +37,11 @@ const BetsListPage = lazy(() => import('../pages/Bets/BetsListPage'));
 import { action as postCounterChallengeAction } from '../pages/Challenges/ChallengeDetailsPage';
 import { loader as getProfileLoader } from '../pages/Auth/ProfilePage';
 import { action as patchCounterChallengeAction } from '../components/Challenges/CounterTable';
-import DiscordRootPage from '../pages/Discord/DiscordRootPage';
-import { loader as getProfileAccountLoader } from '../pages/Auth/EditProfilePage';
+
+const DiscordRootPage = lazy(() => import('../pages/Discord/DiscordRootPage'));
 const DiscordListPage = lazy(() => import('../pages/Discord/DiscordListPage'));
+
+import { loader as getProfileAccountLoader } from '../pages/Auth/EditProfilePage';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -65,30 +67,36 @@ const router = createBrowserRouter(
       id: 'root',
       loader: tokenLoader,
       children: [
+        // Homepage
         {
           index: true,
           element: <Suspense fallback={<p>Loading ....</p>}><HomePage /></Suspense>,
           loader: () => import('../pages/HomePage').then((module) => module.loader()),
         },
         {
+          // login
           path: 'login',
           element: <Suspense fallback={<p>Loading ....</p>}><LoginRegisterPage /></Suspense>,
           action: loginRegisterAction
         },
         {
+          // register
           path: 'register',
           element: <Suspense fallback={<p>Loading ....</p>}><LoginRegisterPage isLogin={false} /></Suspense>,
           action: loginRegisterAction
         },
         {
+          // logout
           path: 'logout',
           action: logout
         },
         {
+          // players
           path: 'players',
           element: <Suspense fallback={<p>Loading ....</p>}><PlayersRootPage /></Suspense>,
           children: [
             {
+              // players
               index: true,
               element: <Suspense fallback={<p>Loading ....</p>}><PlayersListPage /></Suspense>,
               id: 'players-list',
@@ -96,69 +104,81 @@ const router = createBrowserRouter(
               action: deletePlayerAction
             },
             {
+              // players-list
               path: ':id',
               id: 'player-detail',
               loader: getPlayerDetailsLoader,
               children: [
                 {
+                  // index
                   index: true,
                   element: <Suspense fallback={<p>Loading ....</p>}><PlayerDetailsPage /></Suspense>,
                 },
                 {
+                  // edit
                   path: 'edit',
                   element: <Suspense fallback={<p>Loading ....</p>}><EditPlayerPage /></Suspense>,
-                  action: createUpdatePlayerAction
+                  action: createUpdatePlayerAction,
+                  loader: checkAdminAuthLoader,
                 }
               ]
             },
             {
+              // new
               path: 'new',
               element: <Suspense fallback={<p>Loading ....</p>}><NewPlayerPage /></Suspense>,
-              loader: checkAuthLoader,
+              loader: checkAdminAuthLoader,
               action: createUpdatePlayerAction
             }
           ]
         },
         {
+          // bets
           path: 'bets',
           id: 'bets-root',
           element: <Suspense fallback={<p>Loading ....</p>}><BetsRootPage /></Suspense>,
           loader: getAllPlayersLoader,
           children: [
             {
+              // bets-list
               index: true,
               element: <Suspense fallback={<p>Loading ....</p>}><BetsListPage /></Suspense>,
               id: 'bets-list',
               loader: getAllBetsLoader
             },
             {
+              // bets-details
               path: ':id',
               id: 'bet-detail',
-              loader: getBedDetailsLoader,
+              loader: getBetDetailsLoader,
               children: [
                 {
                   index: true,
                   element: <Suspense fallback={<p>Loading ....</p>}><BetDetailsPage /></Suspense>,
                 },
                 {
+                  // bets-edit
                   path: 'edit',
                   element: <Suspense fallback={<p>Loading ....</p>}><EditBetPage /></Suspense>,
+                  loader: checkAdminAuthLoader
                 },
               ]
             }
           ]
         },
         {
+          // profile
           path: 'profile',
           id: 'profile-root',
           loader: getProfileLoader,
           children: [
+            // profile-detail
             {
               index: true,
-           id: '-root',
               id: 'profile-detail',
               element: <Suspense fallback={<p>Loading ....</p>}><ProfilePage /></Suspense>,
             },
+            // profile-edit
             {
               path: 'edit',
               element: <Suspense fallback={<p>Loading ....</p>}><EditProfilePage /></Suspense>,
@@ -186,28 +206,33 @@ const router = createBrowserRouter(
                 {
                   index: true,
                   element: <Suspense fallback={<p>Loading ....</p>}><ChallengeDetailsPage /></Suspense>,
-                  action: postCounterChallengeAction,
+                  action: postCounterChallengeAction
                 },
                 {
                   path: 'edit',
                   element: <Suspense fallback={<p>Loading ....</p>}><ChallengeEditPage /></Suspense>,
-                  action: patchPostChallengeAction
+                  action: patchPostChallengeAction,
+                  loader: checkAuthLoader
                 },
                 {
                   path: ':counterId/counter/:action',
-                  action: patchCounterChallengeAction
+                  action: patchCounterChallengeAction,
+                  loader: checkAuthLoader
                 }
               ]
             },
             {
               path: 'new',
               element: <Suspense fallback={<p>Loading ....</p>}><NewChallengePage /></Suspense>,
-              action: patchPostChallengeAction
+              action: patchPostChallengeAction,
+              loader: checkAuthLoader
             }
           ]
-        }, {
+        },
+        {
           path: 'discord',
           id: 'discord-root',
+          loader: checkAdminAuthLoader,
           element: <Suspense fallback={<p>Loading ....</p>}><DiscordRootPage /></Suspense>,
           children: [
             {
@@ -222,7 +247,7 @@ const router = createBrowserRouter(
     {
       path: '/auth/discord',
       element: <Suspense fallback={<p>Loading ....</p>}><DiscordPage /></Suspense>,
-      action: discordLogin,
+      action: discordLogin
     },
   ]
 );

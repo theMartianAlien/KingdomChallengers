@@ -20,6 +20,7 @@ export default function CounterTable() {
     }
     let acceptReject = counters.some(counter => counter.playerId !== playerId);
     let deleteCounter = counters.some(counter => counter.playerId === playerId);
+    let actioned = counters.some(counter => counter.action);
     return (
         <div className={divClass}>
             <table className={tableClass}>
@@ -29,18 +30,10 @@ export default function CounterTable() {
                         <th className={colSize}>Punishment</th>
                         <th className={colSize}>Team</th>
                         <th className={colSize}>Player</th>
-                        {
-                            acceptReject && token && (
-                                <th className={colSize}>Accept</th>)
-                        }
-                        {
-                            acceptReject && token && (
-                                <th className={colSize}>Reject</th>)
-                        }
-                        {
-                            deleteCounter && (
-                                <th className={colSize}>Delete</th>)
-                        }
+                        {actioned && (<th className={colSize}>Status</th>)}
+                        {acceptReject && token && (<th className={colSize}>Accept</th>)}
+                        {acceptReject && token && (<th className={colSize}>Reject</th>)}
+                        {deleteCounter && token && (<th className={colSize}>Delete</th>)}
                     </tr>
                 </thead>
                 <tbody>
@@ -52,37 +45,35 @@ export default function CounterTable() {
                             <td className={colSize}>
                                 {counter.punishment}
                             </td>
-                            <td className={colSize}>
+                            <td className={colSize + " capitalize"}>
                                 {counter.team}
                             </td>
                             <td className={colSize}>
                                 {counter.player_name}
                             </td>
-                            {
-                                acceptReject && token && (
-                                    <td className={colSize}>
-                                        <Form method="patch" action={`${counter._id}/counter/accept`}>
-                                            <input type="hidden" name="action" value="accept" />
-                                            <input type="hidden" name="id" value={counter._id} />
-                                            <button className="">Accept</button>
-                                        </Form>
-                                    </td>)
+                            {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + "ed"}</th>)}
+                            {acceptReject && token && (
+                                <td className={colSize}>
+                                    <Form method="patch" action={`${counter._id}/counter/accept`}>
+                                        <input type="hidden" name="action" value="accept" />
+                                        <input type="hidden" name="id" value={counter._id} />
+                                        <button className="">Accept</button>
+                                    </Form>
+                                </td>)
                             }
-                            {
-                                acceptReject && token && (
-                                    <td className={colSize}>
-                                        <Form method="patch" action={`${counter._id}/counter/reject`}>
-                                            <input type="hidden" name="action" value="reject" />
-                                            <input type="hidden" name="id" value={counter._id} />
-                                            <button>Reject</button>
-                                        </Form>
-                                    </td>)
+                            {acceptReject && token && (
+                                <td className={colSize}>
+                                    <Form method="patch" action={`${counter._id}/counter/reject`}>
+                                        <input type="hidden" name="action" value="reject" />
+                                        <input type="hidden" name="id" value={counter._id} />
+                                        <button>Reject</button>
+                                    </Form>
+                                </td>)
                             }
-                            {
-                                deleteCounter && (
-                                    <td className={colSize}>
-                                        <DeleteButton />
-                                    </td>)
+                            {deleteCounter && token && (
+                                <td className={colSize}>
+                                    <DeleteButton />
+                                </td>)
                             }
                         </tr>
                     ))}

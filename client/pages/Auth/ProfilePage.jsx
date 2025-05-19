@@ -1,5 +1,5 @@
-import { Link, useRouteLoaderData } from "react-router-dom";
-import { getPlayerId } from "../../util/auth";
+import { Link, redirect, useRouteLoaderData } from "react-router-dom";
+import { checkAuthLoader, getAuthToken, getPlayerId } from "../../util/auth";
 import { useGetFetch } from "../../hooks/useFetch";
 import CustomTable from "../../components/UI/CustomTable";
 import NoOpenCustomLink from "../../components/UI/NoOpenCustomLink";
@@ -81,6 +81,10 @@ export default function ProfilePage() {
 }
 
 export async function loader({ request, params }) {
+    const token = getAuthToken();
+    if (!token) {
+        return redirect('/login');
+    }
     const playerId = getPlayerId();
     const data = await useGetFetch(`bets/player/${playerId}`);
     return data;

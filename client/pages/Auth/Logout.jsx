@@ -11,5 +11,7 @@ export function action() {
     localStorage.removeItem('adminToken');
     localStorage.removeItem('image');
     localStorage.removeItem('nickname');
+    localStorage.removeItem('display_name');
+    localStorage.removeItem('discord_handle');
     return redirect('/');
 }

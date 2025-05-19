@@ -48,9 +48,9 @@ export default function ChallengeDetailsPage() {
 
     }
 
-    const lockable = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept'))
+    const lockable = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept' && c.team === 'against'))
     let lockButton;
-    if (lockable > 0) {
+    if (accountId && challenge.issuer === accountId && lockable > 0) {
         lockButton = (<div className='gap-1 py-1'>
             <TestButton _id={challenge._id} label={"LOCK IT!"} onClick={onClickLockButton}/>
         </div>);
@@ -89,7 +89,14 @@ export default function ChallengeDetailsPage() {
 
 export async function loader({ request, params }) {
     const id = params.id;
-    return await useGetFetch("challenges/" + id);
+    const url = new URL(request.url);
+    const data = await useGetFetch("challenges/" + id);
+    const accountId = getAccountId();
+    const isEdit = url.pathname.includes("/edit");
+    if(!accountId || !data || !data.challenge || (accountId !== data.challenge.issuer && isEdit)){
+        return redirect('/login');
+    }
+    return data;
 }
 
 export async function action({ request, params }) {
