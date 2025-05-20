@@ -1,4 +1,4 @@
-import { getAll, getOneBy, writeOne } from "../util/mongo.mjs";
+import { getAll, getOneBy, getOneById, writeOne } from "../util/mongo.mjs";
 
 const TABLE = "discord_users";
 
@@ -20,4 +20,8 @@ export async function writeADiscordHandler(data) {
 
 export async function writeADiscordHandlerBy(data, filter) {
     return await writeOne(TABLE, data, filter);
+}
+
+export async function getDiscordUserById(id) {
+    return await getOneById(TABLE,id);
 }
