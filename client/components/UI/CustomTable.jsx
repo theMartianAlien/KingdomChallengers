@@ -17,7 +17,9 @@ export default function CustomTable({
 }) {
     const [sortedData, SortBetsHandler] = useState(sortByColumn(data, primaryColumn, isAsc));
     const [columnSorting, SortColumnHandler] = useState(columns);
+    const [currentSortColumn, setCurrentSortColumn] = useState(primaryColumn);
     function onSortDataByColumn(column) {
+        setCurrentSortColumn(column);
         const sorting = columnSorting[column];
         SortColumnHandler(prevState => {
             return {
@@ -55,8 +57,8 @@ export default function CustomTable({
             return 0;
         });
     }
-    const CustomLink = columns[0].element;
 
+    const CustomLink = columns[0].element;
     const Edit = columns.find((x) => x.label === "Edit");
     const Delete = columns.find((x) => x.label === "Delete");
 
@@ -75,6 +77,7 @@ export default function CustomTable({
                                         column={column.column}
                                         isAsc={columnSorting[column.column] === 'asc'}
                                         onClickHeader={onSortDataByColumn}
+                                        currentSortColumn={currentSortColumn}
                                     />
                                 ))
                             }

@@ -10,12 +10,16 @@ export async function getAllChallenges() {
     const newChallenges = await Promise.all(challenges.map(async (challenge) => {
         const account = await getAccountById(challenge.issuer);
         if(!account) {
-            logMessage
-            logMessage("The challenge");
+            logMessage("The account");
             logMessage(account);
             logMessage(challenge);
         }
         const player = await getAPlayerByObjectId(account.player_id);
+        if(!player) {
+            logMessage("The player");
+            logMessage(player);
+            logMessage(challenge);
+        }
         return {
             ...challenge,
             challenger: player.display_name

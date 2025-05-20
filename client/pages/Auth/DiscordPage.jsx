@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useSubmit } from "react-router-dom";
+import { Link, redirect, useLocation, useSubmit } from "react-router-dom";
 import { usePatchPostFetch } from "../../hooks/useFetch";
 import { setUserData } from "../../util/auth";
 const guildID = import.meta.env.VITE_GUILD_ID
@@ -54,13 +54,18 @@ export default function DiscordPage() {
 
         fetchData();
     }, []);
+
+    const message = localStorage.getItem('welcome');
+
     return (
         <>
             {discordLoginData && (
                 <div className="flex items-center justify-center h-96 bg-discord-gray text-white flex-col">
-                    <div className="text-2xl">
-                        <p>Welcome to the Kingdom Challenges,</p>
-                    </div>
+                    {message && (
+                        <div className="text-2xl">
+                            <p>{message}</p>
+                        </div>
+                    )}
                     <div className="text-4xl mt-3 flex items-center font-medium" >
                         {discordLoginData && discordLoginData.image && (
                             <p className="flex">
@@ -100,5 +105,6 @@ export async function action({ request, params }) {
     if (resData.status === 422 || resData.status === 401) {
         return resData;
     }
-    setUserData({ ...resData });
+    localStorage.setItem('welcome', resData.message);
+    setUserData({ ...resData.account });
 }

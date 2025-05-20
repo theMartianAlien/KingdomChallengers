@@ -1,18 +1,25 @@
-import { Form, useLoaderData } from "react-router-dom";
+import { Form, useActionData, useLoaderData } from "react-router-dom";
 import { useState } from 'react';
 
 export default function ProfileForm() {
-    const { account } = useLoaderData();
+    let { account } = useLoaderData();
+    const actionData = useActionData();
+    if (actionData && actionData.account) {
+        account = actionData.account;
+        console.log(actionData);
+    }
     const [formData, setFormData] = useState({
         display_name: account?.display_name,
         nickname: account?.nickname,
         username: account?.username,
         discord_handle: account?.discord_handle,
-        profilePic: account?.image
+        profilePic: account?.image,
+        hasPassword: account?.hasPassword
     });
 
     const [imageURL, setImageURL] = useState(account?.image || '');
     const [submittedURL, setSubmittedURL] = useState(formData?.profilePic);
+    const [showPassword, setShowPasswordField] = useState(false);
     const [isClickable, setIsClickable] = useState(false);
     const [error, setError] = useState('');
 
@@ -33,6 +40,10 @@ export default function ProfileForm() {
         }
     };
 
+    function showPasswordFields(event) {
+        setShowPasswordField(event.target.checked);
+    }
+
     const checkImageURL = async (url) => {
         try {
             const response = await fetch(url, { method: 'HEAD' });
@@ -42,6 +53,34 @@ export default function ProfileForm() {
             return false; // In case of network error or invalid URL
         }
     };
+
+    let passwordDiv;
+    if (showPassword) {
+        passwordDiv = (
+            <>
+                <div >
+                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
+                    <input
+                        required
+                        type="password"
+                        id="password"
+                        name="password"
+                        autoComplete="off"
+                        className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" placeholder="***********" />
+                </div>
+                <div >
+                    <label htmlFor="repeat-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Repeat password</label>
+                    <input
+                        required
+                        type="password"
+                        id="repeat-password"
+                        name="repeat-password"
+                        autoComplete="off"
+                        className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" placeholder="***********" />
+                </div>
+            </>
+        )
+    }
 
     return (
         <section className="w-[30em] mx-auto py-10">
@@ -93,19 +132,32 @@ export default function ProfileForm() {
                             required
                         />
                     </div>
-                    <div >
-                        <label htmlFor="register-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-                        <input 
-                        type="password" 
-                        id="register-password" 
-                        name="register-password" 
-                        autoComplete="off" 
-                        className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" placeholder="***********" />
+                    <div className="flex flex-col items-start">
+                        <div className="flex items-center">
+                            <input
+                                onChange={(event) => showPasswordFields(event)}
+                                id="withPassword"
+                                type="checkbox"
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <label
+                                htmlFor="withPassword"
+                                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >
+                                {formData.hasPassword ? 'Update password' : 'Add a password'}
+                            </label>
+                        </div>
+
+                        {!formData.hasPassword && (
+                            <span className="mt-1 text-xs font-medium text-gray-800 dark:text-gray-300">
+                                By adding a password, you will be able to login with your 
+                                <span className="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">username</span>
+                                and
+                                <span className="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">password</span>
+                            </span>
+                        )}
                     </div>
-                    <div >
-                        <label htmlFor="repeat-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Repeat password</label>
-                        <input type="password" id="repeat-password" name="repeat-password" autoComplete="off" className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" placeholder="***********" />
-                    </div>
+                    {passwordDiv && (passwordDiv)}
                     <div>
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="user_avatar">Avatar</label>
                         <div className="flex items-center justify-start gap-2">

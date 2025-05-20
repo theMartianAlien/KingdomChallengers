@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { use, useState } from "react";
 
-export default function TableHeaderName({ sortable, label, column, isAsc, onClickHeader }) {
+export default function TableHeaderName({ sortable, label, column, isAsc, onClickHeader, currentSortColumn }) {
     const [isUp, setIsUp] = useState(isAsc);
-
     let upIcon = "M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7"
     let downIcon = "m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1";
     function IconChangeHandler() {
         onClickHeader(column);
         setIsUp(prev => !prev);
     }
+    let selected = ''
+    if (currentSortColumn === column) {
+        selected = 'font-bold text-red-800'
+    }
+
+    console.log('column ' + column + ' ' + selected);
 
     return (
         <th
@@ -34,7 +39,7 @@ export default function TableHeaderName({ sortable, label, column, isAsc, onClic
                         />
                     </svg>
                 )}
-                <span>{label}</span>
+                <span className={selected}>{label}</span>
             </div>
         </th>
     )
