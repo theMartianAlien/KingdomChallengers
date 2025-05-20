@@ -19,6 +19,7 @@ export default function CustomTable({
     const [columnSorting, SortColumnHandler] = useState(columns);
     const [currentSortColumn, setCurrentSortColumn] = useState(primaryColumn);
     function onSortDataByColumn(column) {
+        setCurrentSortColumn(column);
         const sorting = columnSorting[column];
         SortColumnHandler(prevState => {
             return {
