@@ -13,7 +13,6 @@ import testDataRoutes from './routes/data-inserts.js'
 import {logMessage} from './util/logging.mjs';
 
 loadEnv();
-
 const PORT = process.env.PORT || 3000;
 const app = express();
 

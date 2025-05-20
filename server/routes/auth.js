@@ -3,7 +3,8 @@ import { getDiscordHandler, getDiscordHandlerUser } from '../data/discord-users.
 import { getAccount, getAccountById, getAccountByUserName, registerUser, replaceImage, updateAccount } from '../data/auth.mjs';
 import { createAdminJSONToken, createJSONToken, hashPassword, isAdminAuthenticate, isValidPassword } from '../util/auth.mjs';
 import { getAPlayerByDiscordHandle } from '../data/players.mjs';
-import {logMessage} from '../util/logging.mjs';
+import { logMessage } from '../util/logging.mjs';
+import { discordLogin } from '../controller/auth.mjs';
 
 const router = express();
 
@@ -148,52 +149,13 @@ router.post('/discord', async (req, res, next) => {
     try {
         logMessage("discordLogin called");
         try {
-            const discordUser = await getDiscordHandler(req.body.username);
-            if (!discordUser) {
-                errors.discord_signup = `Unable to register user ${req.body.username}`;
-                if (Object.keys(errors).length > 0) {
-                    return res.status(422).json({
-                        message: 'Discord login error!',
-                        errors,
-                    });
-                }
-            }
-            const player = await getAPlayerByDiscordHandle(discordUser.discord_handle);
-            let account = await getAccount(req.body.username);
-            let accountData = {
-                username: req.body.username,
-                discord_handle: req.body.username,
-                display_name: req.body.display_name,
-                nickname: req.body.nickname,
-                discord_id: req.body.discord_id,
-                image: req.body.image,
-                nickname: req.body.nickname,
-                player_id: player._id
-            }
-            if (!account) {
-                if (discordUser.isAdmin) {
-                    accountData.isAdmin = true;
-                }
-                accountData.user_key = discordUser.user_key;
-                await registerUser(accountData);
-
-                delete accountData.isAdmin;
-                delete accountData.user_key;
-                delete accountData.discord_id;
-                account = await getAccount(accountData.discord_handle)
-            } else {
-                accountData._id = account._id;
-                logMessage("replace image");
-                await replaceImage(account._id, { ...accountData });
-            }
-            accountData.token = createJSONToken(account.username);
-            if (account.isAdmin) {
-                accountData.adminToken = createAdminJSONToken(account.username);
-            }
-            return res.status(201).json({
-                ...accountData,
-                message: `Registration Complete, Welcome ${account.display_name}!`
-            });
+            const result = await discordLogin(req.body);
+            return res.status(result.status)
+                .json({
+                    message: result.message,
+                    account: result.data,
+                    errors: result.errors
+                });
         }
         catch (error) {
             logMessage(error);
@@ -229,7 +191,7 @@ router.patch('/:id', async (req, res, next) => {
         logMessage("modifyAccountData called");
         const id = req.body._id;
 
-        let accountData = { ...req.body};
+        let accountData = { ...req.body };
         delete accountData.accountId;
         delete accountData._id;
 
