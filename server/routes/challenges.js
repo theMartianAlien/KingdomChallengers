@@ -4,7 +4,7 @@ import { isAuthenticate } from '../util/auth.mjs';
 import { getCounterChallenge } from '../data/counter-challenge.mjs';
 import { getAPlayer } from '../data/players.mjs';
 import { logMessage } from '../util/logging.mjs';
-// import { logMessage } from '../util/logging.mjs';
+import { createNewChallenge } from '../controller/challenges.mjs';
 
 const router = express();
 
@@ -44,7 +44,8 @@ router.use(isAuthenticate);
 router.post('/', async (req, res, next) => {
     try {
         logMessage("addChallenge called");
-        await addChallenge(req.body);
+
+        await createNewChallenge(req.body);
         res.status(201).json({ message: 'Challenge issued' });
     } catch (error) {
         next(error);

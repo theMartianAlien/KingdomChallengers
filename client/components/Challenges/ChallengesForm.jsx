@@ -128,7 +128,6 @@ export async function action({ request, params }) {
     const id = getAccountId();
     const method = request.method;
     const data = await request.formData();
-
     const title = data.get('title');
     const statement = data.get('statement');
     const loserPunishment = data.get('loser-punishment');
