@@ -2,11 +2,12 @@ import { getAccountByDiscordHandle, getAccountByDiscordId, getAccountByDiscorHan
 import { getDiscordHandler, getDiscordHandlerUser, getDiscordUserById } from "../data/discord-users.mjs";
 import { getAPlayer, getAPlayerByHandler, replaceAPlayer } from "../data/players.mjs";
 import { createAdminJSONToken, createJSONToken, hashPassword, isValidPassword } from "../util/auth.mjs";
+import { getEightHours } from "../util/date.mjs";
 import { logMessage } from "../util/logging.mjs";
+import { storeTokenForLoggedUser } from "./token.mjs";
 
 export async function discordLogin(data) {
     try {
-        logMessage(data);
         // we need to write a whole lot of validation for this
 
         const { discordUser, discordError } = await getDiscordInfo(data.username);
@@ -62,8 +63,8 @@ export async function discordLogin(data) {
 
         account = await getAccountByDiscorHandleIdPlayerId(discordUser._id, player._id);
 
-        logMessage("Data returned");
-        const leAccount = acccountDataBuilder(account, discordUser, player);
+        const leAccount = await acccountDataBuilder(account, discordUser, player);
+        logMessage("Data returned by discord login");
         logMessage(leAccount);
         return {
             status: 201,
@@ -168,7 +169,7 @@ export async function register(data) {
         await registerUser(accountData);
 
         account = await getAccountByDiscorHandleIdPlayerId(discordUser._id, player._id);
-        const leAccount = acccountDataBuilder(account, discordUser, player);
+        const leAccount = await acccountDataBuilder(account, discordUser, player);
 
         return {
             status: 201,
@@ -212,7 +213,7 @@ export async function login(data) {
                 }
             }
         }
-        const leAccount = acccountDataBuilder(account, discordUser, player);
+        const leAccount = await acccountDataBuilder(account, discordUser, player);
         logMessage(leAccount);
 
         return {
@@ -286,7 +287,7 @@ export async function updateUserAccount(data) {
         player = await getAPlayer(account.player_id.toString());
 
         let discordUser = await getDiscordUserById(account.discord_handle_id.toString());
-        const leAccount = acccountDataBuilder(account, discordUser, player);
+        const leAccount = await acccountDataBuilder(account, discordUser, player);
 
         return {
             status: 201,
@@ -342,13 +343,23 @@ async function getPlayer(discord_handle_id, nickname) {
     return { player };
 }
 
-function acccountDataBuilder(account, discordUser, playerInfo) {
+async function acccountDataBuilder(account, discordUser, playerInfo) {
 
     let token = createJSONToken(discordUser.discord_handle);
     let adminToken;
     if (discordUser.isAdmin) {
         adminToken = createAdminJSONToken(account.discord_handle);
     }
+    const eightHours = getEightHours();
+    const storedToken = {
+        accountId: account._id,
+        token,
+        adminToken,
+        eightHours
+    }
+
+    await storeTokenForLoggedUser(storedToken);
+
     return {
         _id: account._id,
         image: account.image,

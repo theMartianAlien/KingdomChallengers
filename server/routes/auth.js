@@ -70,9 +70,8 @@ router.get('/:id', async (req, res, next) => {
 router.patch('/:id', async (req, res, next) => {
     try {
         logMessage("modifyAccountData called");
-        const result =  await updateUserAccount(req.body);
-
-                return res.status(result.status)
+        const result = await updateUserAccount(req.body);
+        return res.status(result.status)
             .json({
                 message: result.message,
                 account: result.data,

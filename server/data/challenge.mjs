@@ -29,10 +29,7 @@ export async function getAllChallenges() {
 }
 
 export async function getAChallenge(id) {
-    const challenge = await getOneById(TABLE, id);
-    const acc = await getAccountById(challenge.issuer);
-    const player = await getAPlayerByObjectId(acc.player_id);
-    return { ...challenge, challenger: player.display_name };
+   return await getOneById(TABLE, id);
 }
 
 export async function getAChallengeBy(filter) {
@@ -43,8 +40,6 @@ export async function addChallenge(data) {
     return await writeOne(TABLE, data);
 }
 
-export async function updateChallenge(data){
-    const id = data._id;
-    delete data._id;
+export async function updateChallenge(id, data){
     return await updateOne(TABLE, id, data);
 }

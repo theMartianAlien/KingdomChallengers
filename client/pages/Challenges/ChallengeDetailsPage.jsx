@@ -10,6 +10,7 @@ export default function ChallengeDetailsPage() {
     const accountId = getAccountId();
     const playerId = getPlayerId();
     const { challenge, counters } = useRouteLoaderData("challenge-detail");
+    console.log(challenge);
     const [isJoining, setIsJoining] = useState(false);
     let counterCHallenge;
     function IsJoiningHandler() {

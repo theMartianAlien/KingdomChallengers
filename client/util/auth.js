@@ -52,7 +52,7 @@ export function getPlayerId() {
     return player_id;
 }
 
-export function setUserData({ token, adminToken, username, discord_handle, _id, player_id, image, display_name, nickname }) {
+export function setUserData({ token, adminToken, discord_handle, _id, player_id, image, display_name, nickname }) {
     const expiration = new Date();
     let expirationTime = expiration.getHours() + 8;
     localStorage.setItem("token", token);
@@ -62,21 +62,12 @@ export function setUserData({ token, adminToken, username, discord_handle, _id, 
     }
     expiration.setHours(expirationTime);
     localStorage.setItem('expiration', expiration.toISOString());
-    localStorage.setItem('username', username);
     localStorage.setItem('discord_handle', discord_handle);
     localStorage.setItem('player_id', player_id);
     localStorage.setItem('accountId', _id);
     localStorage.setItem('image', image);
     localStorage.setItem('nickname', nickname);
     localStorage.setItem('display_name', display_name);
-}
-
-export function getUserName() {
-    const username = localStorage.getItem('username');
-    if (!username) {
-        return null;
-    }
-    return username;
 }
 
 export function getDiscordHandle() {
@@ -113,14 +104,13 @@ export function tokenLoader() {
     const token = getAuthToken();
     const adminToken = getAdminToken();
     const player_id = getPlayerId();
-    const username = getUserName();
     const discord_handle = getDiscordHandle();
     const image = getImage();
     const nickname = getNickName();
     const display_name = getDisplayName();
     const accountId = getAccountId();
 
-    return { token, adminToken, username, discord_handle, accountId, player_id, image, display_name, nickname };
+    return { token, adminToken, discord_handle, accountId, player_id, image, display_name, nickname };
 }
 
 export function checkAuthLoader() {

@@ -1,17 +1,14 @@
 import express from 'express';
-import { addChallenge, getAChallenge, getAllChallenges, updateChallenge } from '../data/challenge.mjs';
 import { isAuthenticate } from '../util/auth.mjs';
-import { getCounterChallenge } from '../data/counter-challenge.mjs';
-import { getAPlayer } from '../data/players.mjs';
 import { logMessage } from '../util/logging.mjs';
-import { createNewChallenge } from '../controller/challenges.mjs';
+import { createNewChallenge, getValidChallenge, getValidChallenges, updateValidChallenge } from '../controller/challenges.mjs';
 
 const router = express();
 
 router.get('/', async (req, res, next) => {
     try {
-        logMessage("getAllChallenges called");
-        const challenges = await getAllChallenges();
+        logMessage("getValidChallenges called");
+        const challenges = await getValidChallenges();
         res.json({ challenges });
     } catch (error) {
         next(error);
@@ -22,17 +19,7 @@ router.get('/:id', async (req, res, next) => {
     try {
         logMessage("getChallenge called");
         const id = req.params.id;
-        const challenge = await getAChallenge(id);
-        let counters = await getCounterChallenge(id);
-        if (counters.length > 0) {
-            counters = await Promise.all(counters.map(async (counter) => {
-                const player = await getAPlayer(counter.playerId);
-                return {
-                    ...counter,
-                    player_name: player.display_name
-                }
-            }));
-        }
+        const { challenge, counters } = await getValidChallenge(id);
         res.json({ challenge, counters });
     } catch (error) {
         next(error);
@@ -43,8 +30,7 @@ router.use(isAuthenticate);
 
 router.post('/', async (req, res, next) => {
     try {
-        logMessage("addChallenge called");
-
+        logMessage("createNewChallenge called");
         await createNewChallenge(req.body);
         res.status(201).json({ message: 'Challenge issued' });
     } catch (error) {
@@ -54,11 +40,9 @@ router.post('/', async (req, res, next) => {
 
 router.patch('/:id', async (req, res, next) => {
     try {
-        logMessage("updateChallenge called");
-        const id = req.params.id;
         const data = req.body;
-        logMessage(data);
-        const challenge = await updateChallenge(data);
+        logMessage("updateValidChallenge called");
+        updateValidChallenge({ _id: req.params.id, ...data });
         res.status(201).json({ message: "Challenge updated" });
     } catch (error) {
         next(error);

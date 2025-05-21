@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, redirect, useLocation, useSubmit } from "react-router-dom";
+import { Form, Link, redirect, useLocation, useSubmit } from "react-router-dom";
 import { usePatchPostFetch } from "../../hooks/useFetch";
 import { setUserData } from "../../util/auth";
 const guildID = import.meta.env.VITE_GUILD_ID
@@ -76,7 +76,9 @@ export default function DiscordPage() {
                     </div>
                     <div className="flex justtify-center gap-2">
                         <Link to="/" className="text-sm mt-5 p-2 border rounded">Continue</Link>
-                        <Link to="/logout" className="text-sm mt-5 p-2 border rounded">Logout</Link>
+                        <Form action="/logout" method="post">
+                            <button className="text-sm mt-5 p-2 border rounded">Logout</button>
+                        </Form>
                     </div>
                 </div>
             )}
@@ -106,5 +108,6 @@ export async function action({ request, params }) {
         return resData;
     }
     localStorage.setItem('welcome', resData.message);
+    console.log(resData.account);
     setUserData({ ...resData.account });
 }
