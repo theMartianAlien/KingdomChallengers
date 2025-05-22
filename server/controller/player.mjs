@@ -1,5 +1,4 @@
 import { logError, logMessage } from "../util/logging.mjs";
-import Players from "../models/Player.mjs";
 import DiscordUtil from "../data/utils/DiscordUtil.mjs";
 import PlayersUtil from "../data/utils/PlayersUtil.mjs";
 import Player from "../models/Player.mjs";
@@ -8,7 +7,7 @@ const findAPlayer = async (req, res, next) => {
     try {
         logMessage("-----------findAPlayer--------------");
         const id = req.params.id;
-        const player = await Players.findById(id);
+        const player = await Player.findById(id);
         if (!player) {
             return res
                 .status(404)
@@ -30,7 +29,7 @@ const findAPlayer = async (req, res, next) => {
 const findAllPlayers = async (req, res, next) => {
     try {
         logMessage("-----------findAllPlayers--------------");
-        const players = await Players.find();
+        const players = await Player.find();
         if (!players || players.length === 0) {
             res.json("No players currently in the database.");
             return;
@@ -95,31 +94,48 @@ const createNewPlayer = async (req, res, next) => {
 const updatePlayer = async (req, res, next) => {
     try {
         const id = req.params.id;
-
-        
-    let data = req.body;
-        if (!data.handler) {
-            return res.status(422).json({ message: "Unable to update player: " + data.handler });
+        const data = req.body;
+        logMessage("-----------updatePlayer--------------");
+        const player = await Player.findById(id);
+        if (!player) {
+        logMessage("-----------player--------------");
+            return res.status(404).json({ message: "Player not found: " + data.discord_handle });
         }
 
-        const handler = await getAPlayer(data._id);
+        player.display_name = data.display_name;
 
-        if (!handler) {
-            return res.status(422).json({ message: "Unable to update player: " + data.handler });
-        }
-        logMessage("replaceAPlayer called");
-        await replaceAPlayer(data);
+        await player.save();
+        logMessage("-----------updatePlayer--------------");
         res.status(201).json({ message: 'Player updated!', player: data });
     } catch (error) {
         next(error);
     }
 }
 
+const deletePlayer = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        logMessage("-----------deletePlayer--------------");
+        const result = await Player.findByIdAndDelete(id);
+        if (!result) {
+            logMessage("-----------result--------------");
+            logMessage(result);
+            return res.status(404).json({ message: 'Unable to delete player: ' + id });
+        }
+        logMessage("-----------deletePlayer--------------");
+        res.status(201).json({ message: 'Player deleted!' });
+    } catch (error) {
+        next(error);
+    }
+}
+
+
 const PlayerController = {
     findAPlayer,
     findAllPlayers,
     createNewPlayer,
-    updatePlayer
+    updatePlayer,
+    deletePlayer
 }
 
 export default PlayerController;

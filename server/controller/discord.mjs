@@ -1,6 +1,6 @@
+import { logError, logMessage } from "../util/logging.mjs";
 import DiscordUtil from "../data/utils/DiscordUtil.mjs";
 import Discord from "../models/Discord.mjs";
-import { logError, logMessage } from "../util/logging.mjs";
 
 const createDiscordUser = async (req, res, next) => {
     try {
@@ -124,7 +124,7 @@ const updateDiscordUser = async (req, res, next) => {
 }
 
 const deleteDiscordUser = async (req, res, next) => {
-        try {
+    try {
         logMessage("-----------deleteDiscordUser--------------");
         const result = await Discord.findByIdAndDelete(req.params.id);
 
@@ -142,11 +142,12 @@ const deleteDiscordUser = async (req, res, next) => {
     }
 }
 
-
-export default {
+const DiscordController = {
     createDiscordUser,
     findAllDiscordUser,
     findADiscordUser,
     updateDiscordUser,
     deleteDiscordUser
 }
+
+export default DiscordController;

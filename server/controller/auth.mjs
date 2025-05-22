@@ -1,11 +1,11 @@
 import { logError, logMessage } from "../util/logging.mjs";
+import { hashPassword, isValidPassword } from "../util/auth.mjs";
+import Discord from "../models/Discord.mjs";
 import DiscordUtil from "../data/utils/DiscordUtil.mjs";
 import Player from "../models/Player.mjs";
 import PlayersUtil from "../data/utils/PlayersUtil.mjs";
-import { hashPassword, isValidPassword } from "../util/auth.mjs";
 import Account from "../models/Account.mjs";
 import AccountsUtil from "../data/utils/AccountsUtil.mjs";
-import Discord from "../models/Discord.mjs";
 
 const register = async (req, res, next) => {
     try {
@@ -354,10 +354,12 @@ const updateAccount = async (req, res, next) => {
     }
 }
 
-export default {
+const AuthController = {
     register,
     login,
     discord,
     findAccountById,
     updateAccount
 };
+
+export default AuthController;

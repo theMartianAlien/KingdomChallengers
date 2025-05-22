@@ -1,8 +1,8 @@
-import Challenge from '../models/Challenge.mjs';
-import CounterChallenge from '../models/CounterChallenge.mjs';
-import Player from '../models/Player.mjs';
-import CounterChallengeUtil from '../data/utils/CounterChallengeUtil.mjs';
 import { logError, logMessage } from "../util/logging.mjs";
+import CounterChallenge from '../models/CounterChallenge.mjs';
+import CounterChallengeUtil from '../data/utils/CounterChallengeUtil.mjs';
+import Player from '../models/Player.mjs';
+import Challenge from '../models/Challenge.mjs';
 
 const createCounterChallenge = async (req, res, next) => {
     try {
@@ -97,8 +97,10 @@ const deleteCounterChallenge = async (req, res, next) => {
     }
 };
 
-export default {
+const CounterChallengeController = {
     createCounterChallenge,
     updateCounterChallenge,
     deleteCounterChallenge
 };
+
+export default CounterChallengeController;

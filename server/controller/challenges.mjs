@@ -134,10 +134,12 @@ const deleteChallenge = async (req, res, next) => {
     }
 }
 
-export default {
+const ChallengesController = {
     findChallenge,
     findAllChallenge,
     createNewChallenge,
     updateChallenge,
     deleteChallenge
 };
+
+export default ChallengesController;
