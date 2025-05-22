@@ -5,8 +5,7 @@ const { Schema, model } = mongoose;
 const discordUserSchema = new Schema({
   user_key: {
     type: String,
-    required: true,
-    unique: true,
+    required: true
   },
   discord_handle: {
     type: String,

@@ -1,13 +1,13 @@
 import express from 'express';
 import { isAuthenticate } from '../util/auth.mjs';
-import Challenges from '../controller/challenges.mjs';
+import ChallengesController from '../controller/challenges.mjs';
 
 const router = express();
-router.get('/', Challenges.findAllChallenge);
-router.get('/:id', Challenges.findChallenge);
+router.get('/', ChallengesController.findAllChallenge);
+router.get('/:id', ChallengesController.findChallenge);
 router.use(isAuthenticate);
-router.post('/', Challenges.createNewChallenge);
-router.patch('/:id', Challenges.updateChallenge);
-router.delete('/:id', Challenges.deleteChallenge);
+router.post('/', ChallengesController.createNewChallenge);
+router.patch('/:id', ChallengesController.updateChallenge);
+router.delete('/:id', ChallengesController.deleteChallenge);
 
 export default router;

@@ -87,6 +87,7 @@ const createNewPlayer = async (req, res, next) => {
         logMessage("-----------createNewPlayer--------------");
         res.status(201).json({ message: 'Player added!' });
     } catch (error) {
+        logError(error);
         next(error);
     }
 }
@@ -108,6 +109,7 @@ const updatePlayer = async (req, res, next) => {
         logMessage("-----------updatePlayer--------------");
         res.status(201).json({ message: 'Player updated!', player: data });
     } catch (error) {
+        logError(error);
         next(error);
     }
 }
@@ -125,10 +127,10 @@ const deletePlayer = async (req, res, next) => {
         logMessage("-----------deletePlayer--------------");
         res.status(201).json({ message: 'Player deleted!' });
     } catch (error) {
+        logError(error);
         next(error);
     }
 }
-
 
 const PlayerController = {
     findAPlayer,

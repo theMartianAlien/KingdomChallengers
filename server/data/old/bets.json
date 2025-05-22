@@ -681,7 +681,7 @@
                 "p1"
             ],
             "teamB": [
-                "p2"
+                "p24"
             ]
         },
         "dateCompleted": "",
@@ -1163,6 +1163,28 @@
             "sense": ""
         },
         "punishment": "No Punishments indicated for loser.",
+        "tags": []
+    },
+    {
+        "title": "Sei at Shintei by the end of the arc",
+        "players": {
+            "teamA": [
+                "p35"
+            ],
+            "teamB": [
+                "p18"
+            ]
+        },
+        "dateCompleted": "",
+        "link": "https://discord.com/channels/400120926592696342/400121599639945216/1374823367714013286",
+        "text": " @NoirKingOfVoid  If Sei doesnt come to Shintei after its fall I lose, If he appears I win.",
+        "status": "ongoing",
+        "winner": "",
+        "chapter": {
+            "spoilers": "",
+            "sense": ""
+        },
+        "punishment": "Loser calls the other master-<username> until the succeeding chapter arrives( spoileres)",
         "tags": []
     }
 ]

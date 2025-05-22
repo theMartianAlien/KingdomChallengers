@@ -23,6 +23,14 @@ const findPlayerByDiscordHandleId = async (discord_handle_id) => {
     return undefined;
 }
 
+const findPlayerByDiscordHandle = async (discord_handle) => {
+    if (discord_handle) {
+        return await Players.findOne({ "discord_handle": discord_handle }).exec();
+    }
+
+    return undefined;
+}
+
 const findPlayerAndUpdateDisplayName = async (discord_handle_id, nickname) => {
     const player = await findPlayerByDiscordHandleId(discord_handle_id);
     if (!player) {
@@ -37,6 +45,7 @@ const findPlayerAndUpdateDisplayName = async (discord_handle_id, nickname) => {
 
 const PlayersUtil = {
     findAllPlayersForChallenge,
+    findPlayerByDiscordHandle,
     findPlayerByDiscordHandleId,
     findPlayerAndUpdateDisplayName
 }

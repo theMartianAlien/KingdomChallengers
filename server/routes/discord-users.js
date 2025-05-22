@@ -1,6 +1,6 @@
 import express from 'express';
-import DiscordController from '../controller/discord.mjs';
 import { isAdminAuthenticate } from '../util/auth.mjs';
+import DiscordController from '../controller/discord.mjs';
 
 const router = express();
 
