@@ -6,17 +6,15 @@ import { logError, logMessage } from "../util/logging.mjs";
 
 const createCounterChallenge = async (req, res, next) => {
     try {
-        logMessage("createCounterChallenge called");
+        logMessage("-----------createCounterChallenge--------------");
         const challenge = await Challenge.findById(req.body.challengeId);
         const player = await Player.findById(req.body.playerId);
 
         if (!challenge || !player) {
-            logMessage("-----------createCounterChallenge--------------");
             logMessage("-----------challenge--------------");
             logMessage(challenge);
             logMessage("-----------player--------------");
             logMessage(player);
-            logMessage("-----------createCounterChallenge--------------");
             return res.status(404).json({ message: 'Unable to add counter challenge.' });
         }
         await CounterChallengeUtil.deleteAllCountersByPlayer(challenge._id, req.body.playerId)
@@ -33,6 +31,7 @@ const createCounterChallenge = async (req, res, next) => {
 
         await newCounterChallenge.save();
 
+        logMessage("-----------createCounterChallenge--------------");
         res.status(201).json({ message: 'Counter Challenge issued!' });
     }
     catch (error) {
@@ -44,7 +43,7 @@ const createCounterChallenge = async (req, res, next) => {
 const updateCounterChallenge = async (req, res, next) => {
     try {
         logMessage("updateCounterChallenge called");
-        const counterChallenge = await CounterChallenge.findById(req.params._id);
+        const counterChallenge = await CounterChallenge.findById(req.params.id);
 
         const challenge = await Challenge.findById(req.body.challegeId);
 
@@ -58,7 +57,7 @@ const updateCounterChallenge = async (req, res, next) => {
             logMessage("-----------player--------------");
             logMessage(player);
             logMessage("-----------updateCounterChallenge--------------");
-            return res.status(404).json({ message: 'Error updating counter challenge :' + req.params._id });
+            return res.status(404).json({ message: 'Error updating counter challenge :' + req.params.id });
         }
 
         counterChallenge.challegeId = req.body.challenge._id;

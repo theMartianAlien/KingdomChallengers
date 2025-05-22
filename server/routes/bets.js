@@ -3,8 +3,7 @@ import { getABet, getAllBets, getAllBetsByPlayer } from '../data/bets.mjs';
 import { getAllPlayers, getAllPlayersBy } from '../data/players.mjs';
 import { isAdminAuthenticate } from '../util/auth.mjs';
 import { logMessage } from '../util/logging.mjs';
-// import logMessage from '../util/logging.mjs';
-// import { logMessage } from '../util/logging.mjs';
+
 const router = express();
 
 router.get('/', async (req, res, next) => {
