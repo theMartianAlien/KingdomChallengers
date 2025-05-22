@@ -10,11 +10,9 @@ const counterChallengeSchema = new Schema({
   },
   challenge: {
     type: String,
-    required: true,
   },
   punishment: {
     type: String,
-    required: true,
   },
   team: {
     type: String,

@@ -7,23 +7,28 @@ import { logError, logMessage } from "../util/logging.mjs";
 const createCounterChallenge = async (req, res, next) => {
     try {
         logMessage("createCounterChallenge called");
-        const challege = await Challenge.findById(req.body.challengeId);
+        const challenge = await Challenge.findById(req.body.challengeId);
         const player = await Player.findById(req.body.playerId);
 
-        if (!challege || !player) {
+        if (!challenge || !player) {
+            logMessage("-----------createCounterChallenge--------------");
+            logMessage("-----------challenge--------------");
+            logMessage(challenge);
+            logMessage("-----------player--------------");
+            logMessage(player);
+            logMessage("-----------createCounterChallenge--------------");
             return res.status(404).json({ message: 'Unable to add counter challenge.' });
         }
-
-        await CounterChallengeUtil.deleteAllCountersByPlayer(challege._id, req.body.playerId)
+        await CounterChallengeUtil.deleteAllCountersByPlayer(challenge._id, req.body.playerId)
 
         // Create the new Counter Challenge
         const newCounterChallenge = new CounterChallenge({
-            challengeId: challege._id,
+            challengeId: challenge._id,
             challenge: req.body.challenge,
             punishment: req.body.punishment,
             team: req.body.team,
             playerId: req.body.playerId,
-            action: req.body.action
+            action: "none"
         });
 
         await newCounterChallenge.save();
@@ -39,14 +44,29 @@ const createCounterChallenge = async (req, res, next) => {
 const updateCounterChallenge = async (req, res, next) => {
     try {
         logMessage("updateCounterChallenge called");
-        // Find the CounterChallenge by its ID
         const counterChallenge = await CounterChallenge.findById(req.params._id);
 
-        if (!counterChallenge) {
-            return res.status(404).json({ message: 'Counter Challenge not found' });
+        const challenge = await Challenge.findById(req.body.challegeId);
+
+        const player = await Player.findById(req.body.playerId);
+        if (!counterChallenge || !player || !challenge) {
+            logMessage("-----------updateCounterChallenge--------------");
+            logMessage("-----------counterChallenge--------------");
+            logMessage(counterChallenge);
+            logMessage("-----------challenge--------------");
+            logMessage(challenge);
+            logMessage("-----------player--------------");
+            logMessage(player);
+            logMessage("-----------updateCounterChallenge--------------");
+            return res.status(404).json({ message: 'Error updating counter challenge :' + req.params._id });
         }
 
-        // Update the action field of the Counter Challenge
+        counterChallenge.challegeId = req.body.challenge._id;
+        counterChallenge.challege = req.body.challege;
+        counterChallenge.punishment = req.body.punishment;
+        counterChallenge.team = req.body.team;
+        counterChallenge.team = req.body.team;
+        counterChallenge.playerId = player._id;
         counterChallenge.action = req.body.action;
 
         // Save the updated Counter Challenge
@@ -61,14 +81,16 @@ const updateCounterChallenge = async (req, res, next) => {
 
 const deleteCounterChallenge = async (req, res, next) => {
     try {
-        logMessage("deleteCounterChallenge called");
-        // Delete the Counter Challenge by its ID
+        logMessage("-----------deleteCounterChallenge--------------");
         const result = await CounterChallenge.findByIdAndDelete(req.params._id);
 
         if (!result) {
+            logMessage("-----------result--------------");
+            logMessage(result);
             return res.status(404).json({ message: 'Counter Challenge not found' });
         }
 
+        logMessage("-----------deleteCounterChallenge--------------");
         res.status(200).json({ message: 'Counter Challenge deleted!' });
     } catch (error) {
         logError(error);

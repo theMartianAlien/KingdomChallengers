@@ -9,12 +9,14 @@ const accountSchema = new Schema({
   },
   username: {
     type: String,
-    required: true,
-    unique: true,
+    required: true
   },
   password: {
+    type: String
+  },
+  discord_id: {
     type: String,
-    required: true,
+    unique: true,
   },
   discord_handle_id: {
     type: Types.ObjectId,

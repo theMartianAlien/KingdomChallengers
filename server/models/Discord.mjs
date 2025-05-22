@@ -19,8 +19,10 @@ const discordUserSchema = new Schema({
   }
 }, {
   timestamps: true
+}, {
+  collection: 'discord_users'
 });
 
-const DiscordUser = model('DiscordUser', discordUserSchema);
+const Discord = model('discord_users', discordUserSchema);
 
-export default DiscordUser;
+export default Discord;
