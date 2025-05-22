@@ -211,17 +211,17 @@ const discord = async (req, res, next) => {
         }
         let account = await AccountsUtil.findAccountByDiscordId(data.discord_id);
         if (account) {
-            console.log("we were found!");
+            account.nickname = data.nickname;
+            account.username = data.username;
+            account.image = data.image
         } else {
             account = await AccountsUtil.findAccountByDiscordHandleId(discordUser._id);
             if (account) {
-                console.log("we were found by discord user name!");
                 await Account.findByIdAndUpdate(
                     { _id: account._id },
-                    { discord_id: data.discord_id }
+                    { discord_id: data.discord_id, image: data.image }
                 );
             } else {
-                console.log("we were not found so we now create");
                 account = new Account({
                     nickname: data.nickname,
                     username: data.username,
@@ -231,9 +231,9 @@ const discord = async (req, res, next) => {
                     image: data.image
                 });
 
-                await account.save();
             }
         }
+        await account.save();
         const accountData = await AccountsUtil.createAccountForUILogin(discordUser, player, account);
         logMessage("-----------discord--------------");
         return res.status(201)
