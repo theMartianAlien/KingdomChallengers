@@ -145,7 +145,7 @@ const insertBets = async (req, res, next) => {
                 punishment: BET.punishment,
                 link: BET.link,
                 winner: !BET.winner || BET.winner.length == 0 ? "none" : BET.winner,
-                status: BET.winner.length > 0 ? 'complete' : BET.status,
+                status: (BET.winner !== null && BET.winner.length > 0) ? 'complete' : BET.status,
                 chapter: BET.spoilers,
                 "date-added": utc
             });
