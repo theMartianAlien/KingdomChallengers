@@ -13,8 +13,6 @@ export default function TableHeaderName({ sortable, label, column, isAsc, onClic
         selected = 'font-bold text-red-800'
     }
 
-    console.log('column ' + column + ' ' + selected);
-
     return (
         <th
             key={column}

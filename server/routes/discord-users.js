@@ -1,43 +1,14 @@
 import express from 'express';
-import { getAllDiscordUsers, getDiscordHandler, getDiscordHandlerUser, writeADiscordHandler } from '../data/discord-users.mjs';
 import { isAdminAuthenticate } from '../util/auth.mjs';
-import {logMessage} from '../util/logging.mjs';
+import DiscordController from '../controller/discord.mjs';
 
 const router = express();
 
 router.use(isAdminAuthenticate);
-
-router.get('/', async (req, res, next) => {
-    try {
-        const players = await getAllDiscordUsers();
-        const data = players.map((player) => player.discord_handle);
-        res.json(data);
-    } catch (error) {
-        next(error);
-    }
-});
-
-router.post('/', async (req, res, next) => {
-    try {
-        logMessage("writeADiscordHandler called");
-        const discordHandler = await getDiscordHandler(req.body.discord_handle);
-
-        if (discordHandler) {
-            logMessage("this discord handle already in the database discord_handler");
-            return res.status(401).json({ message: "Unable to add this discord handle" });
-        }
-
-        const user_key = await getDiscordHandlerUser(req.body.discord_handle, req.body.user_key);
-
-        if (user_key) {
-            logMessage("this discord handle already in the database user_key");
-            return res.status(401).json({ message: "Unable to add this discord handle" });
-        }
-        await writeADiscordHandler(req.body);
-        res.status(201).json({ message: 'Discord handle added!' });
-    } catch (error) {
-        next(error);
-    }
-});
+router.get('/', DiscordController.findAllDiscordUser);
+router.post('/', DiscordController.createDiscordUser);
+router.get('/:id', DiscordController.findADiscordUser);
+router.patch('/:id', DiscordController.updateDiscordUser);
+router.delete('/:id', DiscordController.deleteDiscordUser);
 
 export default router;

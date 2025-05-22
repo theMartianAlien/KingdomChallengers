@@ -14,15 +14,11 @@ export default function BetCard({ bet, data }) {
                 Status: <span className={classes.status}>{bet.status}</span>
             </h4>
             <p className="font-normal text-gray-700 dark:text-gray-400">
-                {data
-                    .filter((p) =>
-                        bet.teamA.find(player => player.player_id.toString() === p._id.toString()))
+                {bet.teamA
                     .map((p) => (p.display_name))
                     .join(", ")}
                 &nbsp;VS&nbsp;
-                {data
-                    .filter((p) =>
-                        bet.teamB.find(player => player.player_id.toString() === p._id.toString()))
+                {bet.teamB
                     .map((p) => (p.display_name))
                     .join(", ")}
             </p>

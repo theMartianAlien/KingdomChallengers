@@ -1,28 +1,205 @@
-import { getAccountByDiscordHandle, getAccountByDiscordId, getAccountByDiscorHandleId, getAccountByDiscorHandleIdPlayerId, getAccountById, getAccountByUserName, registerUser, updateAccount } from "../data/auth.mjs";
-import { getDiscordHandler, getDiscordHandlerUser, getDiscordUserById } from "../data/discord-users.mjs";
-import { getAPlayer, getAPlayerByHandler, replaceAPlayer } from "../data/players.mjs";
-import { createAdminJSONToken, createJSONToken, hashPassword, isValidPassword } from "../util/auth.mjs";
-import { logMessage } from "../util/logging.mjs";
+import { logError, logMessage } from "../util/logging.mjs";
+import { hashPassword, isValidPassword } from "../util/auth.mjs";
+import Discord from "../models/Discord.mjs";
+import DiscordUtil from "../data/utils/DiscordUtil.mjs";
+import Player from "../models/Player.mjs";
+import PlayersUtil from "../data/utils/PlayersUtil.mjs";
+import Account from "../models/Account.mjs";
+import AccountsUtil from "../data/utils/AccountsUtil.mjs";
 
-export async function discordLogin(data) {
+const register = async (req, res, next) => {
     try {
-        logMessage(data);
-        // we need to write a whole lot of validation for this
-
-        const { discordUser, discordError } = await getDiscordInfo(data.username);
-        if (discordError) {
-            errors.discord_signup = `Unable to login discord user with: ${data.username} discord login`;
+        logMessage("-----------register--------------");
+        const data = req.body;
+        let errors = {};
+        if (!data.password || data.password.length <= 3 || data.password.length >= 20 || !data["repeat-password"]) {
+            errors.password = "Invalid passwords"
             if (Object.keys(errors).length > 0) {
-                return {
-                    status: 422,
-                    message: 'Discord login error!',
-                    errors
-                }
+                return res
+                    .status(422)
+                    .json({
+                        message: 'User signup failed due to validation errors.',
+                        errors: errors,
+                        data: {
+                        }
+                    })
             }
         }
 
-        const { player, playerError } = await getPlayer(discordUser._id, data.nickname);
-        if (playerError) {
+        const isNotTheSame = (data.password.toUpperCase() !== data["repeat-password"].toUpperCase())
+        if (isNotTheSame) {
+            errors.passwords = "Passwords and repeat passwords are not the same"
+            if (Object.keys(errors).length > 0) {
+                return res
+                    .status(422)
+                    .json({
+                        message: 'User signup failed due to validation errors.',
+                        errors: errors,
+                        data: {
+                        }
+                    })
+            }
+        }
+
+        if (!data.username || (data.username.length <= 3 && data.username.length >= 20)) {
+            errors.username = "Invalid username"
+            if (Object.keys(errors).length > 0) {
+                return res
+                    .status(422)
+                    .json({
+                        message: 'User signup failed due to validation errors.',
+                        errors: errors,
+                        data: {
+                        }
+                    })
+            }
+        }
+        const discordUser = await DiscordUtil.findByDiscordHandle(data.discord_handle, data.user_key);
+        if (!discordUser || !data.user_key) {
+            errors.discord_signup = `Unable to login discord handle: ${data.username}`;
+            if (Object.keys(errors).length > 0) {
+                return res
+                    .status(422)
+                    .json({
+                        message: 'User signup failed due to validation errors.',
+                        errors: errors,
+                        data: {
+                        }
+                    })
+            }
+        }
+        let account = await AccountsUtil.findAccountByDiscordHandleId(discordUser._id);
+        if (account) {
+            errors.user_exist = "The user has an account, please try to login.";
+            if (Object.keys(errors).length > 0) {
+                return res
+                    .status(422)
+                    .json({
+                        message: 'User signup failed due to validation errors.',
+                        errors: errors,
+                        data: {
+                        }
+                    })
+            }
+        }
+        const player = await PlayersUtil.findPlayerAndUpdateDisplayName(discordUser._id, data.nickname);
+
+        if (!player) {
+            logMessage("-----------player--------------");
+            logMessage(player);
+            return res
+                .status(422)
+                .json({
+                    message: 'User signup failed due to validation errors.',
+                    errors: errors,
+                    data: {
+                    }
+                })
+        }
+
+        const hasPassword = await hashPassword(data.password);
+        const image = 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg';
+        const createNewAccount = new Account({
+            nickname: data.nickname,
+            username: data.username,
+            password: hasPassword,
+            discord_handle_id: discordUser._id,
+            player_id: player._id,
+            image: image
+        });
+
+        await createNewAccount.save();
+
+        const accountData = await AccountsUtil.createAccountForUILogin(discordUser, player, createNewAccount);
+
+        logMessage("-----------register--------------");
+        return res.status(201)
+            .json({
+                message: `Registration Complete, Welcome ${player.display_name}!`,
+                account: accountData,
+                errors: []
+            });
+    } catch (error) {
+        logError(error);
+        next(error);
+    }
+}
+
+const login = async (req, res, next) => {
+    try {
+        logMessage("-----------login--------------");
+
+        const username = req.body.username;
+        const password = req.body.password;
+        let errors = {};
+        const account = await AccountsUtil.findAccountByUserName(username);
+        if (!account || !account.password) {
+            errors.credentials = 'Invalid username or password entered.';
+            if (Object.keys(errors).length > 0) {
+                return res
+                    .status(422)
+                    .json({
+                        message: 'Invalid credentials!',
+                        errors: errors,
+                        data: {
+                        }
+                    })
+            }
+        }
+        const isValid = await isValidPassword(password, account.password);
+        if (!isValid) {
+            errors.credentials = 'Invalid username or password entered.';
+            if (Object.keys(errors).length > 0) {
+                return res
+                    .status(422)
+                    .json({
+                        message: 'Invalid credentials!',
+                        errors: errors,
+                        data: {
+                        }
+                    })
+            }
+        }
+
+        const discordUser = await Discord.findById(account.discord_handle_id);
+        const player = await Player.findById(account.player_id);
+        const accountData = await AccountsUtil.createAccountForUILogin(discordUser, player, account);
+
+        logMessage("-----------login--------------");
+        return res.status(201)
+            .json({
+                message: `Registration Complete, Welcome ${player.display_name}!`,
+                account: accountData,
+                errors: []
+            });
+    } catch (error) {
+        logError(error);
+        next(error);
+    }
+}
+
+const discord = async (req, res, next) => {
+    try {
+        logMessage("-----------discord--------------");
+        const data = req.body;
+        let errors = {};
+        const discordUser = await DiscordUtil.findByDiscordHandle(data.username);
+        if (!discordUser) {
+            errors.discord_signup = `Unable to login discord user with: ${data.username} discord login`;
+            if (Object.keys(errors).length > 0) {
+                return res
+                    .status(422)
+                    .json({
+                        message: 'Discord login error!',
+                        errors: errors,
+                        data: {
+                        }
+                    })
+            }
+        }
+
+        const player = await PlayersUtil.findPlayerAndUpdateDisplayName(discordUser._id, data.nickname);
+        if (!player) {
             errors.player_error = `Unable find player user with: ${data.username} discord login`;
             if (Object.keys(errors).length > 0) {
                 return {
@@ -32,331 +209,158 @@ export async function discordLogin(data) {
                 }
             }
         }
-
-        // let player = await getAPlayerByDiscordHandle();
-        let account = await getAccountByDiscordId(data.discord_id);
-        let accountData = {
-            username: data.username,
-            nickname: data.nickname,
-            discord_id: data.discord_id,
-            image: data.image,
-            discord_handle_id: discordUser._id,
-            player_id: player._id
-        }
-
-        if (!account) {
-            account = await getAccountByDiscordHandle(data.username);
-            if (account) {
-                // we will add discord_id on the account data
-                await updateAccount(account._id, {
-                    ...account,
-                    discord_id: data.discord_id
-                });
-            } else {
-                await registerUser(accountData);
-            }
+        let account = await AccountsUtil.findAccountByDiscordId(data.discord_id);
+        if (account) {
+            account.nickname = data.nickname;
+            account.username = data.username;
+            account.image = data.image
         } else {
-            // we update all other information for this user.
-            await updateAccount(account._id, { ...accountData });
-        }
+            account = await AccountsUtil.findAccountByDiscordHandleId(discordUser._id);
+            if (account) {
+                await Account.findByIdAndUpdate(
+                    { _id: account._id },
+                    { discord_id: data.discord_id, image: data.image }
+                );
+            } else {
+                account = new Account({
+                    nickname: data.nickname,
+                    username: data.username,
+                    discord_handle_id: discordUser._id,
+                    discord_id: data.discord_id,
+                    player_id: player._id,
+                    image: data.image
+                });
 
-        account = await getAccountByDiscorHandleIdPlayerId(discordUser._id, player._id);
-
-        logMessage("Data returned");
-        const leAccount = acccountDataBuilder(account, discordUser, player);
-        logMessage(leAccount);
-        return {
-            status: 201,
-            message: `Registration Complete, Welcome ${player.display_name}!`,
-            errors: undefined,
-            data: leAccount
-        }
-    }
-    catch (error) {
-        logMessage(error);
-        return {
-            status: 422,
-            message: 'Something went wrong!',
-            errors: error,
-            data: {
             }
         }
+        await account.save();
+        const accountData = await AccountsUtil.createAccountForUILogin(discordUser, player, account);
+        logMessage("-----------discord--------------");
+        return res.status(201)
+            .json({
+                message: `Registration Complete, Welcome ${player.display_name}!`,
+                account: accountData,
+                errors: []
+            });
+    } catch (error) {
+        logError(error);
+        next(error);
     }
 }
 
-export async function register(data) {
+const findAccountById = async (req, res, next) => {
     try {
-        logMessage("registerUser called");
-        logMessage(data);
-        let errors = {};
-        delete data["repeat-password"];
-
-        if (!data.username || (data.username.length <= 3 && data.username.length >= 20)) {
-            errors.username = "Invalid username"
-            if (Object.keys(errors).length > 0) {
-                return {
-                    status: 422,
-                    message: 'User signup failed due to validation errors.',
-                    errors: errors,
-                    data: {
-                    }
-                }
+        logMessage("-----------findAccountById--------------");
+        const id = req.params.id;
+        const account = await Account.findById(id);
+        if (!account) {
+            logMessage("-----------account--------------");
+            logMessage(account);
+            return res.status(404).json({ message: 'Unable to find account data: ' + id });
+        }
+        const player = await Player.findById(account.player_id);
+        const discordUser = await Discord.findById(account.discord_handle_id);
+        if (!discordUser || !player) {
+            logMessage("-----------discordUser--------------");
+            logMessage(discordUser);
+            logMessage("-----------player--------------");
+            logMessage(player);
+            return res.status(404).json({ message: 'Unable to find account data: ' + id });
+        }
+        logMessage("-----------findAccountById--------------");
+        res.json({
+            account: {
+            _id: account._id,
+            display_name: player.display_name,
+            nickname: account.nickname,
+            username: account.username,
+            discord_handle: discordUser.discord_handle,
+            image: account.image,
+            hasPassword: (account.password ? true : false)
             }
-        }
-
-        if (!data.password || (data.password.length <= 3 && data.password.length >= 20)) {
-            errors.password = "Invalid passwords"
-            if (Object.keys(errors).length > 0) {
-                return {
-                    status: 422,
-                    message: 'User signup failed due to validation errors.',
-                    errors: errors,
-                    data: {
-                    }
-                }
-            }
-        }
-
-        const isNotTheSame = (data.password.toUpperCase() !== data["repeat-password"].toUpperCase())
-        if (isNotTheSame) {
-            errors.passwords = "Passwords and repeat passwords are not the same"
-            if (Object.keys(errors).length > 0) {
-                return {
-                    status: 422,
-                    message: 'User signup failed due to validation errors.',
-                    errors: errors,
-                    data: {
-                    }
-                }
-            }
-        }
-
-        const { discordUser, discordError } = await getDiscordInfo(data.discord_handle, data.user_key);
-        if (discordError) {
-            errors.discord_signup = `Unable to login discord handle: ${data.username}`;
-            if (Object.keys(errors).length > 0) {
-                return {
-                    status: 422,
-                    message: 'Discord login error!',
-                    errors
-                }
-            }
-        }
-        // this discord handle record should be associated with a user now.
-        delete data.user_key;
-        delete data.discord_handle;
-        delete data.display_name;
-
-        let account = await getAccountByDiscorHandleId(discordUser._id);
-        if (account) {
-            errors.user_exist = "The user has an account, please try to login.";
-            if (Object.keys(errors).length > 0) {
-                return {
-                    status: 422,
-                    message: 'User signup failed due to validation errors.',
-                    errors: errors,
-                    data: {
-                    }
-                }
-            }
-        }
-        const { player } = await getPlayer(discordUser._id, data.nickname);
-
-        const accountData = { ...data, discord_handle_id: discordUser._id, player_id: player._id };
-        accountData.password = await hashPassword(accountData.password);
-        accountData.image = 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'
-        await registerUser(accountData);
-
-        account = await getAccountByDiscorHandleIdPlayerId(discordUser._id, player._id);
-        const leAccount = acccountDataBuilder(account, discordUser, player);
-
-        return {
-            status: 201,
-            message: `Registration Complete, Welcome ${player.display_name}!`,
-            errors: undefined,
-            data: leAccount
-        }
+        });
     } catch (error) {
         logMessage(error);
-        return {
-            status: 422,
-            message: 'Something went wrong!',
-            errors: error,
-            data: {
-            }
-        }
+        next(error);
     }
 }
 
-export async function login(data) {
-    const username = data.username;
-    const password = data.password;
+const updateAccount = async (req, res, next) => {
     try {
-        const account = await getAccountByUserName(username);
-        if (!account || !account.password) {
-            return {
-                status: 422,
-                message: 'Invalid credentials!',
-                errors: { credentials: 'Invalid username or password entered.' },
-                data: {
-                }
-            }
+        logMessage("-----------updateAccount--------------");
+        const id = req.params.id;
+        const data = req.body;
+        let account = await Account.findById(id);
+        if (!account) {
+            logMessage("-----------accountData--------------");
+            logMessage(account);
+            return res.status(404).json({ message: 'Unable to find account data: ' + id });
         }
-        const isValid = await isValidPassword(password, account.password);
-        if (!isValid) {
-            return {
-                status: 422,
-                message: 'Invalid credentials!',
-                errors: { credentials: 'Invalid username or password entered.' },
-                data: {
-                }
-            }
-        }
-        const leAccount = acccountDataBuilder(account, discordUser, player);
-        logMessage(leAccount);
-
-        return {
-            status: 201,
-            message: `Welcome back, ${account.display_name}!`,
-            errors: undefined,
-            data: leAccount
-        }
-    }
-    catch (error) {
-        logMessage(error);
-        return {
-            status: 401,
-            message: 'Authentication failed!',
-            errors: error,
-            data: {
-            }
-        }
-    }
-}
-
-export async function getAccountInfo(id) {
-    const account = await getAccountById(id);
-    const player = await getAPlayer(account.player_id.toString());
-    const discordUser = await getDiscordUserById(account.discord_handle_id.toString());
-
-    return {
-        _id: account._id,
-        display_name: player.display_name,
-        nickname: account.nickname,
-        username: account.username,
-        discord_handle: discordUser.discord_handle,
-        image: account.image,
-        hasPassword: (account.password ? true : false)
-    }
-}
-
-export async function updateUserAccount(data) {
-    try {
-        logMessage(data);
-        let account = await getAccountById(data._id);
-        let accountData = {
-            ...account,
-            username: data.username,
-            nickname: data.nickname,
-            image: data.image
-        }
+        account.username = data.username;
+        account.nickname = data.nickname;
+        account.image = data.image;
         if (data.password && data.repeat_password) {
             const isNotTheSame = (data.password.toUpperCase() !== data.repeat_password.toUpperCase())
             if (isNotTheSame) {
-                return {
-                    status: 422,
-                    message: 'User signup failed due to validation errors.',
-                    errors: { passwords: "Passwords and repeat passwords are not the same" },
-                    data: {
-                    }
-                }
+                return res
+                    .status(422)
+                    .json({
+                        message: 'User signup failed due to validation errors.',
+                        errors: { passwords: "Passwords and repeat passwords are not the same" },
+                        data: {
+                        }
+                    })
             }
 
             accountData.password = await hashPassword(data.password);
         }
-        await updateAccount(account._id, accountData)
+        await account.save();
 
-        let player = await getAPlayer(account.player_id.toString());
-        if (player) {
-            await replaceAPlayer({
-                ...player,
-                display_name: data.display_name
-            })
+        const player = await Player.findById(account.player_id);
+        if (!player) {
+            logMessage("-----------player--------------");
+            logMessage(player);
+            return res.status(404).json({ message: 'Unable to find account data: ' + id });
         }
-        player = await getAPlayer(account.player_id.toString());
-
-        let discordUser = await getDiscordUserById(account.discord_handle_id.toString());
-        const leAccount = acccountDataBuilder(account, discordUser, player);
-
-        return {
-            status: 201,
-            message: 'Account successfully modified!',
-            data: { ...leAccount, hasPassword: (account.password ? true : false) }
+        player.display_name = data.display_name;
+        if (!player) {
+            logMessage("-----------player--------------");
+            logMessage(player);
+            return res.status(404).json({ message: 'Unable to find account data: ' + id });
         }
-    }
-    catch (error) {
-        logMessage(error);
-        return {
-            status: 401,
-            message: 'Account update failed!',
-            errors: error,
-            data: {
-            }
-        }
-    }
-}
+        await player.save();
 
-async function getDiscordInfo(username, user_key) {
-    let discordUser = await getDiscordHandler(username);
-    if (!discordUser) {
-        return {
-            discordError: "Discord user doesnt exist"
-        }
-    }
-
-    if (user_key) {
-        discordUser = await getDiscordHandlerUser(user_key, username);
+        const discordUser = await Discord.findById(account.discord_handle_id);
         if (!discordUser) {
-            return {
-                discordError: "Discord user doesnt exist"
-            }
+            logMessage("-----------discordUser--------------");
+            logMessage(discordUser);
+            return res.status(404).json({ message: 'Unable to find account data: ' + id });
         }
-    }
 
-    return { discordUser }
-}
+        const accountData = await AccountsUtil.createAccountForUILogin(discordUser, player, account);
+        logMessage("-----------updateAccount--------------");
+        return res.status(201)
+            .json({
+                message: 'Account successfully modified!',
+                account: {
+                    ...accountData,
+                    hasPassword: (account.password ? true : false)
+                },
+                errors: []
+            });
 
-async function getPlayer(discord_handle_id, nickname) {
-    let player = await getAPlayerByHandler(discord_handle_id);
-    if (!player) {
-        //create a player if this player doesnt exist
-    } else {
-        if (nickname) {
-            // We replace the display name in the players table for this player
-            await replaceAPlayer({
-                ...player,
-                display_name: nickname
-            })
-        }
-    }
-    return { player };
-}
-
-function acccountDataBuilder(account, discordUser, playerInfo) {
-
-    let token = createJSONToken(discordUser.discord_handle);
-    let adminToken;
-    if (discordUser.isAdmin) {
-        adminToken = createAdminJSONToken(account.discord_handle);
-    }
-    return {
-        _id: account._id,
-        image: account.image,
-        player_id: playerInfo._id,
-        display_name: playerInfo.display_name,
-        discord_handle: discordUser.discord_handle,
-        nickname: account.nickname,
-        token,
-        adminToken
+    } catch (error) {
+        logMessage(error);
+        next(error);
     }
 }
+
+const AuthController = {
+    register,
+    login,
+    discord,
+    findAccountById,
+    updateAccount
+};
+
+export default AuthController;

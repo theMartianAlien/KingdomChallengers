@@ -6,7 +6,6 @@ export default function ProfileForm() {
     const actionData = useActionData();
     if (actionData && actionData.account) {
         account = actionData.account;
-        console.log(actionData);
     }
     const [formData, setFormData] = useState({
         display_name: account?.display_name,

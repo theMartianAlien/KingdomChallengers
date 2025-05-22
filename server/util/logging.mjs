@@ -8,3 +8,7 @@ export function logMessage(message){
         console.log(message);
     }
 }
+
+export function logError(message) {
+    console.log(message);
+}

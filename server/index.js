@@ -10,11 +10,15 @@ import challengesRoutes from './routes/challenges.js';
 import counterChallengeRoutes from './routes/counter-challenge.js';
 import homepageRoutes from './routes/stats.js';
 import testDataRoutes from './routes/data-inserts.js'
-import {logMessage} from './util/logging.mjs';
+import { logMessage } from './util/logging.mjs';
+import { connectDB } from './data/utils/db.mjs';
 
 loadEnv();
 const PORT = process.env.PORT || 3000;
 const app = express();
+
+// Connect to MongoDB
+await connectDB();
 
 app.use(cors());
 app.use(express.json());
