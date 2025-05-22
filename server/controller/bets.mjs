@@ -6,7 +6,10 @@ import BetsUtil from "../data/utils/BetsUtil.mjs";
 const findAllBets = async (req, res, next) => {
     try {
         logMessage("-----------findAllBets--------------");
-        const bets = await Bets.find();
+        const bets = await Bets.find()
+            .populate('teamA', '_id display_name')
+            .populate('teamB', '_id display_name')
+            .exec();
         if (!bets || bets.length === 0) {
             res.json("No bets currently in the database.");
             return;
@@ -27,7 +30,7 @@ const findABet = async (req, res, next) => {
             .populate('teamA', '_id display_name')
             .populate('teamB', '_id display_name')
             .exec();
-
+        
         const players = await Player.find();
         logMessage("-----------findABet--------------");
         res.json({ bet: bet, players });
@@ -43,13 +46,12 @@ const findAllBetsByPlayer = async (req, res, next) => {
         logMessage("-----------findAllBetsByPlayer--------------");
 
         const player = await Player.findById(id);
-        if (player) {
+        if (!player) {
             logMessage("-----------findAllBetsByPlayer--------------");
             return res
                 .status(404)
                 .json({ message: 'Player no found: ' + id });
         }
-
         const bets = await BetsUtil.findAllBetsByPlayer(player._id);
         logMessage("-----------findAllBetsByPlayer--------------");
         res.json({ bets });
@@ -58,10 +60,42 @@ const findAllBetsByPlayer = async (req, res, next) => {
     }
 }
 
+const updateBet = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const data = req.body;
+        logMessage("-----------updateBet--------------");
+        const bet = await Bets.findById(id);
+        if (bet) {
+            logMessage("-----------bet--------------");
+            logMessage(bet);
+            return res
+                .status(404)
+                .json({ message: 'Player no found: ' + id });
+        }
+
+        if (data.winner) {
+            bet.winner = data.winner;
+            bet.status = 'complete'
+        } else if (data.status === "void") {
+            bet.winner = "none";
+            bet.status = 'void'
+        }
+
+        await bet.save();
+
+        logMessage("-----------updateBet--------------");
+        res.json({ message: "Bet updated." });
+    } catch (error) {
+        next(error);
+    }
+}
+
 const BetsController = {
     findAllBets,
     findABet,
-    findAllBetsByPlayer
+    findAllBetsByPlayer,
+    updateBet
 };
 
 export default BetsController;

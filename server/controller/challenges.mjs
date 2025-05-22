@@ -17,7 +17,7 @@ const findChallenge = async (req, res, next) => {
         }
 
         logMessage("-----------findChallenge--------------");
-        return res.json(challenge);
+        return res.json({challenge, counter: []});
     } catch (error) {
         logError(error);
         next(error);
@@ -117,7 +117,6 @@ const updateChallenge = async (req, res, next) => {
 const deleteChallenge = async (req, res, next) => {
     try {
         logMessage("-----------deleteChallenge--------------");
-        console.log(req.params.id);
         const result = await Challenge.findByIdAndDelete(req.params.id);
 
         if (result) {

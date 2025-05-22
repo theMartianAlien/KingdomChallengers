@@ -108,6 +108,5 @@ export async function action({ request, params }) {
         return resData;
     }
     localStorage.setItem('welcome', resData.message);
-    console.log(resData.account);
     setUserData({ ...resData.account });
 }

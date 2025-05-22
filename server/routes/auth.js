@@ -3,6 +3,7 @@ import { isAuthenticate } from '../util/auth.mjs';
 import AuthController from '../controller/auth.mjs';
 
 const router = express();
+
 router.post('/login', AuthController.login);
 router.post('/register', AuthController.register);
 router.post('/discord', AuthController.discord);

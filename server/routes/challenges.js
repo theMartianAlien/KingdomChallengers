@@ -3,6 +3,7 @@ import { isAuthenticate } from '../util/auth.mjs';
 import ChallengesController from '../controller/challenges.mjs';
 
 const router = express();
+
 router.get('/', ChallengesController.findAllChallenge);
 router.get('/:id', ChallengesController.findChallenge);
 router.use(isAuthenticate);

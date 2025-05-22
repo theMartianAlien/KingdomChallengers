@@ -61,7 +61,7 @@ export default function BetForm() {
             team = "";
         }
         winner.current = team;
-        teamWinnerHandler(team);
+        // teamWinnerHandler(team);
         betStatusHandler("complete");
     }
 
@@ -99,130 +99,124 @@ export default function BetForm() {
 
     return (
         <>
-            <Form method={method} className={classes.form}>
-                {errors ?? (errors)}
-                <div>
-                    <div>
-                        <input
-                            type="hidden"
-                            id="winner"
-                            name="winner"
-                            value={bet.winner ? bet.winner : ''} />
-                    </div>
-                    <Input
-                        label="Title of Bet"
-                        id="title"
-                        name="title"
-                        defaultValue={bet?.title} />
-                    <div className="form-group">
-                        <label htmlFor="bet-status">Bet Status</label>
-                        <select
-                            id="bet-status"
-                            name="bet-status"
-                            value={betStatusWinner.status}
-                            onChange={OnChangeBetStatus}
-                            disabled={bet?._id ? false : true}>
-                            <option value="ongoing">On going</option>
-                            <option value="void">Void</option>
-                            <option value="complete">Complete</option>
-                        </select>
-                    </div>
-                    <div className={"form-group "}>
-                        <Input
-                            label="Solved in chapter"
-                            id="spoilers"
-                            type="number"
-                            name="spoilers"
-                            defaultValue={bet?.chapter?.spoilers}
-                        />
-                    </div>
-                    <div className={"form-group " + classes.participants}>
-                        <div className={classes["participants-container"]}>
-                            <span className={classes.teamName}>Participants A</span>
-                            <ul>
-                                {bet.teamA.map((a) => (<li key={a._id}>{a.display_name}</li>))}
-                            </ul>
-                            {/* <select
-                                name="teamA"
-                                id="teamA"
-                                multiple
-                                className={classes["teams-list"]}
-                                value={teams.teamA.map((a) => (a._id))}
-                                onChange={(event) => onChangeSelectHandler("teamA", event)}>
-                                {sortedPlayer.map(player => (
-                                    <option key={player._id} value={player._id}>
-                                        {player.display_name}
-                                    </option>
-                                ))}
-                            </select> */}
-                            {teamAButtonWinner && teamAButtonWinner}
-                        </div>
-                        <div className={classes["participants-container"]}>
-                            <span className={classes.teamName}>Participants B</span>
+            <Form method={method} className="space-y-6 w-full max-w-6xl mx-auto p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md">
+                {errors && <p className="text-red-500 dark:text-red-400">{errors}</p>}
 
-                            <ul>
-                                {bet.teamB.map((team) => (<li key={team._id}>{team.display_name}</li>))}
-                            </ul>
-                            {/* <select
-                                name="teamB"
-                                id="teamB"
-                                multiple
-                                className={classes["teams-list"]}
-                                value={teams.teamB.map((b) => (b._id))}
-                                onChange={(event) => onChangeSelectHandler("teamB", event)}>
-                                {sortedPlayer.map(player => (
-                                    <option key={player._id} value={player._id}>
-                                        {player.display_name}
-                                    </option>
-                                ))}
-                            </select> */}
-                            {teamBButtonWinner && teamBButtonWinner}
-                        </div>
-                    </div>
-                    <Input
-                        label="Chapter Start"
-                        id="startChapter"
-                        name="startChapter"
-                        type="startChapter"
-                        defaultValue={bet?.chapterStart}
-                    />
-                    <Input
-                        label="Bet Link"
-                        id="link"
-                        name="link"
-                        defaultValue={bet?.link}
-                    />
+                <input type="hidden" id="winner" name="winner" value={bet.winner ?? ''} />
 
-                    <Input
-                        label="Bet content"
-                        id="text"
-                        name="text"
-                        textarea
-                        rows="10"
-                        defaultValue={bet?.text}
-                    />
+                <Input
+                    label="Title of Bet"
+                    id="title"
+                    name="title"
+                    defaultValue={bet?.title}
+                />
 
-                    <Input
-                        label="Punishment"
-                        id="punishment"
-                        name="punishment"
-                        textarea
-                        rows="4"
-                        defaultValue={bet?.punishment}
-                    />
-
-                    <Input
-                        label="Tags"
-                        id="tags"
-                        name="tags"
-                        textarea
-                        rows="4"
-                        defaultValue={bet?.tags}
-                    />
+                <div className="space-y-2">
+                    <label htmlFor="bet-status" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                        Bet Status
+                    </label>
+                    <select
+                        id="bet-status"
+                        name="bet-status"
+                        value={betStatusWinner.status}
+                        onChange={OnChangeBetStatus}
+                        disabled={!bet?._id}
+                        className="block w-full rounded-md border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    >
+                        <option value="ongoing">On going</option>
+                        <option value="void">Void</option>
+                        <option value="complete">Complete</option>
+                    </select>
                 </div>
-                <div className={classes.actions}>
-                    {token.adminToken && (<button className={classes.actions}>Save Bet</button>)}
-                    <Link className={classes.actions} to=".." relative="path">
+
+                <Input
+                    label="Solved in chapter"
+                    id="spoilers"
+                    type="number"
+                    className="
+                    rounded-md
+                    border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm 
+                    focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-gray-800 dark:text-gray-100 w-full
+                    p-2"
+                    name="spoilers"
+                    defaultValue={bet?.chapter?.spoilers}
+                />
+
+                <div className="flex flex-col sm:flex-row gap-6">
+                    {/* Team A */}
+                    <div className="w-full sm:w-1/2 border rounded-md p-4 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                        <span className="block text-lg font-semibold mb-2 text-gray-700 dark:text-gray-200">Participants A</span>
+                        <ul className="list-disc list-inside text-sm text-gray-800 dark:text-gray-100">
+                            {bet.teamA.map((a) => (
+                                <li key={a._id}>{a.display_name}</li>
+                            ))}
+                        </ul>
+                        {teamAButtonWinner && teamAButtonWinner}
+                    </div>
+
+                    {/* Team B */}
+                    <div className="w-full sm:w-1/2 border rounded-md p-4 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                        <span className="block text-lg font-semibold mb-2 text-gray-700 dark:text-gray-200">Participants B</span>
+                        <ul className="list-disc list-inside text-sm text-gray-800 dark:text-gray-100">
+                            {bet.teamB.map((b) => (
+                                <li key={b._id}>{b.display_name}</li>
+                            ))}
+                        </ul>
+                        {teamBButtonWinner && teamBButtonWinner}
+                    </div>
+                </div>
+
+                <Input
+                    label="Bet Link"
+                    id="link"
+                    name="link"
+                    className="p-3 block w-full rounded-md border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    defaultValue={bet?.link}
+                />
+
+                <Input
+                    label="Bet content"
+                    id="text"
+                    name="text"
+                    textarea
+                    className="p-3 block w-full rounded-md border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    rows="5"
+                    defaultValue={bet?.text}
+                />
+
+                <Input
+                    label="Punishment"
+                    id="punishment"
+                    name="punishment"
+                    textarea
+                    className="p-3 block w-full rounded-md border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    rows="4"
+                    defaultValue={bet?.punishment}
+                />
+
+                <Input
+                    label="Tags"
+                    id="tags"
+                    name="tags"
+                    textarea
+                    rows="4"
+                    defaultValue={bet?.tags}
+                />
+
+                <div className="flex items-center gap-4 mt-6">
+                    {token.adminToken && (
+                        <button
+                            type="submit"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors dark:bg-blue-500 dark:hover:bg-blue-600"
+                        >
+                            Save Bet
+                        </button>
+                    )}
+                    <Link
+                        to=".."
+                        relative="path"
+                        className="inline-block text-blue-600 dark:text-blue-400 hover:underline"
+                    >
                         Back
                     </Link>
                 </div>

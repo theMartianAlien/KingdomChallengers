@@ -2,11 +2,10 @@ import { Link } from "react-router-dom";
 import classes from './PlayerTag.module.css';
 
 export default function PlayerTag({ playerId, playerName, team, isWinner, isVoid }) {
-
     let winner = '';
     if (isVoid) {
         winner = ' ' + classes.void
-    } else {
+    } else if (isWinner !== 'none') {
         if (isWinner && isWinner === team) {
             winner = ' ' + classes.winner
         } else if (isWinner) {

@@ -1,17 +1,8 @@
 import express from 'express';
-import { getStatistics } from '../data/stats.mjs';
-import { logMessage } from '../util/logging.mjs';
+import StatisticsController from '../controller/statistics.mjs';
 
 const router = express();
 
-router.get('/', async (req, res, next) => {
-    try {
-        logMessage("getStatistics called");
-        const statistics = await getStatistics();
-        res.json(statistics);
-    } catch (error) {
-        next(error);
-    }
-});
+router.get('/', StatisticsController.homeStats);
 
 export default router;

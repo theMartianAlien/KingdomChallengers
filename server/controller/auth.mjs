@@ -269,6 +269,7 @@ const findAccountById = async (req, res, next) => {
         }
         logMessage("-----------findAccountById--------------");
         res.json({
+            account: {
             _id: account._id,
             display_name: player.display_name,
             nickname: account.nickname,
@@ -276,6 +277,7 @@ const findAccountById = async (req, res, next) => {
             discord_handle: discordUser.discord_handle,
             image: account.image,
             hasPassword: (account.password ? true : false)
+            }
         });
     } catch (error) {
         logMessage(error);
@@ -321,7 +323,6 @@ const updateAccount = async (req, res, next) => {
             return res.status(404).json({ message: 'Unable to find account data: ' + id });
         }
         player.display_name = data.display_name;
-        console.log(player);
         if (!player) {
             logMessage("-----------player--------------");
             logMessage(player);

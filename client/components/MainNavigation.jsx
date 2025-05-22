@@ -47,7 +47,7 @@ export default function MainNavigation() {
                     dismissOnClick={true}
                     inline
                     label={
-                        <Avatar alt="User settings" img={imgProfile} rounded />
+                        <Avatar alt="User settings" img={imgProfile} rounded className="cursor-pointer"/>
                     }>{
                         !player_id && (
                             <DropdownHeader>

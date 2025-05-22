@@ -130,28 +130,27 @@ const insertBets = async (req, res, next) => {
 
             const aBet = await BetsUtil.findBetByLink(BET.link);
             if (aBet) {
-                console.log(aBet);
-                console.log("--------------------------------FOUND!-----------------------------------");
-                console.log(BET);
-                console.log("-------------------------------------------------------------------");
+                logMessage(aBet);
+                logMessage("--------------------------------FOUND!-----------------------------------");
+                logMessage(BET);
+                logMessage("-------------------------------------------------------------------");
                 continue;
             }
 
             const createNewBet = new Bets({
                 title: BET.title,
-                status: BET.status,
                 teamA: teamA,
                 teamB: teamB,
                 text: BET.text,
                 punishment: BET.punishment,
                 link: BET.link,
                 winner: !BET.winner || BET.winner.length == 0 ? "none" : BET.winner,
+                status: BET.winner.length > 0 ? 'complete' : BET.status,
                 chapter: BET.spoilers,
                 "date-added": utc
             });
 
             await createNewBet.save();
-            // console.log(createNewBet);
         }
         logMessage("-----------insertBets--------------");
         res.json('Inserting players records');
