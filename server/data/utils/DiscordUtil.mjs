@@ -13,6 +13,8 @@ const findByDiscordHandle = async (discord_handle, user_key) => {
     return discordUser;
 }
 
-export default {
+const DiscordUtil = {
     findByDiscordHandle
 }
+
+export default DiscordUtil;

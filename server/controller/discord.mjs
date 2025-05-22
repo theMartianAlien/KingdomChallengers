@@ -25,8 +25,8 @@ const createDiscordUser = async (req, res, next) => {
         }
 
         let newDiscordUser = new Discord({
-            user_key: data.user_key,
-            discord_handle: data.discord_handle,
+            user_key: user_key,
+            discord_handle: discord_handle,
         });
 
         if (req.body.isAdmin) {

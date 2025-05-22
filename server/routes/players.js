@@ -1,94 +1,18 @@
 import express from 'express';
-import { addAPlayer, getAllPlayers, getAPlayer, getAPlayerByHandler, removeAPlayer, replaceAPlayer } from '../data/players.mjs';
+import { addAPlayer, getAPlayer, getAPlayerByHandler, removeAPlayer, replaceAPlayer } from '../data/players.mjs';
 import { getDiscordHandler } from '../data/discord-users.mjs';
 import { isAdminAuthenticate } from '../util/auth.mjs';
-import { getBetsByPlayer } from '../controller/player.mjs';
 import { logMessage } from '../util/logging.mjs';
+import PlayerController from '../controller/player.mjs';
 
 const router = express();
 
-router.get('/', async (req, res, next) => {
-    try {
-        logMessage("getAllPlayers called");
-        const players = await getAllPlayers();
-        if (!players || players.length === 0) {
-            res.json("No players currently in the database.");
-            return;
-        }
-        const newPlayers = players.map((player) => ({
-            _id: player._id,
-            discord_handle: player.discord_handle,
-            display_name: player.display_name
-        }));
-        res.json(newPlayers);
-    } catch (error) {
-        next(error);
-    }
-});
-
-router.get('/:id', async (req, res, next) => {
-    try {
-        logMessage("getAPlayer called");
-        const id = req.params.id;
-        const player = await getAPlayer(id);
-        const playerData = {
-            _id: player._id,
-            discord_handle: player.discord_handle,
-            display_name: player.display_name
-        }
-        const bets = await getBetsByPlayer(player._id);
-        res.json({ player: playerData, bets });
-    } catch (error) {
-        next(error);
-    }
-});
-
+router.get('/', PlayerController.findAllPlayers);
+router.get('/:id', PlayerController.findAPlayer);
 router.use(isAdminAuthenticate);
+router.post('/', PlayerController.createNewPlayer);
 
-router.post('/', async (req, res, next) => {
-    try {
-        logMessage("addAPlayer called");
-        const discordHandler = await getDiscordHandler(req.body.handler);
-
-        if (!discordHandler) {
-            return res.status(422).json({ message: "Unable to find discord user with that handler." });
-        }
-
-        const player = await getAPlayerByHandler(discordHandler._id);
-
-        if (player) {
-            return res.status(422).json({ message: "Unable to add player! Discord user already has a player tag. Request your key to Martian." });
-        }
-        const data = {
-            ...req.body,
-            discord_handler_id: discordHandler._id
-        }
-        await addAPlayer(data);
-        res.status(201).json({ message: 'Player added!' });
-    } catch (error) {
-        next(error);
-    }
-});
-
-router.patch('/:id', async (req, res, next) => {
-    let data = req.body;
-    try {
-        if (!data.handler) {
-            return res.status(422).json({ message: "Unable to update player: " + data.handler });
-        }
-
-        const handler = await getAPlayer(data._id);
-
-        if (!handler) {
-            return res.status(422).json({ message: "Unable to update player: " + data.handler });
-        }
-        logMessage("replaceAPlayer called");
-        await replaceAPlayer(data);
-        res.status(201).json({ message: 'Player updated!', player: data });
-    } catch (error) {
-        next(error);
-    }
-});
+router.patch('/:id', PlayerController.updatePlayer);
 
 router.delete('/:id', async (req, res, next) => {
     try {

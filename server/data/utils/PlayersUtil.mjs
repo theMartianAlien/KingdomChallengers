@@ -35,8 +35,10 @@ const findPlayerAndUpdateDisplayName = async (discord_handle_id, nickname) => {
     return player
 }
 
-export default {
+const PlayersUtil = {
     findAllPlayersForChallenge,
     findPlayerByDiscordHandleId,
     findPlayerAndUpdateDisplayName
 }
+
+export default PlayersUtil;
