@@ -3,7 +3,7 @@ import { addChallenge, getAChallenge, getAllChallenges, updateChallenge } from "
 import { getCounterChallenge, getCounterChallengeById } from "../data/counter-challenge.mjs";
 import { getAPlayer } from "../data/players.mjs";
 import { logMessage } from "../util/logging.mjs";
-import { resetCounterChallengesByChallengeId, updateCounterChallengeAction } from "./counter-challenge.mjs";
+// import { resetCounterChallengesByChallengeId, updateCounterChallengeAction } from "./counter-challenge.mjs";
 
 export async function createNewChallenge(data) {
     logMessage(data);
@@ -52,7 +52,7 @@ export async function updateValidChallenge(data) {
         })
 
         if(data.status !== 'locked') {
-            await resetCounterChallengesByChallengeId(challenge._id)
+            //await resetCounterChallengesByChallengeId(challenge._id)
         }
     }
 }
