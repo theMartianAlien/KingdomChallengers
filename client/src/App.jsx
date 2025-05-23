@@ -42,6 +42,7 @@ const DiscordRootPage = lazy(() => import('../pages/Discord/DiscordRootPage'));
 const DiscordListPage = lazy(() => import('../pages/Discord/DiscordListPage'));
 
 import { action as patchProfileAccountAction, loader as getProfileAccountLoader } from '../pages/Auth/EditProfilePage';
+import { action as updateBetsAction } from '../components/Bets/BetForm';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -160,7 +161,8 @@ const router = createBrowserRouter(
                   // bets-edit
                   path: 'edit',
                   element: <Suspense fallback={<p>Loading ....</p>}><EditBetPage /></Suspense>,
-                  loader: checkAdminAuthLoader
+                  loader: checkAdminAuthLoader,
+                  action: updateBetsAction
                 },
               ]
             }

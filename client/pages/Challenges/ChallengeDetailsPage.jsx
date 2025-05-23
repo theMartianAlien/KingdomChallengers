@@ -9,7 +9,8 @@ import TestButton from '../../components/UI/Buttons/TestButton';
 export default function ChallengeDetailsPage() {
     const accountId = getAccountId();
     const playerId = getPlayerId();
-    const { challenge, counters } = useRouteLoaderData("challenge-detail");
+    const { challenge } = useRouteLoaderData("challenge-detail");
+    const counters = challenge.counters;
     const [isJoining, setIsJoining] = useState(false);
     let counterCHallenge;
     function IsJoiningHandler() {

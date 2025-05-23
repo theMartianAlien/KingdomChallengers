@@ -14,13 +14,14 @@ export default function CounterTable() {
 
     const playerId = getPlayerId();
     const token = getAuthToken();
-    const { counters } = useRouteLoaderData("challenge-detail");
+    const { challenge } = useRouteLoaderData("challenge-detail");
+    const counters = challenge.counters;
     if (!counters || counters.length <= 0) {
         return undefined;
     }
     let acceptReject = counters.some(counter => counter.playerId !== playerId);
     let deleteCounter = counters.some(counter => counter.playerId === playerId);
-    let actioned = counters.some(counter => counter.action);
+    let actioned = counters.some(counter => counter.action && counter.action !== 'none');
     return (
         <div className={divClass}>
             <table className={tableClass}>
@@ -49,7 +50,7 @@ export default function CounterTable() {
                                 {counter.team}
                             </td>
                             <td className={colSize}>
-                                {counter.player_name}
+                                {counter.playerId.display_name}
                             </td>
                             {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + "ed"}</th>)}
                             {acceptReject && token && (
@@ -85,10 +86,8 @@ export default function CounterTable() {
 
 export async function action({ request, params }) {
     const method = request.method;
-    const id = params.counterId;
     const leAction = params.action;
     const counterDataAction = {
-        _id: id,
         action: leAction
     }
     const token = getAuthToken();

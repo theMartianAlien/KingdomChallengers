@@ -3,7 +3,8 @@ import { Form, Link, useActionData, redirect, useRouteLoaderData } from "react-r
 
 import Input from '../UI/Input';
 import classes from './BetForm.module.css';
-import { getAuthToken } from '../../util/auth';
+import { getAdminToken, getAuthToken } from '../../util/auth';
+import { usePatchPostFetch } from "../../hooks/useFetch";
 
 export default function BetForm() {
     const method = "patch";
@@ -84,14 +85,14 @@ export default function BetForm() {
         teamAButtonWinner = (
             <button
                 type="button"
-                className={teamAWinner}
+                className={teamAWinner + " cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"}
                 onClick={() => OnSelectWinnerClick("teamA")} >
                 WINNER
             </button>);
         teamBButtonWinner = (
             <button
                 type="button"
-                className={teamBWinner}
+                className={teamBWinner + " cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"}
                 onClick={() => OnSelectWinnerClick("teamB")} >
                 WINNER
             </button>);
@@ -227,7 +228,7 @@ export default function BetForm() {
 
 export async function action({ request, params }) {
     const method = request.method;
-    const betId = params.betId;
+    const _id = params.id;
     const data = await request.formData();
     const title = data.get('title');
     const teamA = data.getAll('teamA');
@@ -245,7 +246,7 @@ export async function action({ request, params }) {
         tags = tagsToSplit.split("\n");
     }
     const betData = {
-        betId,
+        _id,
         title,
         players: {
             teamA,
@@ -264,32 +265,13 @@ export async function action({ request, params }) {
         tags
     }
 
-    let url = 'http://localhost:3000/bets/';
-    if (method === 'PATCH') {
-        url += betId;
-    }
+    const token = getAdminToken();
+    const resData = await usePatchPostFetch("bets", method, betData, token);
 
-    const token = getAuthToken();
-
-    const response = await fetch(url, {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify(betData)
-    });
-
-    if (!response.ok) {
-        const message = await response.json();
-        return (message);
-    }
-
-    await response.json();
     let redirectText = '/bets';
 
-    if (betId) {
-        redirectText += "/" + betId;
+    if (_id) {
+        redirectText += "/" + _id;
     }
 
     return redirect(redirectText);

@@ -53,7 +53,7 @@ export default function Bet({ bet }) {
                             <p className='text-center'>
                                 <span className="font-semibold">Date Completed:</span> {bet?.status}
                             </p>
-                            {bet?.winner && (
+                            {bet?.winner && bet?.winner !== 'none' && (
                                 <p className='text-center'>
                                     <span className="font-semibold">Winner:</span> {bet?.winner}
                                 </p>
