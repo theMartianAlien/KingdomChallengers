@@ -20,8 +20,8 @@ export default function CounterTable() {
     if (!counters || counters.length <= 0) {
         return undefined;
     }
-    let acceptReject = counters.some(counter => counter.playerId !== playerId);
-    let deleteCounter = counters.some(counter => counter.playerId === playerId);
+    let acceptReject = counters.some(counter => counter.playerId._id !== playerId);
+    let deleteCounter = counters.some(counter => counter.playerId._id === playerId);
     let actioned = counters.some(counter => counter.action && counter.action !== 'none');
     return (
         <div className={divClass}>
@@ -33,9 +33,9 @@ export default function CounterTable() {
                         <th className={colSize}>Team</th>
                         <th className={colSize}>Player</th>
                         {actioned && (<th className={colSize}>Status</th>)}
-                        {acceptReject && token && (<th className={colSize}>Accept</th>)}
-                        {acceptReject && token && (<th className={colSize}>Reject</th>)}
-                        {deleteCounter && token && (<th className={colSize}>Delete</th>)}
+                        {token && acceptReject && (<th className={colSize}>Accept</th>)}
+                        {token && acceptReject && (<th className={colSize}>Reject</th>)}
+                        {token && deleteCounter && (<th className={colSize}>Delete</th>)}
                     </tr>
                 </thead>
                 <tbody>
@@ -54,7 +54,7 @@ export default function CounterTable() {
                                 {counter.playerId.display_name}
                             </td>
                             {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + "ed"}</th>)}
-                            {acceptReject && token && (
+                            {token && counter.playerId._id !== playerId && (
                                 <td className={colSize}>
                                     <Form method="patch" action={`${counter._id}/counter/accept`}>
                                         <input type="hidden" name="action" value="accept" />
@@ -64,7 +64,7 @@ export default function CounterTable() {
                                     </Form>
                                 </td>)
                             }
-                            {acceptReject && token && (
+                            {token && counter.playerId._id !== playerId && (
                                 <td className={colSize}>
                                     <Form method="patch" action={`${counter._id}/counter/reject`}>
                                         <input type="hidden" name="action" value="reject" />
@@ -74,9 +74,9 @@ export default function CounterTable() {
                                     </Form>
                                 </td>)
                             }
-                            {deleteCounter && token && (
+                            {token && counter.playerId._id === playerId && (
                                 <td className={colSize}>
-                                    <DeleteButton />
+                                    <DeleteButton prefixEndpoint="counter-challenge" _id={counter._id} return={challenge._id}/>
                                 </td>)
                             }
                         </tr>
@@ -90,6 +90,11 @@ export default function CounterTable() {
 export async function action({ request, params }) {
     const method = request.method;
     const data = await request.formData();
+
+    if(method === 'DELETE')
+ {
+    return redirect("challenges/" +);
+ }
     const playerId = data.get('playerId');
     const action = params.action;
     const counterDataAction = {

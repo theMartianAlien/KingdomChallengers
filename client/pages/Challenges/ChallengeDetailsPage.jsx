@@ -54,8 +54,9 @@ export default function ChallengeDetailsPage() {
     if (accountId && challenge.issuer === accountId && lockable > 0) {
         lockButton = (<div className='gap-1 py-1'>
             <Form action={`/challenges/${challenge._id}/lock`} method='patch'>
-                <input type='hidden' value="lock" name='lock'/>
-                <TestButton _id={challenge._id} label={"LOCK IT!"} onClick={onClickLockButton} className={`                            inline-flex
+                <input type='hidden' value="lock" name='lock' />
+                <TestButton _id={challenge._id} label={"LOCK IT!"} onClick={onClickLockButton} className={`
+                inline-flex
                             items-center
                             justify-center
 
@@ -83,6 +84,42 @@ export default function ChallengeDetailsPage() {
             </Form>
         </div>);
     }
+
+    let deleteButton;
+    if (accountId && challenge.issuer === accountId && challenge.status !== 'locked') {
+        deleteButton = (<div className='gap-1 py-1'>
+            <Form  method='delete'>
+                <input type='hidden' value="lock" name='lock' />
+                <TestButton _id={challenge._id} label={"Delete Challenge"} onClick={onClickLockButton} className={`
+                inline-flex
+                            items-center
+                            justify-center
+
+                            text-sm
+                            text-white
+                            font-medium
+
+                            bg-red-900
+                            hover:bg-red-700
+                            focus:ring-4
+                            focus:outline-none
+                            focus:ring-orange-300
+
+                            dark:bg-orange-900
+                            dark:hover:bg-orange-700
+                            dark:focus:ring-orange-800
+
+                            rounded-lg
+                            border
+                            px-5
+                            py-2.5
+                            text-center
+
+                            cursor-pointer`} />
+            </Form>
+        </div>);
+    }
+
     return (
         <>
             <div className="max-w-4xl mx-auto p-5 lg:p-2 bg-white dark:bg-gray-900 rounded-lg shadow-lg space-y-2 my-10">
@@ -101,7 +138,7 @@ export default function ChallengeDetailsPage() {
                     {challenge.loserPunishment}
                 </div>
                 <div className='py-2 flex gap-2'>
-                    {challenge.issuer === accountId && challenge.status!=='locked' && (
+                    {challenge.issuer === accountId && challenge.status !== 'locked' && (
                         <Link to={`/challenges/${challenge._id}/edit`} className={`
                             inline-flex
                             items-center
@@ -131,6 +168,7 @@ export default function ChallengeDetailsPage() {
                             Edit Challenge
                         </Link>
                     )}
+                    {deleteButton && deleteButton}
                     {lockButton && lockButton}
                 </div>
                 {isOpen && isOpen}
@@ -184,9 +222,10 @@ export async function action({ request, params }) {
     if (method === 'POST') {
         resData = await usePatchPostFetch(endpoint, method, counterChallengeData, token);
     } else if (method === 'DELETE') {
-        const id = data.get("delete-id");
-        endpoint += "/" + id;
+        endpoint = 'challenges';
+        endpoint += "/" + challengeId;
         resData = await useDeleteFetch(endpoint, token);
+        return redirect('/challenges');
     }
 
     return redirect('/challenges/' + challengeId);

@@ -236,6 +236,9 @@ const router = createBrowserRouter(
               loader: checkAuthLoader
             }
           ]
+        },{
+          path: 'counter-challenge/:id',
+          action: patchCounterChallengeAction
         },
         {
           path: 'discord',

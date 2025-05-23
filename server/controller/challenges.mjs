@@ -4,6 +4,7 @@ import Challenge from "../models/Challenge.mjs";
 import Account from "../models/Account.mjs";
 import PlayersUtil from "../data/utils/PlayersUtil.mjs";
 import CounterChallengeUtil from "../data/utils/CounterChallengeUtil.mjs";
+import CounterChallenge from "../models/CounterChallenge.mjs";
 
 const findChallenge = async (req, res, next) => {
     try {
@@ -26,7 +27,7 @@ const findChallenge = async (req, res, next) => {
         }
 
         logMessage("-----------findChallenge--------------");
-        return res.json({challenge});
+        return res.json({ challenge });
     } catch (error) {
         logError(error);
         next(error);
@@ -91,10 +92,10 @@ const lockChallenge = async (req, res, next) => {
             logMessage(challenge);
             return res.status(404).json({ message: 'Error updating challenge :' + req.params.id });
         }
-        
+
         challenge.status = 'locked';
 
-                for(const counter of challenge.counters) {
+        for (const counter of challenge.counters) {
             await CounterChallengeUtil.lockCounterChallengeAction(counter);
         }
 
@@ -140,7 +141,7 @@ const updateChallenge = async (req, res, next) => {
         }
 
         challenge.participants = validPlayers;
-        for(const counter of challenge.counters) {
+        for (const counter of challenge.counters) {
             await CounterChallengeUtil.resetCounterChallengeAction(counter);
         }
 
@@ -156,13 +157,20 @@ const updateChallenge = async (req, res, next) => {
 const deleteChallenge = async (req, res, next) => {
     try {
         logMessage("-----------deleteChallenge--------------");
-        const result = await Challenge.findByIdAndDelete(req.params.id);
+        const challengeId = req.params.id;
+        const result = await Challenge.findByIdAndDelete(challengeId);
 
         if (result) {
             logMessage("-----------result--------------");
             logMessage(result);
-            return res.status(404).json({ message: 'Unable to delete challenge:' + req.params.id });
+            return res.status(404).json({ message: 'Unable to delete challenge:' + challengeId });
         }
+
+        // Then, remove its reference from users
+        await CounterChallenge.updateMany(
+            { challengeId: challengeId },
+            { $pull: { challengeId: challengeId } }
+        );
 
         logMessage("-----------deleteChallenge--------------");
         res.status(201).json({ message: "Challenge deleted" });

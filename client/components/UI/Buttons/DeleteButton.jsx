@@ -1,15 +1,14 @@
 import { useSubmit } from "react-router-dom";
 
-export default function DeleteButton({ _id }) {
+export default function DeleteButton({ _id, prefixEndpoint }) {
     const submit = useSubmit();
 
     function startDeleteHandler(id) {
         const proceed = window.confirm('Are you sure you want to delete?');
-
+        let endpoint = `/${prefixEndpoint}/${id}`;
         if (proceed) {
             const formData = new FormData();
-            formData.append("id", id);
-            submit(formData, { method: 'delete' });
+            submit(formData, { method: 'delete', action: endpoint });
         }
     }
 
