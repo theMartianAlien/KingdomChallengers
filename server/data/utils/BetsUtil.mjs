@@ -6,7 +6,7 @@ const findAllBetsByPlayer = async (playerId) => {
             { 'teamA': playerId },
             { 'teamB': playerId }
         ]
-    }).exec();
+    }).populate('teamA').populate('teamB').exec();
     return bets;
 }
 

@@ -2,6 +2,7 @@ import { logError, logMessage } from "../util/logging.mjs";
 import DiscordUtil from "../data/utils/DiscordUtil.mjs";
 import PlayersUtil from "../data/utils/PlayersUtil.mjs";
 import Player from "../models/Player.mjs";
+import BetsUtil from "../data/utils/BetsUtil.mjs";
 
 const findAPlayer = async (req, res, next) => {
     try {
@@ -18,8 +19,9 @@ const findAPlayer = async (req, res, next) => {
             discord_handle: player.discord_handle,
             display_name: player.display_name
         }
+        const bets = await BetsUtil.findAllBetsByPlayer(player._id);
         logMessage("-----------findAPlayer--------------");
-        res.json({ player: playerData, bets: [] });
+        res.json({ player: playerData, bets: bets });
     } catch (error) {
         logError(error);
         next(error);

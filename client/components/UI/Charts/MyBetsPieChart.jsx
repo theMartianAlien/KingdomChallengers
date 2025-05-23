@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 
-export default function MyBetsPieChart({ data, colors }) {
+export default function MyBetsPieChart({ data, colors, label }) {
     const chartRef = useRef(null);
 
     useEffect(() => {
@@ -14,7 +14,7 @@ export default function MyBetsPieChart({ data, colors }) {
             data: {
                 labels: data.map(d => d.key),
                 datasets: [{
-                    label: 'Bet Statistics',
+                    label: {label},
                     data: data.map(d => d.total),
                     backgroundColor: colors,
                     borderColor: colors,
@@ -40,7 +40,7 @@ export default function MyBetsPieChart({ data, colors }) {
         <div className="max-w-sm w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6">
             <div className="flex justify-between items-start w-full">
                 <div>
-                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Bet Statistics</h5>
+                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">{label}</h5>
                 </div>
             </div>           
             <div className="py-6">

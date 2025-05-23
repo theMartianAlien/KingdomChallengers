@@ -76,25 +76,25 @@ const router = createBrowserRouter(
           element: <Suspense fallback={<p>Loading ....</p>}><HomePage /></Suspense>,
           loader: () => import('../pages/HomePage').then((module) => module.loader()),
         },
-        {
           // login
+        {
           path: 'login',
           element: <Suspense fallback={<p>Loading ....</p>}><LoginRegisterPage /></Suspense>,
           action: loginRegisterAction
         },
+        // register
         {
-          // register
           path: 'register',
           element: <Suspense fallback={<p>Loading ....</p>}><LoginRegisterPage isLogin={false} /></Suspense>,
           action: loginRegisterAction
         },
+        // logout
         {
-          // logout
           path: 'logout',
           action: logout
         },
-        {
           // players
+        {
           path: 'players',
           element: <Suspense fallback={<p>Loading ....</p>}><PlayersRootPage /></Suspense>,
           children: [
@@ -135,8 +135,8 @@ const router = createBrowserRouter(
             }
           ]
         },
+        // bets
         {
-          // bets
           path: 'bets',
           id: 'bets-root',
           element: <Suspense fallback={<p>Loading ....</p>}><BetsRootPage /></Suspense>,
@@ -262,6 +262,7 @@ const router = createBrowserRouter(
             }
           ]
         },
+        // discord
         {
           path: 'discord',
           id: 'discord-root',
@@ -277,6 +278,7 @@ const router = createBrowserRouter(
         }
       ]
     },
+    // discord login
     {
       path: '/auth/discord',
       element: <Suspense fallback={<p>Loading ....</p>}><DiscordPage /></Suspense>,

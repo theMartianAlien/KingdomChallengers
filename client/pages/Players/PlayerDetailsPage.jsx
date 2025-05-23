@@ -4,6 +4,7 @@ import CustomTable from '../../components/UI/CustomTable';
 import CustomLink from "../../components/UI/CustomLink";
 import NoOpenCustomLink from "../../components/UI/NoOpenCustomLink";
 import MyBetsPieChart from "../../components/UI/Charts/MyBetsPieChart";
+import { generateRGBAColors } from "../../util/chart";
 
 export default function PlayerDetailsPage() {
     const data = useRouteLoaderData('player-detail');
@@ -20,9 +21,9 @@ export default function PlayerDetailsPage() {
         if (bet.status === 'void')
             return 'LOSS';
         if (
-            (bet.winner === "teamA" && bet.teamA.some((team) => team.player_id.toString() === player._id.toString()))
+            (bet.winner === "teamA" && bet.teamA.some((team) => team.toString() === player._id.toString()))
             ||
-            (bet.winner === "teamB" && bet.teamB.some((team) => team.player_id.toString() === player._id.toString()))
+            (bet.winner === "teamB" && bet.teamB.some((team) => team.toString() === player._id.toString()))
         )
             return 'WIN'
 
@@ -30,6 +31,7 @@ export default function PlayerDetailsPage() {
     }
 
     let chartData = []
+    let chartTeamStats = []
     for (let i = 0; i < bets.length; i++) {
         const bet = bets[i];
         let exist = chartData.find((x) => x.key === bet.status);
@@ -48,7 +50,29 @@ export default function PlayerDetailsPage() {
                 }
             })
         }
+        let betPlayers = [...bet.teamA, ...bet.teamB].filter(x=>x._id !== player._id);
+        for (let x = 0; x < betPlayers.length; x++) {
+            const aPlayer = betPlayers[x];
+            const isTeamMate = bet.teamA.includes(aPlayer);
+            const playerKey = aPlayer.display_name;
+            
+            const existingStat = chartTeamStats.find(stat => stat.key === playerKey);
+            
+            if (!existingStat) {
+              chartTeamStats.push({
+                key: playerKey,
+                total: 1,
+                isTeamMate
+              });
+            } else {
+              existingStat.total += 1;
+            }
+        }
+
     }
+
+    let teamMates = [...chartTeamStats].filter(x=>x.isTeamMate)
+    let notTeamMate = [...chartTeamStats].filter(x=>!x.isTeamMate)
 
     let playerDetailsClass = "md:w-1/2";
     if (chartData.length <= 0) {
@@ -72,12 +96,31 @@ export default function PlayerDetailsPage() {
                     <div className="md:w-1/2">
                         <div>
                             <MyBetsPieChart
+                            label={"Bet status"}
                                 data={chartData}
-                                colors={[
-                                    'rgba(34, 197, 94, 1)',
-                                    'rgba(239, 68, 68, 1)',
-                                    'rgba(250, 204, 21, 1)',
-                                ]}
+                                colors={generateRGBAColors(chartData.length)}
+                            />
+                        </div>
+                    </div>
+                )}
+                {teamMates.length > 0 && (
+                    <div className="md:w-1/2">
+                        <div>
+                            <MyBetsPieChart
+                            label={"Teammates"}
+                                data={teamMates}
+                                colors={generateRGBAColors(teamMates.length)}
+                            />
+                        </div>
+                    </div>
+                )}
+                {notTeamMate.length > 0 && (
+                    <div className="md:w-1/2">
+                        <div>
+                            <MyBetsPieChart
+                            label={"Enemies"}
+                                data={notTeamMate}
+                                colors={generateRGBAColors(notTeamMate.length)}
                             />
                         </div>
                     </div>
