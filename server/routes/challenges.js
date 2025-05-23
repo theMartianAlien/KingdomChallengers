@@ -9,6 +9,7 @@ router.get('/:id', ChallengesController.findChallenge);
 router.use(isAuthenticate);
 router.post('/', ChallengesController.createNewChallenge);
 router.patch('/:id', ChallengesController.updateChallenge);
+router.patch('/lock/:id', ChallengesController.lockChallenge);
 router.delete('/:id', ChallengesController.deleteChallenge);
 
 export default router;

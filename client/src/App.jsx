@@ -43,6 +43,7 @@ const DiscordListPage = lazy(() => import('../pages/Discord/DiscordListPage'));
 
 import { action as patchProfileAccountAction, loader as getProfileAccountLoader } from '../pages/Auth/EditProfilePage';
 import { action as updateBetsAction } from '../components/Bets/BetForm';
+import { action as postLockChallengeAction } from '../components/Challenges/LockChallenges';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -221,6 +222,10 @@ const router = createBrowserRouter(
                   path: ':counterId/counter/:action',
                   action: patchCounterChallengeAction,
                   loader: checkAuthLoader
+                },
+                {
+                  path: 'lock',
+                  action: postLockChallengeAction
                 }
               ]
             },

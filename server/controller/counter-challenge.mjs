@@ -48,10 +48,10 @@ const createCounterChallenge = async (req, res, next) => {
 
 const updateCounterChallenge = async (req, res, next) => {
     try {
-        logMessage("updateCounterChallenge called");
+        logMessage("-----------updateCounterChallenge--------------");
         const counterChallenge = await CounterChallenge.findById(req.params.id);
 
-        const challenge = await Challenge.findById(req.body.challegeId);
+        const challenge = await Challenge.findById(req.body.challengeId);
 
         const player = await Player.findById(req.body.playerId);
         if (!counterChallenge || !player || !challenge) {
@@ -66,16 +66,16 @@ const updateCounterChallenge = async (req, res, next) => {
             return res.status(404).json({ message: 'Error updating counter challenge :' + req.params.id });
         }
 
-        counterChallenge.challegeId = req.body.challenge._id;
-        counterChallenge.challege = req.body.challege;
+        counterChallenge.challengeId = challenge._id;
+        counterChallenge.challenge = req.body.challenge;
         counterChallenge.punishment = req.body.punishment;
-        counterChallenge.team = req.body.team;
-        counterChallenge.team = req.body.team;
+        counterChallenge.team = req.body?.team || counterChallenge.team;
         counterChallenge.playerId = player._id;
         counterChallenge.action = req.body.action;
 
         // Save the updated Counter Challenge
         await counterChallenge.save();
+        logMessage("-----------updateCounterChallenge--------------");
         res.status(201).json({ message: 'Counter Challenge updated!' });
     }
     catch (error) {

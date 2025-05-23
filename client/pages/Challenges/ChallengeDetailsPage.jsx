@@ -1,4 +1,4 @@
-import { Link, redirect, useRouteLoaderData } from 'react-router-dom';
+import { Form, Link, redirect, useRouteLoaderData } from 'react-router-dom';
 import { useState } from 'react';
 import { getAccountId, getAuthToken, getPlayerId } from '../../util/auth';
 import CounterChallengeForm from '../../components/Challenges/CounterChallengeForm';
@@ -53,7 +53,34 @@ export default function ChallengeDetailsPage() {
     let lockButton;
     if (accountId && challenge.issuer === accountId && lockable > 0) {
         lockButton = (<div className='gap-1 py-1'>
-            <TestButton _id={challenge._id} label={"LOCK IT!"} onClick={onClickLockButton} />
+            <Form action={`/challenges/${challenge._id}/lock`} method='patch'>
+                <input type='hidden' value="lock" name='lock'/>
+                <TestButton _id={challenge._id} label={"LOCK IT!"} onClick={onClickLockButton} className={`                            inline-flex
+                            items-center
+                            justify-center
+
+                            text-sm
+                            text-white
+                            font-medium
+
+                            bg-red-900
+                            hover:bg-red-700
+                            focus:ring-4
+                            focus:outline-none
+                            focus:ring-orange-300
+
+                            dark:bg-orange-900
+                            dark:hover:bg-orange-700
+                            dark:focus:ring-orange-800
+
+                            rounded-lg
+                            border
+                            px-5
+                            py-2.5
+                            text-center
+
+                            cursor-pointer`} />
+            </Form>
         </div>);
     }
     return (
@@ -73,12 +100,39 @@ export default function ChallengeDetailsPage() {
                     <br />
                     {challenge.loserPunishment}
                 </div>
-                {challenge.issuer === accountId && (
-                    <Link to={`/challenges/${challenge._id}/edit`}>
-                        Edit Challenge
-                    </Link>
-                )}
-                {lockButton && lockButton}
+                <div className='py-2 flex gap-2'>
+                    {challenge.issuer === accountId && challenge.status!=='locked' && (
+                        <Link to={`/challenges/${challenge._id}/edit`} className={`
+                            inline-flex
+                            items-center
+                            justify-center
+
+                            text-sm
+                            text-white
+                            font-medium
+
+                            bg-red-900
+                            hover:bg-red-700
+                            focus:ring-4
+                            focus:outline-none
+                            focus:ring-orange-300
+
+                            dark:bg-orange-900
+                            dark:hover:bg-orange-700
+                            dark:focus:ring-orange-800
+
+                            rounded-lg
+                            border
+                            px-5
+                            py-2.5
+                            text-center
+
+                            cursor-pointer`}>
+                            Edit Challenge
+                        </Link>
+                    )}
+                    {lockButton && lockButton}
+                </div>
                 {isOpen && isOpen}
                 <div className='py-1'>
                     <CounterTable />
@@ -97,11 +151,11 @@ export async function loader({ request, params }) {
     if (isEdit && (
         !accountId ||
         !data ||
-        !data.challenge && 
+        !data.challenge &&
         (accountId !== data.challenge.issuer))
     ) {
         return redirect('/login');
-    } else if (isEdit && (accountId !== data.challenge.issuer)){
+    } else if (isEdit && (accountId !== data.challenge.issuer)) {
         return redirect('/challenges/' + id);
     }
     return data;

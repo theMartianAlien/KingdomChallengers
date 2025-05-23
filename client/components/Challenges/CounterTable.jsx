@@ -2,6 +2,7 @@ import { Form, redirect, useRouteLoaderData } from "react-router-dom";
 import { getAuthToken, getPlayerId } from "../../util/auth";
 import { usePatchPostFetch } from "../../hooks/useFetch";
 import DeleteButton from "../UI/Buttons/DeleteButton";
+import CustomButton from "../UI/Buttons/CustomButton";
 
 export default function CounterTable() {
 
@@ -58,7 +59,8 @@ export default function CounterTable() {
                                     <Form method="patch" action={`${counter._id}/counter/accept`}>
                                         <input type="hidden" name="action" value="accept" />
                                         <input type="hidden" name="id" value={counter._id} />
-                                        <button className="">Accept</button>
+                                        <input type="hidden" name="playerId" value={counter.playerId._id} />
+                                        <CustomButton disabled={counter.status === 'locked' ? 'true' : 'false'} className="bg-green-200 dark:bg-green-600 hover:bg-blue-900" type="submit">Accept</CustomButton>
                                     </Form>
                                 </td>)
                             }
@@ -67,7 +69,8 @@ export default function CounterTable() {
                                     <Form method="patch" action={`${counter._id}/counter/reject`}>
                                         <input type="hidden" name="action" value="reject" />
                                         <input type="hidden" name="id" value={counter._id} />
-                                        <button>Reject</button>
+                                        <input type="hidden" name="playerId" value={counter.playerId._id} />
+                                        <CustomButton disabled={counter.status === 'locked' ? 'true' : 'false'} className="bg-red-200 dark:bg-red-600 hover:bg-blue-900" type="submit">Reject</CustomButton>
                                     </Form>
                                 </td>)
                             }
@@ -86,9 +89,14 @@ export default function CounterTable() {
 
 export async function action({ request, params }) {
     const method = request.method;
-    const leAction = params.action;
+    const data = await request.formData();
+    const playerId = data.get('playerId');
+    const action = params.action;
     const counterDataAction = {
-        action: leAction
+        _id: params.counterId,
+        challengeId: params.id,
+        action,
+        playerId
     }
     const token = getAuthToken();
     const resData = await usePatchPostFetch("counter-challenge", method, counterDataAction, token);

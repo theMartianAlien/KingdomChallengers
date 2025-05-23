@@ -1,32 +1,39 @@
-export default function TestButton({ _id, label, onClick }) {
+export default function TestButton({ _id, label, onClick, className }) {
     function onClickHandler() {
         onClick(_id);
     }
 
     return (
         <button
-            className="
-            
-            text-white
-            font-medium 
+            className={`
+                            inline-flex
+                            items-center
+                            justify-center
 
-            bg-orange-900 
-            hover:bg-orange-700 
-            focus:ring-4 
-            focus:outline-none 
-            focus:ring-orange-300 
-            rounded-lg
-            text-sm
+                            text-sm
+                            text-white
+                            font-medium
+
+                            bg-red-900
+                            hover:bg-red-700
+                            focus:ring-4
+                            focus:outline-none
+                            focus:ring-orange-300
+
+                            dark:bg-orange-900
+                            dark:hover:bg-orange-700
+                            dark:focus:ring-orange-800
+
+                            rounded-lg
+                            border
+                            px-5
+                            py-2.5
+                            text-center
+
+                            cursor-pointer
             
-            border
-            px-5 
-            py-2.5
-            
-            text-center 
-            
-            dark:bg-orange-900 
-            dark:hover:bg-orange-700
-            dark:focus:ring-orange-800"
+            ${className}
+            `}
             onClick={onClickHandler}>
             {label}
         </button>

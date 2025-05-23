@@ -54,9 +54,14 @@ export default function ChallengeForm({ method }) {
         );
     }, [challengeType, participants, players]);
 
+    let actionForm = "/challenges"
+    if (challenge) {
+        actionForm += `/${challenge._id}/edit`
+    }
+
     return (
         <>
-            <Form method={method} className="max-w-sm mx-auto">
+            <Form method={method} className="max-w-sm mx-auto" action={actionForm}>
                 <h2 className="block mb-2 text-3xl font-semibold  text-gray-900 dark:text-white">New Challenge</h2>
                 <InputField
                     label="Title"
@@ -83,6 +88,7 @@ export default function ChallengeForm({ method }) {
                     <fieldset>
                         <div className="flex items-center mb-4">
                             <label htmlFor="challengeType" className="block ms-2 text-m font-medium text-gray-900 dark:text-gray-300">Challenge Type</label>
+                            {challenge && (<input value={challenge.challengeType} name="challengeType" type="hidden" />)}
                         </div>
                         <RadioField
                             elementName="open-challenge"
@@ -106,6 +112,7 @@ export default function ChallengeForm({ method }) {
                 </div>
                 {playerList && playerList}
                 <div className="mb-5">
+                    {challenge && (<input value={challenge.challengeEndDate} name="challenge-enddate" type="hidden" />)}
                     <CustomDatePicker
                         readOnly={challenge}
                         name="challenge-enddate"

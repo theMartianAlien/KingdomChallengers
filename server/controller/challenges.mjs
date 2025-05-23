@@ -3,6 +3,7 @@ import ChallengesUtil from "../data/utils/ChallengesUtil.mjs";
 import Challenge from "../models/Challenge.mjs";
 import Account from "../models/Account.mjs";
 import PlayersUtil from "../data/utils/PlayersUtil.mjs";
+import CounterChallengeUtil from "../data/utils/CounterChallengeUtil.mjs";
 
 const findChallenge = async (req, res, next) => {
     try {
@@ -79,11 +80,38 @@ const createNewChallenge = async (req, res, next) => {
     }
 }
 
+const lockChallenge = async (req, res, next) => {
+    try {
+        logMessage("-----------lockChallenge--------------");
+
+        const challenge = await Challenge.findById(req.params.id).populate('counters').exec();
+
+        if (!challenge) {
+            logMessage("-----------challenge--------------");
+            logMessage(challenge);
+            return res.status(404).json({ message: 'Error updating challenge :' + req.params.id });
+        }
+        
+        challenge.status = 'locked';
+
+                for(const counter of challenge.counters) {
+            await CounterChallengeUtil.lockCounterChallengeAction(counter);
+        }
+
+        await challenge.save();
+        logMessage("-----------lockChallenge--------------");
+        res.status(201).json({ message: "Challenge updated" });
+    } catch (error) {
+        logError(error);
+        next(error);
+    }
+}
+
 const updateChallenge = async (req, res, next) => {
     try {
         logMessage("-----------updateChallenge--------------");
 
-        const challenge = await Challenge.findById(req.params.id);
+        const challenge = await Challenge.findById(req.params.id).populate('counters').exec();
         const account = await Account.findById(req.body.issuer);
 
         if (!account || !challenge) {
@@ -112,6 +140,9 @@ const updateChallenge = async (req, res, next) => {
         }
 
         challenge.participants = validPlayers;
+        for(const counter of challenge.counters) {
+            await CounterChallengeUtil.resetCounterChallengeAction(counter);
+        }
 
         await challenge.save();
         logMessage("-----------updateChallenge--------------");
@@ -145,6 +176,7 @@ const ChallengesController = {
     findChallenge,
     findAllChallenge,
     createNewChallenge,
+    lockChallenge,
     updateChallenge,
     deleteChallenge
 };

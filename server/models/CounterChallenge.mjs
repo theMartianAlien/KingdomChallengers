@@ -1,4 +1,4 @@
-import { mongoose } from 'mongoose';
+import mongoose from 'mongoose';
 
 const { Schema, model, Types } = mongoose;
 
@@ -26,7 +26,7 @@ const counterChallengeSchema = new Schema({
   },
   action: {
     type: String,
-    enum: ['accept', 'reject', 'none'], // Customize actions
+    enum: ['accept', 'reject', 'locked', 'none'], // Customize actions
     required: true,
   }
 }, {

@@ -2,11 +2,11 @@ import { useState } from "react";
 import TableHeaderName from "./TableHeaderName";
 
 export default function CustomTable({
-    data,
-    columns,
+    data = [],
+    columns = [],
     primaryColumn,
-    isAsc,
-    prefix,
+    isAsc = true,
+    prefix = "",
     sortable = true,
     divClass = "relative overflow-x-auto shadow-md sm:rounded-lg lg:p-8",
     tableClass = "w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400",
@@ -15,105 +15,96 @@ export default function CustomTable({
     firstColClass = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white",
     colSize = "px-6 py-4 text-center"
 }) {
-    const [sortedData, SortBetsHandler] = useState(sortByColumn(data, primaryColumn, isAsc));
-    const [columnSorting, SortColumnHandler] = useState(columns);
-    const [currentSortColumn, setCurrentSortColumn] = useState(primaryColumn);
-    function onSortDataByColumn(column) {
-        setCurrentSortColumn(column);
-        const sorting = columnSorting[column];
-        SortColumnHandler(prevState => {
-            return {
-                ...prevState,
-                [column]: (prevState[column] === 'asc' ? 'desc' : 'asc')
-            }
-        });
-        const sorted = sortByColumn(data, column, sorting === 'asc')
-        SortBetsHandler(sorted);
+    const initialSortedData = sortData(data, primaryColumn, isAsc);
+    const [sortedData, setSortedData] = useState(initialSortedData);
+    const [sortDirections, setSortDirections] = useState(
+        columns.reduce((acc, col) => ({ ...acc, [col.column]: isAsc ? 'asc' : 'desc' }), {})
+    );
+    const [activeSortColumn, setActiveSortColumn] = useState(primaryColumn);
+
+    function handleSort(column) {
+        const isCurrentlyAsc = sortDirections[column] === 'asc';
+        const newDirection = isCurrentlyAsc ? 'desc' : 'asc';
+
+        setActiveSortColumn(column);
+        setSortDirections((prev) => ({ ...prev, [column]: newDirection }));
+
+        const sorted = sortData(data, column, newDirection === 'asc');
+        setSortedData(sorted);
     }
 
-    function sortByColumn(arr, column, ascending = true) {
-
-        if (!primaryColumn) {
-            return [...arr]
-        }
+    function sortData(arr, column, ascending = true) {
+        if (!column) return [...arr];
 
         return [...arr].sort((a, b) => {
-            let valueA = a[column]
-            let valueB = b[column]
+            let valA = a[column];
+            let valB = b[column];
 
             try {
-                valueA = valueA.toUpperCase();
-                valueB = valueB.toUpperCase();
-            }
-            catch {
+                valA = typeof valA === 'string' ? valA.toUpperCase() : valA;
+                valB = typeof valB === 'string' ? valB.toUpperCase() : valB;
+            } catch (e) { }
 
-            }
-            if (valueA < valueB) {
-                return ascending ? -1 : 1;
-            }
-            if (valueA > valueB) {
-                return ascending ? 1 : -1;
-            }
+            if (valA < valB) return ascending ? -1 : 1;
+            if (valA > valB) return ascending ? 1 : -1;
             return 0;
         });
     }
 
-    const CustomLink = columns[0].element;
-    const Edit = columns.find((x) => x.label === "Edit");
-    const Delete = columns.find((x) => x.label === "Delete");
+    const CustomLink = columns[0]?.element;
 
     return (
-        <>
-            <div className={divClass}>
-                <table className={tableClass}>
-                    <thead className={headerClass}>
-                        <tr>
-                            {
-                                columns.map((column) => (
-                                    <TableHeaderName
-                                        sortable={sortable}
-                                        key={column.column}
-                                        label={column.column_name}
-                                        column={column.column}
-                                        isAsc={columnSorting[column.column] === 'asc'}
-                                        onClickHeader={onSortDataByColumn}
-                                        currentSortColumn={currentSortColumn}
-                                    />
-                                ))
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sortedData && (
-                            sortedData.map((data) => (
-                                <tr key={data._id} className={rowClass}>
-                                    <th scope="row" className={firstColClass}>
-                                        {columns[0].element && (
-                                            <CustomLink label={data[columns[0].column]} to={data._id} prefix={prefix} />
+        <div className={divClass}>
+            <table className={tableClass}>
+                <thead className={headerClass}>
+                    <tr>
+                        {columns.map((col) => (
+                            <TableHeaderName
+                                key={col.column}
+                                label={col.column_name}
+                                column={col.column}
+                                sortable={sortable}
+                                isAsc={sortDirections[col.column] === 'asc'}
+                                currentSortColumn={activeSortColumn}
+                                onClickHeader={handleSort}
+                            />
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {sortedData.map((row) => (
+                        <tr key={row._id} className={rowClass}>
+                            <th scope="row" className={firstColClass}>
+                                {CustomLink ? (
+                                    <CustomLink label={row[columns[0].column]} to={row._id} prefix={prefix} />
+                                ) : (
+                                    row[columns[0].column]
+                                )}
+                            </th>
+
+                            {columns.slice(1).map((col) => {
+                                const CellComponent = col.element;
+                                const value = row[col.column];
+
+                                return (
+                                    <td key={col.column} className={colSize}>
+                                        {CellComponent && !col.label && (
+                                            <CellComponent to={row.link} label="Bet Link" />
                                         )}
-                                        {!columns[0].element && data[columns[0].column]}
-                                    </th>
-                                    {[...columns].slice(1).map((col) => (
-                                        <td className={colSize} key={col.column}>
-                                            {col.element && !col.label && (
-                                                <col.element to={data.link} label="Bet Link" />
-                                            )}
-                                            {col.element && col.label === 'Edit' && (
-                                                <col.element to={data[Edit.column]} label="Edit" />
-                                            )}
-                                            {col.element && col.label === 'Delete' && (
-                                                <col.element _id={data[Delete.column]} label="Delete" />
-                                            )}
-                                            {!col.element && data[col.column]}
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))
-                        )
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </>
+                                        {CellComponent && col.label === 'Edit' && (
+                                            <CellComponent to={value} label="Edit" />
+                                        )}
+                                        {CellComponent && col.label === 'Delete' && (
+                                            <CellComponent _id={value} label="Delete" />
+                                        )}
+                                        {!CellComponent && value}
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 }
