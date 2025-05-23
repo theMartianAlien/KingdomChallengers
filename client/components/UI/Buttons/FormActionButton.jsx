@@ -1,18 +1,21 @@
-import { Link } from "react-router-dom";
+import { Form } from "react-router-dom";
+import TestButton from "./TestButton";
 
-export default function UnderlinedLinks({ label, to }) {
+export default function FormActionButton({ action, method, label, id }) {
     return (
-        <Link
-            to={to}
-            className="
+        <Form action={action} method={method}>
+            <TestButton
+            _id={id}
+            label={label}
+            className={`
                 inline-flex
                 items-center
                 justify-center
-
+                
                 text-sm
                 text-white
                 font-medium
-
+                
                 bg-red-900
                 hover:bg-red-700
                 focus:ring-4
@@ -29,9 +32,7 @@ export default function UnderlinedLinks({ label, to }) {
                 py-2.5
                 text-center
 
-                cursor-pointer
-        "
-        >{label}
-        </Link>
-    )
+                cursor-pointer`} />
+        </Form>
+    );
 }

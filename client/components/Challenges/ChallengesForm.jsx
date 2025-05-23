@@ -57,6 +57,8 @@ export default function ChallengeForm({ method }) {
     let actionForm = "/challenges"
     if (challenge) {
         actionForm += `/${challenge._id}/edit`
+    } else {
+        actionForm += `/new`
     }
 
     return (

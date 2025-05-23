@@ -44,6 +44,7 @@ const DiscordListPage = lazy(() => import('../pages/Discord/DiscordListPage'));
 import { action as patchProfileAccountAction, loader as getProfileAccountLoader } from '../pages/Auth/EditProfilePage';
 import { action as updateBetsAction } from '../components/Bets/BetForm';
 import { action as postLockChallengeAction } from '../components/Challenges/LockChallenges';
+import { action } from '../components/Challenges/CounterChallengeForm';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -169,8 +170,8 @@ const router = createBrowserRouter(
             }
           ]
         },
+        // profile
         {
-          // profile
           path: 'profile',
           id: 'profile-root',
           loader: getProfileLoader,
@@ -190,6 +191,7 @@ const router = createBrowserRouter(
             }
           ]
         },
+        // challenges
         {
           path: 'challenges',
           id: 'challenges-root',
@@ -236,9 +238,29 @@ const router = createBrowserRouter(
               loader: checkAuthLoader
             }
           ]
-        },{
-          path: 'counter-challenge/:id',
-          action: patchCounterChallengeAction
+        },
+        // counter-challenge
+        {
+          path: 'counter-challenge',
+          children: [
+            {
+              index: true,
+              action: action,
+              loader: checkAuthLoader
+            },
+            {
+              path: ':id',
+              action: patchCounterChallengeAction,
+              loader: checkAuthLoader,
+              children: [
+                {
+                  path: ':action',
+                  action: patchCounterChallengeAction,
+                  loader: checkAuthLoader
+                }
+              ]
+            }
+          ]
         },
         {
           path: 'discord',

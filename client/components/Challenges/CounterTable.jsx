@@ -53,24 +53,24 @@ export default function CounterTable() {
                             <td className={colSize}>
                                 {counter.playerId.display_name}
                             </td>
-                            {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + "ed"}</th>)}
+                            {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + (counter.action === 'locked' ? '' :'ed')}</th>)}
                             {token && counter.playerId._id !== playerId && (
                                 <td className={colSize}>
-                                    <Form method="patch" action={`${counter._id}/counter/accept`}>
+                                    <Form method="patch" action={`/counter-challenge/${counter._id}/accept`}>
                                         <input type="hidden" name="action" value="accept" />
-                                        <input type="hidden" name="id" value={counter._id} />
+                                        <input type="hidden" name="challengeId" value={challenge._id} />
                                         <input type="hidden" name="playerId" value={counter.playerId._id} />
-                                        <CustomButton disabled={counter.status === 'locked' ? 'true' : 'false'} className="bg-green-200 dark:bg-green-600 hover:bg-blue-900" type="submit">Accept</CustomButton>
+                                        <CustomButton disabled={counter?.action === 'locked'} className="bg-green-200 dark:bg-green-600 hover:bg-blue-900" type="submit">Accept</CustomButton>
                                     </Form>
                                 </td>)
                             }
                             {token && counter.playerId._id !== playerId && (
                                 <td className={colSize}>
-                                    <Form method="patch" action={`${counter._id}/counter/reject`}>
+                                    <Form method="patch" action={`/counter-challenge/${counter._id}/reject`}>
                                         <input type="hidden" name="action" value="reject" />
-                                        <input type="hidden" name="id" value={counter._id} />
+                                        <input type="hidden" name="challengeId" value={challenge._id} />
                                         <input type="hidden" name="playerId" value={counter.playerId._id} />
-                                        <CustomButton disabled={counter.status === 'locked' ? 'true' : 'false'} className="bg-red-200 dark:bg-red-600 hover:bg-blue-900" type="submit">Reject</CustomButton>
+                                        <CustomButton disabled={counter?.action === 'locked'} className="bg-red-200 dark:bg-red-600 hover:bg-blue-900" type="submit">Reject</CustomButton>
                                     </Form>
                                 </td>)
                             }
@@ -93,18 +93,19 @@ export async function action({ request, params }) {
     const data = await request.formData();
     if (method === 'DELETE') {
         const returnId = data.get("id");
-        const resData = await useDeleteFetch("counter-challenge/"+ params.id, token)
+        const resData = await useDeleteFetch("counter-challenge/" + params.id, token)
         return redirect("/challenges/" + returnId);
     }
+    const challengeId = data.get('challengeId');
     const playerId = data.get('playerId');
     const action = params.action;
     const counterDataAction = {
-        _id: params.counterId,
-        challengeId: params.id,
+        _id: params.id,
+        challengeId: challengeId,
         action,
         playerId
     }
     const resData = await usePatchPostFetch("counter-challenge", method, counterDataAction, token);
 
-    return redirect("/challenges/" + params.id);
+    return redirect("/challenges/" + challengeId);
 }

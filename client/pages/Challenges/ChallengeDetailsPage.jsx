@@ -1,10 +1,11 @@
-import { Form, Link, redirect, useRouteLoaderData } from 'react-router-dom';
-import { useState } from 'react';
+import { redirect, useNavigation, useRouteLoaderData } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 import { getAccountId, getAuthToken, getPlayerId } from '../../util/auth';
+import { useDeleteFetch, useGetFetch, usePatchPostFetch } from '../../hooks/useFetch';
 import CounterChallengeForm from '../../components/Challenges/CounterChallengeForm';
 import CounterTable from '../../components/Challenges/CounterTable';
-import { useDeleteFetch, useGetFetch, usePatchPostFetch } from '../../hooks/useFetch';
-import TestButton from '../../components/UI/Buttons/TestButton';
+import FormActionButton from '../../components/UI/Buttons/FormActionButton';
+import UnderlinedLinks from '../../components/UI/Links/UnderlinedLink';
 
 export default function ChallengeDetailsPage() {
     const accountId = getAccountId();
@@ -12,17 +13,18 @@ export default function ChallengeDetailsPage() {
     const { challenge } = useRouteLoaderData("challenge-detail");
     const counters = challenge.counters;
     const [isJoining, setIsJoining] = useState(false);
-    let counterCHallenge;
+    const navigation = useNavigation();
+    const wasSubmitting = useRef(false);
+    let counterChallengeForm;
     function IsJoiningHandler() {
         setIsJoining(!isJoining);
     }
 
-    function CounterChallengeFormSubmit() {
-        setIsJoining(false);
-    }
-
     if (isJoining) {
-        counterCHallenge = (<CounterChallengeForm onSubmit={CounterChallengeFormSubmit} />);
+        counterChallengeForm = (
+            <div className="max-w-sm mx-auto">
+                <CounterChallengeForm challengeId={challenge?._id}/>
+            </div>);
     }
 
     let isOpen;
@@ -30,95 +32,64 @@ export default function ChallengeDetailsPage() {
         if (challenge.challengeType === 'open' ||
             (challenge.challengeType === 'close' && playerId && challenge.participants.includes(playerId))) {
             isOpen = (
-                <div className='py-2'>
-                    <button className="px-3 py-2 relative flext
-                 items-center justify-center rounded-lg 
-                 text-center font-medium focus:outline-none 
-                 focus:ring-4 bg-gray-800 text-white hover:bg-gray-900
-                  focus:ring-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 
-                  dark:focus:ring-gray-700" onClick={IsJoiningHandler} type='none'>{isJoining ? 'Undo' : 'Join Bet'}</button>
-                    <div className="max-w-sm mx-auto">
-                        {counterCHallenge && counterCHallenge}
-                    </div>
+                <div className='gap-1 py-1'>
+                    <button
+                        className="px-3 py-2 relative flex
+                        items-center justify-center rounded-lg 
+                        text-center font-medium focus:outline-none 
+                        focus:ring-4 bg-gray-800 text-white hover:bg-gray-900
+                        focus:ring-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 
+                        dark:focus:ring-gray-700"
+                        onClick={IsJoiningHandler}>{isJoining ? 'Undo' : 'Join Bet'}</button>
+                    {counterChallengeForm && counterChallengeForm}
                 </div>
             );
         }
     }
 
-    function onClickLockButton(_id) {
-
-    }
-
     const lockable = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept' && c.team === 'against'))
     let lockButton;
     if (accountId && challenge.issuer === accountId && lockable > 0) {
-        lockButton = (<div className='gap-1 py-1'>
-            <Form action={`/challenges/${challenge._id}/lock`} method='patch'>
-                <input type='hidden' value="lock" name='lock' />
-                <TestButton _id={challenge._id} label={"LOCK IT!"} onClick={onClickLockButton} className={`
-                inline-flex
-                            items-center
-                            justify-center
-
-                            text-sm
-                            text-white
-                            font-medium
-
-                            bg-red-900
-                            hover:bg-red-700
-                            focus:ring-4
-                            focus:outline-none
-                            focus:ring-orange-300
-
-                            dark:bg-orange-900
-                            dark:hover:bg-orange-700
-                            dark:focus:ring-orange-800
-
-                            rounded-lg
-                            border
-                            px-5
-                            py-2.5
-                            text-center
-
-                            cursor-pointer`} />
-            </Form>
-        </div>);
+        lockButton = (
+            <div className='gap-1 py-1'>
+                <FormActionButton
+                    action={`/challenges/${challenge._id}/lock`}
+                    method="patch"
+                    label="LOCK IT!"
+                    id={challenge._id}
+                />
+            </div>);
     }
 
     let deleteButton;
     if (accountId && challenge.issuer === accountId && challenge.status !== 'locked') {
-        deleteButton = (<div className='gap-1 py-1'>
-            <Form  method='delete'>
-                <input type='hidden' value="lock" name='lock' />
-                <TestButton _id={challenge._id} label={"Delete Challenge"} onClick={onClickLockButton} className={`
-                inline-flex
-                            items-center
-                            justify-center
-
-                            text-sm
-                            text-white
-                            font-medium
-
-                            bg-red-900
-                            hover:bg-red-700
-                            focus:ring-4
-                            focus:outline-none
-                            focus:ring-orange-300
-
-                            dark:bg-orange-900
-                            dark:hover:bg-orange-700
-                            dark:focus:ring-orange-800
-
-                            rounded-lg
-                            border
-                            px-5
-                            py-2.5
-                            text-center
-
-                            cursor-pointer`} />
-            </Form>
-        </div>);
+        deleteButton = (
+            <div className='gap-1 py-1'>
+                <FormActionButton
+                    action="delete"
+                    method="patch"
+                    label="Delete Challenge"
+                    id={challenge._id}
+                />
+            </div>);
     }
+
+    let editChallengeLink;
+    if (challenge.issuer === accountId && challenge.status !== 'locked') {
+        editChallengeLink = (<UnderlinedLinks label="Edit Challenge" to={`/challenges/${challenge._id}/edit`} />);
+    }
+
+    useEffect(() => {
+        if (navigation.state === 'submitting') {
+            wasSubmitting.current = true;
+        }
+
+        if (wasSubmitting.current && navigation.state === 'idle') {
+            setIsJoining(false); // ✅ close the form AFTER submit completes
+            wasSubmitting.current = false;
+        }
+    }, [navigation.state]);
+
 
     return (
         <>
@@ -137,37 +108,8 @@ export default function ChallengeDetailsPage() {
                     <br />
                     {challenge.loserPunishment}
                 </div>
-                <div className='py-2 flex gap-2'>
-                    {challenge.issuer === accountId && challenge.status !== 'locked' && (
-                        <Link to={`/challenges/${challenge._id}/edit`} className={`
-                            inline-flex
-                            items-center
-                            justify-center
-
-                            text-sm
-                            text-white
-                            font-medium
-
-                            bg-red-900
-                            hover:bg-red-700
-                            focus:ring-4
-                            focus:outline-none
-                            focus:ring-orange-300
-
-                            dark:bg-orange-900
-                            dark:hover:bg-orange-700
-                            dark:focus:ring-orange-800
-
-                            rounded-lg
-                            border
-                            px-5
-                            py-2.5
-                            text-center
-
-                            cursor-pointer`}>
-                            Edit Challenge
-                        </Link>
-                    )}
+                <div className="py-2 flex flex-row items-center justify-start gap-2">
+                    {editChallengeLink && editChallengeLink}
                     {deleteButton && deleteButton}
                     {lockButton && lockButton}
                 </div>
