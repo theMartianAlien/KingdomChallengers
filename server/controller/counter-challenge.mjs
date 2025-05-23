@@ -87,7 +87,7 @@ const updateCounterChallenge = async (req, res, next) => {
 const deleteCounterChallenge = async (req, res, next) => {
     try {
         logMessage("-----------deleteCounterChallenge--------------");
-        const result = await CounterChallenge.findByIdAndDelete(req.params._id);
+        const result = await CounterChallenge.findByIdAndDelete(req.params.id);
 
         if (!result) {
             logMessage("-----------result--------------");

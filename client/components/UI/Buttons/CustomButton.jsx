@@ -9,7 +9,6 @@ export default function CustomButton({
 }) {
     return (
         <button
-            onClick={onClick}
             type={type}
             disabled={disabled}
             className={clsx(
