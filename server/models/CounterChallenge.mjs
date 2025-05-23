@@ -35,6 +35,6 @@ const counterChallengeSchema = new Schema({
   collection: 'counter-challenge'
 });
 
-const CounterChallenge = model('counter-challenge', counterChallengeSchema);
+const CounterChallenge = model('CounterChallenge', counterChallengeSchema);
 
 export default CounterChallenge;

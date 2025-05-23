@@ -56,6 +56,7 @@ const findAllBetsByPlayer = async (req, res, next) => {
         logMessage("-----------findAllBetsByPlayer--------------");
         res.json({ bets });
     } catch (error) {
+        logError(error);
         next(error);
     }
 }
@@ -66,7 +67,7 @@ const updateBet = async (req, res, next) => {
         const data = req.body;
         logMessage("-----------updateBet--------------");
         const bet = await Bets.findById(id);
-        if (bet) {
+        if (!bet) {
             logMessage("-----------bet--------------");
             logMessage(bet);
             return res
@@ -80,6 +81,9 @@ const updateBet = async (req, res, next) => {
         } else if (data.status === "void") {
             bet.winner = "none";
             bet.status = 'void'
+        } else if(data.status === 'ongoing' && data.status === 'none') {
+            bet.winner = 'none';
+            bet.status = 'ongoing'
         }
 
         await bet.save();
@@ -87,6 +91,7 @@ const updateBet = async (req, res, next) => {
         logMessage("-----------updateBet--------------");
         res.json({ message: "Bet updated." });
     } catch (error) {
+        logError(error);
         next(error);
     }
 }

@@ -6,7 +6,6 @@ const homeStats = async (req, res, next) => {
     try {
         logMessage("-----------homeStats--------------");
         const bets = await Bets.find();
-        const allPlayers = await Player.find();
         let data = [];
         for (let i = 0; i < bets.length; i++) {
             let theBet = bets[i];
@@ -25,7 +24,6 @@ const homeStats = async (req, res, next) => {
                 const playerId = players[x];
                 let inside = data.find((d) => d._id.toString() === playerId.toString());
 
-                // Determine base values
                 const isWinner = winners && winners.some((w) => w.toString() === playerId.toString());
                 const isVoid = theBet.status === 'void';
                 const isOngoing = theBet.status === 'ongoing';
@@ -51,7 +49,7 @@ const homeStats = async (req, res, next) => {
                     inside.complete += isComplete ? 1 : 0;
                     inside.void += isVoid ? 1 : 0;
                     inside.wins += isWinner ? 1 : 0;
-                    inside.loss += (!isOngoing && (!isWinner || isVoid) ? 1 : 0);
+                    inside.loss += (isComplete && !isWinner) || isVoid ? 1 : 0
                 }
             }
         }

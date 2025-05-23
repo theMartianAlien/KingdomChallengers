@@ -31,6 +31,12 @@ const createCounterChallenge = async (req, res, next) => {
 
         await newCounterChallenge.save();
 
+        await Challenge.findByIdAndUpdate(
+            challenge._id,
+            { $push: { counters: newCounterChallenge._id } },
+            { new: true }
+        );
+
         logMessage("-----------createCounterChallenge--------------");
         res.status(201).json({ message: 'Counter Challenge issued!' });
     }

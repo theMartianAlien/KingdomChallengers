@@ -35,6 +35,11 @@ const challengeSchema = new Schema({
     type: Date,
     required: true,
   },
+  counters:
+    [{
+      type: Schema.Types.ObjectId,
+      ref: 'CounterChallenge'
+    }],
   participants: [
     {
       type: Types.ObjectId,

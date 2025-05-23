@@ -8,7 +8,15 @@ const findChallenge = async (req, res, next) => {
     try {
         logMessage("-----------findChallenge--------------");
         const id = req.params.id;
-        const challenge = await Challenge.findById(id);
+        const challenge = await Challenge
+            .findById(id)
+            .populate({
+                path: 'counters',
+                populate: {
+                    path: 'playerId',
+                    model: 'Player', // This should match your Player model name
+                }
+            }).exec();
 
         if (!challenge) {
             logMessage("-----------challenge--------------");
@@ -17,7 +25,7 @@ const findChallenge = async (req, res, next) => {
         }
 
         logMessage("-----------findChallenge--------------");
-        return res.json({challenge, counter: []});
+        return res.json({challenge});
     } catch (error) {
         logError(error);
         next(error);
