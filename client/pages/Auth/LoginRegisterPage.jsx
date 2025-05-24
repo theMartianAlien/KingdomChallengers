@@ -33,8 +33,7 @@ export async function action({ request, params }) {
         return resData;
     }
 
-    setUserData({...resData});
+    setUserData({...resData.account});
 
-    console.log("test");
     return redirect('/');
 }

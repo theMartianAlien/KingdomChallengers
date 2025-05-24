@@ -164,7 +164,7 @@ const login = async (req, res, next) => {
         const discordUser = await Discord.findById(account.discord_handle_id);
         const player = await Player.findById(account.player_id);
         const accountData = await AccountsUtil.createAccountForUILogin(discordUser, player, account);
-
+console.log(accountData);
         logMessage("-----------login--------------");
         return res.status(201)
             .json({
