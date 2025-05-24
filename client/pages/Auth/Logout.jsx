@@ -12,6 +12,5 @@ export function action() {
     localStorage.removeItem('display_name');
     localStorage.removeItem('discord_handle');
 
-    console.log("test");
     return redirect('/');
 }

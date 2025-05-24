@@ -9,7 +9,7 @@ const createCounterChallenge = async (req, res, next) => {
         logMessage("-----------createCounterChallenge--------------");
         const challenge = await Challenge.findById(req.body.challengeId);
         const player = await Player.findById(req.body.playerId);
-        console.log(req.body);
+
         if (!challenge || !player) {
             logMessage("-----------challenge--------------");
             logMessage(challenge);
