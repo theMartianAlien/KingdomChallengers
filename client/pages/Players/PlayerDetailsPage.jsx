@@ -50,118 +50,103 @@ export default function PlayerDetailsPage() {
                 }
             })
         }
-        let betPlayers = [...bet.teamA, ...bet.teamB].filter(x=>x._id !== player._id);
+        let betPlayers = [...bet.teamA, ...bet.teamB].filter(x => x._id !== player._id);
         for (let x = 0; x < betPlayers.length; x++) {
             const aPlayer = betPlayers[x];
             const isTeamMate = bet.teamA.includes(aPlayer);
             const playerKey = aPlayer.display_name;
-            
+
             const existingStat = chartTeamStats.find(stat => stat.key === playerKey);
-            
+
             if (!existingStat) {
-              chartTeamStats.push({
-                key: playerKey,
-                total: 1,
-                isTeamMate
-              });
+                chartTeamStats.push({
+                    key: playerKey,
+                    total: 1,
+                    isTeamMate
+                });
             } else {
-              existingStat.total += 1;
+                existingStat.total += 1;
             }
         }
 
     }
 
-    let teamMates = [...chartTeamStats].filter(x=>x.isTeamMate)
-    let notTeamMate = [...chartTeamStats].filter(x=>!x.isTeamMate)
+    let teamMates = [...chartTeamStats].filter(x => x.isTeamMate)
+    let notTeamMate = [...chartTeamStats].filter(x => !x.isTeamMate)
 
     let playerDetailsClass = "md:w-1/2";
     if (chartData.length <= 0) {
         playerDetailsClass = "md:w-full"
     }
+
     return (
-        <section className="w-full max-w-[calc(100%-30em)] mx-auto">
-            <div className="flex flex-col md:flex-row gap-6">
-                <div className={playerDetailsClass}>
-                    <div className="w-1/2 mx-auto py-2 px-2">
-                        <h1 className="text-xl font-bold mb-2">Player Details</h1>
-                        <p>
-                            {player.discord_handle}
-                        </p>
-                        <p>
-                            {player.display_name}
-                        </p>
+        <section className="h-screen flex flex-col overflow-y-auto px-4 lg:px-[12vw] dark:border-gray-700 dark:bg-gray-800">
+            {/* Top grid (should expand only if there's space) */}
+            <div
+                className="flex-1 items-center grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-2 overflow-y-auto min-h-[65vh] sm:max-h-full">
+                <div className="p-4">
+                    <div className="flex items-start">
+                        <div className="w-full md:w-1/2 mx-auto py-2 px-2 text-blue-900 self-start">
+                            <h1 className="text-xl font-bold mb-2">Player Details</h1>
+                            <p>{player.discord_handle}</p>
+                            <p>{player.display_name}</p>
+                        </div>
                     </div>
                 </div>
-                {chartData.length > 0 && (
-                    <div className="md:w-1/2">
-                        <div>
-                            <MyBetsPieChart
-                            label={"Bet status"}
-                                data={chartData}
-                                colors={generateRGBAColors(chartData.length)}
-                            />
-                        </div>
-                    </div>
-                )}
-                {teamMates.length > 0 && (
-                    <div className="md:w-1/2">
-                        <div>
-                            <MyBetsPieChart
-                            label={"Teammates"}
-                                data={teamMates}
-                                colors={generateRGBAColors(teamMates.length)}
-                            />
-                        </div>
-                    </div>
-                )}
-                {notTeamMate.length > 0 && (
-                    <div className="md:w-1/2">
-                        <div>
-                            <MyBetsPieChart
-                            label={"Enemies"}
-                                data={notTeamMate}
-                                colors={generateRGBAColors(notTeamMate.length)}
-                            />
-                        </div>
-                    </div>
-                )}
+                <div className="p-4">
+                    {chartData.length > 0 && (
+                        <MyBetsPieChart
+                            label="Bet status"
+                            data={chartData}
+                            colors={generateRGBAColors(chartData.length)}
+                        />
+                    )}
+                </div>
+                <div className="p-4">
+                    {teamMates.length > 0 && (
+                        <MyBetsPieChart
+                            label="Teammates"
+                            data={teamMates}
+                            colors={generateRGBAColors(teamMates.length)}
+                        />
+                    )}
+                </div>
+                <div className="p-4">
+                    {notTeamMate.length > 0 && (
+                        <MyBetsPieChart
+                            label="Enemies"
+                            data={notTeamMate}
+                            colors={generateRGBAColors(notTeamMate.length)}
+                        />
+                    )}
+                </div>
             </div>
-            {bets && bets.length > 0 && (
-                <CustomTable
-                    prefix={"bets"}
-                    primaryColumn="status"
-                    isAsc={true}
-                    data={
-                        bets.map((bet) => {
-                            return {
+
+            {/* Bottom scrollable content */}
+            <div className="flex-1 overflow-x-auto p-1 md:p-2 lg:p-4">
+                <div className="w-full max-w-screen-lg mx-auto">
+                    {bets && bets.length > 0 && (
+                        <CustomTable
+                            prefix="bets"
+                            primaryColumn="status"
+                            isAsc={true}
+                            data={bets.map((bet) => ({
                                 _id: bet._id,
                                 title: bet.title,
                                 status: bet.status,
                                 verdict: getVerdict(bet),
                                 link: bet.link
-                            }
-                        })}
-                    columns={[
-                        {
-                            "column_name": "Title",
-                            "column": "title",
-                            element: CustomLink
-                        },
-                        {
-                            "column_name": "Status",
-                            "column": "status"
-                        },
-                        {
-                            "column_name": "Verdict",
-                            "column": "verdict"
-                        },
-                        {
-                            "column_name": "Link",
-                            "column": "link",
-                            element: NoOpenCustomLink
-                        }]}
-                />
-            )}
+                            }))}
+                            columns={[
+                                { column_name: "Title", column: "title", element: CustomLink },
+                                { column_name: "Status", column: "status" },
+                                { column_name: "Verdict", column: "verdict" },
+                                { column_name: "Link", column: "link", element: NoOpenCustomLink }
+                            ]}
+                        />
+                    )}
+                </div>
+            </div>
         </section>
     );
 }

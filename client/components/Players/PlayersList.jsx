@@ -67,5 +67,6 @@ export async function action({ request, params }) {
     if (resData.status === 422 || resData.status === 401) {
         return resData;
     }
+    console.log("test");
     return redirect('/players');
 }

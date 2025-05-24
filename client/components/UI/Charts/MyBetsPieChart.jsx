@@ -14,7 +14,7 @@ export default function MyBetsPieChart({ data, colors, label }) {
             data: {
                 labels: data.map(d => d.key),
                 datasets: [{
-                    label: {label},
+                    label: { label },
                     data: data.map(d => d.total),
                     backgroundColor: colors,
                     borderColor: colors,
@@ -22,7 +22,10 @@ export default function MyBetsPieChart({ data, colors, label }) {
                 }]
             },
             options: {
+                radius: '60%', // default is 100%, so 60% shrinks the pie
+                // or you can use absolute pixels like radius: 100,
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         labels: {
@@ -37,13 +40,13 @@ export default function MyBetsPieChart({ data, colors, label }) {
     }, []);
 
     return (
-        <div className="max-w-sm w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6">
-            <div className="flex justify-between items-start w-full">
+        <div className="w-full lg:w-4/5 bg-white rounded-lg shadow-sm dark:bg-gray-800 p-2 lg:p-6 p-1 mx-auto">
+            <div class="flex justify-between items-start w-1/2">
                 <div>
-                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">{label}</h5>
+                    <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">{label}</h5>
                 </div>
-            </div>           
-            <div className="py-6">
+            </div>
+            <div className="py-1 md:py-6">
                 <canvas ref={chartRef} />
             </div>
         </div>

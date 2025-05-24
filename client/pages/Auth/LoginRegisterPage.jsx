@@ -34,5 +34,7 @@ export async function action({ request, params }) {
     }
 
     setUserData({...resData});
+
+    console.log("test");
     return redirect('/');
 }

@@ -1,27 +1,25 @@
 import { Outlet, useLoaderData, useSubmit } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import MainNavigation from "../../components/MainNavigation";
 import { getTokenDuration } from "../../util/auth";
 
 export default function RootPage() {
     const token = useLoaderData();
     const submit = useSubmit();
+    const hasLoggedOut = useRef(false); // ✅ Prevent repeated logouts
+  
     useEffect(() => {
-        if (!token) {
-            return;
-        }
-
+        if (!token || hasLoggedOut.current) return;
+      
         if (token === 'EXPIRED') {
-            submit(null, { action: '/logout', method: 'post' });
-            return;
+          hasLoggedOut.current = true;
+          submit(null, { action: '/logout', method: 'post' });
+          return;
         }
-
-        const tokenDuration = getTokenDuration();
-
-        setTimeout(() => {
-            submit(null, { action: '/logout', method: 'post' });
-        }, tokenDuration);
-    }, [token, submit]);
+      
+        // Remove the automatic logout timer
+        // No timer = no auto logout
+      }, [token, submit]);
 
     return (
         <>
