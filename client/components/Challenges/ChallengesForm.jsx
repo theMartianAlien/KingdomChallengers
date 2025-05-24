@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Form, redirect, useRouteLoaderData } from "react-router-dom";
 import { getAuthToken, getAccountId } from "../../util/auth";
 import { sortByProperty } from "../../util/sort";
-import { usePatchPostFetch } from "../../hooks/useFetch";
+import { useDeleteFetch, usePatchPostFetch } from "../../hooks/useFetch";
 import { CustomDatePicker } from "../UI/CustomDatePicker";
 import InputField from "../UI/Fields/InputField";
 import TextAreaField from "../UI/Fields/TextAreaField";
@@ -135,7 +135,17 @@ export default function ChallengeForm({ method }) {
 
 export async function action({ request, params }) {
     const id = getAccountId();
+    const token = getAuthToken();
     const method = request.method;
+
+    let redirectText = '/challenges';
+    if (method === 'DELETE') {
+        const resData = await useDeleteFetch("challenges/" + params.id, token);
+        if (resData.status === 422 || resData.status === 401) {
+            return resData;
+        }
+        return redirect(redirectText);
+    }
     const data = await request.formData();
     const title = data.get('title');
     const statement = data.get('statement');
@@ -153,13 +163,11 @@ export async function action({ request, params }) {
         challengeEndDate,
         participants
     }
-    let redirectText = '/challenges';
     if (method === 'PATCH') {
         challengeData._id = params.id
         redirectText += '/' + params.id;
     }
 
-    const token = getAuthToken();
     const resData = await usePatchPostFetch("challenges", method, challengeData, token);
 
     if (resData.status === 422 || resData.status === 401) {

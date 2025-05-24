@@ -67,7 +67,7 @@ export default function ChallengeDetailsPage() {
             <div className='gap-1 py-1'>
                 <FormActionButton
                     action="delete"
-                    method="patch"
+                    method="delete"
                     label="Delete Challenge"
                     id={challenge._id}
                 />

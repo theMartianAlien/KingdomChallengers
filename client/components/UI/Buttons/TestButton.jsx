@@ -1,6 +1,6 @@
 export default function TestButton({ _id, label, onClick, className }) {
     function onClickHandler() {
-        onClick(_id);
+        onClick?.(_id);
     }
 
     return (

@@ -76,7 +76,7 @@ const router = createBrowserRouter(
           element: <Suspense fallback={<p>Loading ....</p>}><HomePage /></Suspense>,
           loader: () => import('../pages/HomePage').then((module) => module.loader()),
         },
-          // login
+        // login
         {
           path: 'login',
           element: <Suspense fallback={<p>Loading ....</p>}><LoginRegisterPage /></Suspense>,
@@ -93,7 +93,7 @@ const router = createBrowserRouter(
           path: 'logout',
           action: logout
         },
-          // players
+        // players
         {
           path: 'players',
           element: <Suspense fallback={<p>Loading ....</p>}><PlayersRootPage /></Suspense>,
@@ -219,6 +219,11 @@ const router = createBrowserRouter(
                   element: <Suspense fallback={<p>Loading ....</p>}><ChallengeEditPage /></Suspense>,
                   action: patchPostChallengeAction,
                   loader: checkAuthLoader
+                },
+                ///challenges/6831dec54f64f1f3ae1c4844/delete
+                {
+                  path: 'delete',
+                  action: patchPostChallengeAction
                 },
                 {
                   path: ':counterId/counter/:action',
