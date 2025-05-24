@@ -26,8 +26,12 @@ const counterChallengeSchema = new Schema({
   },
   action: {
     type: String,
-    enum: ['accept', 'reject', 'locked', 'none'], // Customize actions
+    enum: ['accept', 'reject', 'none'], // Customize actions
     required: true,
+  },
+  status: {
+    type: String,
+    enum: ['locked', 'none'], // Customize actions
   }
 }, {
   timestamps: true // Adds createdAt and updatedAt

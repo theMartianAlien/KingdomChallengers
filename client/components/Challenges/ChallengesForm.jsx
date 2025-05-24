@@ -25,7 +25,7 @@ export default function ChallengeForm({ method }) {
     const [participants, setParticipants] = useState([]);
     const [challengeType, setChallengeType] = useState(challenge?.challengeType || 'open');
 
-    function OnChangeChallengeType() {
+    function OnChangeChallengeType(e) {
         let leChallenge = challengeType;
         if (leChallenge === 'open') {
             leChallenge = "close";
@@ -98,7 +98,7 @@ export default function ChallengeForm({ method }) {
                             groupName="challengeType"
                             value="open"
                             label="Open Challenge"
-                            disabled={challenge}
+                            disabled={challenge ? true : false}
                             onChange={(e) => OnChangeChallengeType(e)}
                         />
                         <RadioField
@@ -107,7 +107,7 @@ export default function ChallengeForm({ method }) {
                             groupName="challengeType"
                             value="close"
                             label="Close Challenge"
-                            disabled={challenge}
+                            disabled={challenge ? true : false}
                             onChange={(e) => OnChangeChallengeType(e)}
                         />
                     </fieldset>
@@ -116,7 +116,7 @@ export default function ChallengeForm({ method }) {
                 <div className="mb-5">
                     {challenge && (<input value={challenge.challengeEndDate} name="challenge-enddate" type="hidden" />)}
                     <CustomDatePicker
-                        readOnly={challenge}
+                        readOnly={challenge ? true : false}
                         name="challenge-enddate"
                         title="Challenge Duration Date"
                         minDate={new Date(year, month, day)}
@@ -134,6 +134,7 @@ export default function ChallengeForm({ method }) {
 }
 
 export async function action({ request, params }) {
+    console.log("I should only be called for challenges modifications");
     const id = getAccountId();
     const token = getAuthToken();
     const method = request.method;

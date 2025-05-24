@@ -23,6 +23,7 @@ export default function CounterTable() {
     let acceptReject = counters.some(counter => counter.playerId._id !== playerId);
     let deleteCounter = counters.some(counter => counter.playerId._id === playerId);
     let actioned = counters.some(counter => counter.action && counter.action !== 'none');
+    let status = counters.some(counter => counter.status && counter.status === 'locked');
     return (
         <div className={divClass}>
             <table className={tableClass}>
@@ -33,8 +34,9 @@ export default function CounterTable() {
                         <th className={colSize}>Team</th>
                         <th className={colSize}>Player</th>
                         {actioned && (<th className={colSize}>Status</th>)}
-                        {token && acceptReject && (<th className={colSize}>Accept</th>)}
-                        {token && acceptReject && (<th className={colSize}>Reject</th>)}
+                        {status && (<th className={colSize}>Is Locked</th>)}
+                        {token && acceptReject && !status && (<th className={colSize}>Accept</th>)}
+                        {token && acceptReject && !status && (<th className={colSize}>Reject</th>)}
                         {token && deleteCounter && (<th className={colSize}>Delete</th>)}
                     </tr>
                 </thead>
@@ -53,21 +55,20 @@ export default function CounterTable() {
                             <td className={colSize}>
                                 {counter.playerId.display_name}
                             </td>
-                            {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + (counter.action === 'locked' ? '' :'ed')}</th>)}
-                            {token && counter.playerId._id !== playerId && (
+                            {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + (counter.action === 'locked' ? '' : 'ed')}</th>)}
+                            {status && (<th className={colSize + " capitalize"}>{counter.status}</th>)}
+                            {token && !status && counter.playerId._id !== playerId && (
                                 <td className={colSize}>
                                     <Form method="patch" action={`/counter-challenge/${counter._id}/accept`}>
-                                        <input type="hidden" name="action" value="accept" />
                                         <input type="hidden" name="challengeId" value={challenge._id} />
                                         <input type="hidden" name="playerId" value={counter.playerId._id} />
                                         <CustomButton disabled={counter?.action === 'locked'} className="bg-green-200 dark:bg-green-600 hover:bg-blue-900" type="submit">Accept</CustomButton>
                                     </Form>
                                 </td>)
                             }
-                            {token && counter.playerId._id !== playerId && (
+                            {token && !status && counter.playerId._id !== playerId && (
                                 <td className={colSize}>
                                     <Form method="patch" action={`/counter-challenge/${counter._id}/reject`}>
-                                        <input type="hidden" name="action" value="reject" />
                                         <input type="hidden" name="challengeId" value={challenge._id} />
                                         <input type="hidden" name="playerId" value={counter.playerId._id} />
                                         <CustomButton disabled={counter?.action === 'locked'} className="bg-red-200 dark:bg-red-600 hover:bg-blue-900" type="submit">Reject</CustomButton>
@@ -94,6 +95,9 @@ export async function action({ request, params }) {
     if (method === 'DELETE') {
         const returnId = data.get("id");
         const resData = await useDeleteFetch("counter-challenge/" + params.id, token)
+        if (resData.status === 422 || resData.status === 401 || resData.status === 404) {
+            return resData;
+        }
         return redirect("/challenges/" + returnId);
     }
     const challengeId = data.get('challengeId');

@@ -23,7 +23,7 @@ export default function ChallengeDetailsPage() {
     if (isJoining) {
         counterChallengeForm = (
             <div className="max-w-sm mx-auto">
-                <CounterChallengeForm challengeId={challenge?._id}/>
+                <CounterChallengeForm challengeId={challenge?._id} />
             </div>);
     }
 
@@ -49,7 +49,7 @@ export default function ChallengeDetailsPage() {
 
     const lockable = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept' && c.team === 'against'))
     let lockButton;
-    if (accountId && challenge.issuer === accountId && lockable > 0) {
+    if (challenge.status !== 'locked' && accountId && challenge.issuer === accountId && lockable > 0) {
         lockButton = (
             <div className='gap-1 py-1'>
                 <FormActionButton

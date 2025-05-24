@@ -44,7 +44,11 @@ const DiscordListPage = lazy(() => import('../pages/Discord/DiscordListPage'));
 import { action as patchProfileAccountAction, loader as getProfileAccountLoader } from '../pages/Auth/EditProfilePage';
 import { action as updateBetsAction } from '../components/Bets/BetForm';
 import { action as postLockChallengeAction } from '../components/Challenges/LockChallenges';
-import { action } from '../components/Challenges/CounterChallengeForm';
+import { action as postCreateNewCounterChallengeAction } from '../components/Challenges/CounterChallengeForm';
+import DiscordDetailsPage, { loader as getDiscordDetailsLoader } from '../pages/Discord/DiscordDetailsPage';
+import DiscordEditPage from '../pages/Discord/DiscordEditPage';
+import { action as createUpdateDiscordAction } from '../components/Discord/DiscordForm';
+import { action } from '../components/Discord/DiscordList';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -198,12 +202,14 @@ const router = createBrowserRouter(
           element: <Suspense fallback={<p>Loading ....</p>}><ChallengesRootPage /></Suspense>,
           loader: () => import('../pages/Players/PlayersListPage').then((module) => module.loader()),
           children: [
+            // index
             {
               index: true,
               id: 'challenges-list',
               element: <Suspense fallback={<p>Loading ....</p>}><ChallengesListPage /></Suspense>,
               loader: () => import('../pages/Challenges/ChallengesListPage').then((module) => module.loader()),
             },
+            // id
             {
               path: ':id',
               id: 'challenge-detail',
@@ -214,28 +220,26 @@ const router = createBrowserRouter(
                   element: <Suspense fallback={<p>Loading ....</p>}><ChallengeDetailsPage /></Suspense>,
                   action: postCounterChallengeAction
                 },
+                // edit
                 {
                   path: 'edit',
                   element: <Suspense fallback={<p>Loading ....</p>}><ChallengeEditPage /></Suspense>,
                   action: patchPostChallengeAction,
                   loader: checkAuthLoader
                 },
-                ///challenges/6831dec54f64f1f3ae1c4844/delete
+                // delete
                 {
                   path: 'delete',
                   action: patchPostChallengeAction
                 },
-                {
-                  path: ':counterId/counter/:action',
-                  action: patchCounterChallengeAction,
-                  loader: checkAuthLoader
-                },
+                // lock
                 {
                   path: 'lock',
                   action: postLockChallengeAction
                 }
               ]
             },
+            // new
             {
               path: 'new',
               element: <Suspense fallback={<p>Loading ....</p>}><NewChallengePage /></Suspense>,
@@ -250,7 +254,7 @@ const router = createBrowserRouter(
           children: [
             {
               index: true,
-              action: action,
+              // action: action,
               loader: checkAuthLoader
             },
             {
@@ -264,6 +268,10 @@ const router = createBrowserRouter(
                   loader: checkAuthLoader
                 }
               ]
+            },
+            {
+              path: 'new',
+              action: postCreateNewCounterChallengeAction
             }
           ]
         },
@@ -279,6 +287,38 @@ const router = createBrowserRouter(
               element: <Suspense fallback={<p>Loading ....</p>}><DiscordListPage /></Suspense>,
               loader: () => import('../pages/Discord/DiscordListPage').then((module) => module.loader()),
             },
+            // id
+            {
+              path: ':id',
+              id: 'discord-detail',
+              loader: getDiscordDetailsLoader,
+              children: [
+                {
+                  index: true,
+                  element: <Suspense fallback={<p>Loading ....</p>}><DiscordDetailsPage /></Suspense>
+                },
+                // edit
+                {
+                  path: 'edit',
+                  element: <Suspense fallback={<p>Loading ....</p>}><DiscordEditPage /></Suspense>,
+                  loader: checkAdminAuthLoader,
+                  action: createUpdateDiscordAction
+                },
+                // delete
+                {
+                  path: 'delete',
+                  action: action,
+                  loader: checkAdminAuthLoader
+                }
+              ]
+            },
+            // new
+            {
+              path: 'new',
+              element: <Suspense fallback={<p>Loading ....</p>}><NewChallengePage /></Suspense>,
+              action: patchPostChallengeAction,
+              loader: checkAuthLoader
+            }
           ]
         }
       ]

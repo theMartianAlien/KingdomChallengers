@@ -40,6 +40,7 @@ export default function DropDownField({
                 name={elementName}
                 id={elementName}
                 onClick={handleSelectionChange}
+                onChange={() => {}}
                 value={selectedOptions} >
                 {options.map(option =>
                     <option

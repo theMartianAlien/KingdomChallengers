@@ -160,7 +160,7 @@ const deleteChallenge = async (req, res, next) => {
         const challengeId = req.params.id;
         const result = await Challenge.findByIdAndDelete(challengeId);
 
-        if (result) {
+        if (!result) {
             logMessage("-----------result--------------");
             logMessage(result);
             return res.status(404).json({ message: 'Unable to delete challenge:' + challengeId });

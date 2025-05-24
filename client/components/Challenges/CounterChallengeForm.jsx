@@ -17,7 +17,7 @@ export default function CounterChallengeForm({challengeId}) {
 
     return (
         <>
-            <Form method="post" action="/counter-challenge/" className="flex max-w-md flex-col gap-4 py-4">
+            <Form method="post" action="/counter-challenge/new" className="flex max-w-md flex-col gap-4 py-4">
                 <input value={challengeId} name="challengeId" type="hidden" />
                 <div className="mb-2 block">
                     <label htmlFor="challenge" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Challenge</label>

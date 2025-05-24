@@ -85,6 +85,7 @@ export default function CustomTable({
                             {columns.slice(1).map((col) => {
                                 const CellComponent = col.element;
                                 const value = row[col.column];
+                                const suffix = col?.suffix;
 
                                 return (
                                     <td key={col.column} className={colSize}>
@@ -95,7 +96,7 @@ export default function CustomTable({
                                             <CellComponent to={value} label="Edit" />
                                         )}
                                         {CellComponent && col.label === 'Delete' && (
-                                            <CellComponent _id={value} label="Delete" />
+                                            <CellComponent _id={value} label="Delete" prefixEndpoint={prefix} suffix={suffix}/>
                                         )}
                                         {!CellComponent && value}
                                     </td>

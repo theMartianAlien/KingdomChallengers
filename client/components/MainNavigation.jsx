@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 
 export default function MainNavigation() {
-    const { image, player_id, nickname, discord_handle } = useRouteLoaderData('root');
+    const { image, player_id, nickname, discord_handle, adminToken } = useRouteLoaderData('root');
     let imgProfile = 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg';
     if (image) {
         imgProfile = image;
@@ -104,6 +104,10 @@ export default function MainNavigation() {
                 <NavLink to='/challenges' className={({ isActive }) => isActive ? classes.active : undefined}>
                     Challenges
                 </NavLink>
+                {adminToken && (
+                <NavLink to='/discord' className={({ isActive }) => isActive ? classes.active : undefined}>
+                    Discord
+                </NavLink>)}
             </NavbarCollapse>
         </Navbar>
     );

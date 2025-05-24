@@ -18,7 +18,7 @@ const resetCounterChallengeAction = async (counter) => {
 }
 
 const lockCounterChallengeAction = async (counter) => {
-    counter.action = 'locked';
+    counter.status = 'locked';
     await counter.save();;
 }
 
