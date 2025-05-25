@@ -7,6 +7,11 @@ export default function CustomButton({
     children,
     className = '',
 }) {
+
+    function buttonClicked(){
+        onClick?.();
+    }
+
     return (
         <button
             type={type}
@@ -18,6 +23,7 @@ export default function CustomButton({
                     "!bg-gray-500 !cursor-not-allowed pointer-events-none line-through": disabled,
                 }
             )}
+            onClick={buttonClicked}
         >
             {children}
         </button>

@@ -47,7 +47,7 @@ export default function MainNavigation() {
                     dismissOnClick={true}
                     inline
                     label={
-                        <Avatar alt="User settings" img={imgProfile} rounded className="cursor-pointer"/>
+                        <Avatar alt="User settings" img={imgProfile} rounded className="cursor-pointer" />
                     }>{
                         !player_id && (
                             <DropdownHeader>
@@ -103,11 +103,12 @@ export default function MainNavigation() {
                 </NavLink>
                 <NavLink to='/challenges' className={({ isActive }) => isActive ? classes.active : undefined}>
                     Challenges
+                    <HR className="my-2 md:hidden" />
                 </NavLink>
                 {adminToken && (
-                <NavLink to='/discord' className={({ isActive }) => isActive ? classes.active : undefined}>
-                    Discord
-                </NavLink>)}
+                    <NavLink to='/discord' className={({ isActive }) => isActive ? classes.active : undefined}>
+                        Discord
+                    </NavLink>)}
             </NavbarCollapse>
         </Navbar>
     );

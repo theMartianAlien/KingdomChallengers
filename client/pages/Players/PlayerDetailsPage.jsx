@@ -61,18 +61,19 @@ export default function PlayerDetailsPage() {
             if (!existingStat) {
                 chartTeamStats.push({
                     key: playerKey,
-                    total: 1,
-                    isTeamMate
+                    isTeamMate: (isTeamMate ? 1 : 0),
+                    isEnemy: (!isTeamMate ? 1 : 0)
                 });
             } else {
-                existingStat.total += 1;
+                existingStat.isTeamMate += (isTeamMate ? 1 : 0);
+                existingStat.isEnemy += (!isTeamMate ? 1 : 0);
             }
         }
 
     }
 
-    let teamMates = [...chartTeamStats].filter(x => x.isTeamMate)
-    let notTeamMate = [...chartTeamStats].filter(x => !x.isTeamMate)
+    let teamMates = [...chartTeamStats].filter(x => x.isTeamMate > 0)
+    let notTeamMate = [...chartTeamStats].filter(x => x.isEnemy > 0)
 
     let playerDetailsClass = "md:w-1/2";
     if (chartData.length <= 0) {
@@ -81,7 +82,6 @@ export default function PlayerDetailsPage() {
 
     return (
         <section className="h-screen flex flex-col overflow-y-auto px-4 lg:px-[12vw] dark:border-gray-700 dark:bg-gray-800">
-            {/* Top grid (should expand only if there's space) */}
             <div
                 className="flex-1 items-center grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-2 overflow-y-auto min-h-[65vh] sm:max-h-full">
                 <div className="p-4">
@@ -106,7 +106,7 @@ export default function PlayerDetailsPage() {
                     {teamMates.length > 0 && (
                         <MyBetsPieChart
                             label="Teammates"
-                            data={teamMates}
+                            data={teamMates.map((x) => { return { key: x.key, total: x.isTeamMate } })}
                             colors={generateRGBAColors(teamMates.length)}
                         />
                     )}
@@ -115,14 +115,13 @@ export default function PlayerDetailsPage() {
                     {notTeamMate.length > 0 && (
                         <MyBetsPieChart
                             label="Enemies"
-                            data={notTeamMate}
+                            data={notTeamMate.map((x) => { return { key: x.key, total: x.isEnemy } })}
                             colors={generateRGBAColors(notTeamMate.length)}
                         />
                     )}
                 </div>
             </div>
 
-            {/* Bottom scrollable content */}
             <div className="flex-1 overflow-x-auto p-1 md:p-2 lg:p-4">
                 <div className="w-full max-w-screen-lg mx-auto">
                     {bets && bets.length > 0 && (

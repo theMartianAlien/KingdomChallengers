@@ -4,7 +4,7 @@ import Content from "../../components/Layout/Content";
 export default function PlayersRootPage() {
     return (
         <>
-            <Content>
+            <Content className="">
                 <Outlet />
             </Content>
         </>

@@ -54,11 +54,11 @@ export default function Bet() {
                     {bet?.status === 'complete' && (
                         <>
                             <p className='text-center'>
-                                <span className="font-semibold">Date Completed:</span> {bet?.status}
+                                <span className="font-semibold">Date Completed:</span> {bet?.dateCompleted}
                             </p>
                             {bet?.winner && bet?.winner !== 'none' && (
                                 <p className='text-center'>
-                                    <span className="font-semibold">Winner:</span> {bet?.winner}
+                                    <span className="font-semibold">Winner:</span> {bet[bet?.winner].map(x=>x.display_name).join(', ')}
                                 </p>
                             )}
                         </>

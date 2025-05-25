@@ -6,77 +6,69 @@ import CounterChallengeForm from '../../components/Challenges/CounterChallengeFo
 import CounterTable from '../../components/Challenges/CounterTable';
 import FormActionButton from '../../components/UI/Buttons/FormActionButton';
 import UnderlinedLinks from '../../components/UI/Links/UnderlinedLink';
+import CustomButton from '../../components/UI/Buttons/CustomButton';
 
 export default function ChallengeDetailsPage() {
     const accountId = getAccountId();
     const playerId = getPlayerId();
     const { challenge } = useRouteLoaderData("challenge-detail");
-    const counters = challenge.counters;
+    const counters = challenge?.counters;
     const [isJoining, setIsJoining] = useState(false);
     const navigation = useNavigation();
     const wasSubmitting = useRef(false);
-    let counterChallengeForm;
     function IsJoiningHandler() {
         setIsJoining(!isJoining);
     }
 
-    if (isJoining) {
-        counterChallengeForm = (
-            <div className="max-w-sm mx-auto">
-                <CounterChallengeForm challengeId={challenge?._id} />
-            </div>);
-    }
-
-    let isOpen;
+    let isJoinable;
     if (accountId && challenge.issuer !== accountId && challenge.status === 'ready') {
         if (challenge.challengeType === 'open' ||
             (challenge.challengeType === 'close' && playerId && challenge.participants.includes(playerId))) {
-            isOpen = (
+            isJoinable = (
                 <div className='gap-1 py-1'>
-                    <button
+                    <CustomButton
                         className="px-3 py-2 relative flex
                         items-center justify-center rounded-lg 
                         text-center font-medium focus:outline-none 
                         focus:ring-4 bg-gray-800 text-white hover:bg-gray-900
                         focus:ring-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 
                         dark:focus:ring-gray-700"
-                        onClick={IsJoiningHandler}>{isJoining ? 'Undo' : 'Join Bet'}</button>
-                    {counterChallengeForm && counterChallengeForm}
+                        onClick={IsJoiningHandler}>{isJoining ? 'Undo' : 'Join Bet'}
+                    </CustomButton>
+                    {isJoining && (
+                        <div className="max-w-sm mx-auto">
+                            <CounterChallengeForm challengeId={challenge?._id} />
+                        </div>)}
                 </div>
             );
         }
     }
 
-    const lockable = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept' && c.team === 'against'))
     let lockButton;
-    if (challenge.status !== 'locked' && accountId && challenge.issuer === accountId && lockable > 0) {
-        lockButton = (
-            <div className='gap-1 py-1'>
+    let deleteButton;
+    let editChallengeLink;
+    if (accountId && challenge.issuer === accountId && challenge.status !== 'locked') {
+        deleteButton = (
+            <FormActionButton
+                action="delete"
+                method="delete"
+                label="Delete Challenge"
+                id={challenge._id}
+            />);
+        editChallengeLink = (
+            <UnderlinedLinks
+                label="Edit Challenge"
+                to={`/challenges/${challenge._id}/edit`} />);
+        const lockable = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept' && c.team === 'against'))
+        if (lockable > 0) {
+            lockButton = (
                 <FormActionButton
                     action={`/challenges/${challenge._id}/lock`}
                     method="patch"
                     label="LOCK IT!"
                     id={challenge._id}
-                />
-            </div>);
-    }
-
-    let deleteButton;
-    if (accountId && challenge.issuer === accountId && challenge.status !== 'locked') {
-        deleteButton = (
-            <div className='gap-1 py-1'>
-                <FormActionButton
-                    action="delete"
-                    method="delete"
-                    label="Delete Challenge"
-                    id={challenge._id}
-                />
-            </div>);
-    }
-
-    let editChallengeLink;
-    if (challenge.issuer === accountId && challenge.status !== 'locked') {
-        editChallengeLink = (<UnderlinedLinks label="Edit Challenge" to={`/challenges/${challenge._id}/edit`} />);
+                />);
+        }
     }
 
     useEffect(() => {
@@ -85,11 +77,10 @@ export default function ChallengeDetailsPage() {
         }
 
         if (wasSubmitting.current && navigation.state === 'idle') {
-            setIsJoining(false); // ✅ close the form AFTER submit completes
+            setIsJoining(false);
             wasSubmitting.current = false;
         }
     }, [navigation.state]);
-
 
     return (
         <>
@@ -113,10 +104,8 @@ export default function ChallengeDetailsPage() {
                     {deleteButton && deleteButton}
                     {lockButton && lockButton}
                 </div>
-                {isOpen && isOpen}
-                <div className='py-1'>
-                    <CounterTable />
-                </div>
+                {isJoinable && isJoinable}
+                <CounterTable />
             </div>
         </>
     );

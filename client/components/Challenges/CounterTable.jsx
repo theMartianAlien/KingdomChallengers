@@ -25,65 +25,67 @@ export default function CounterTable() {
     let actioned = counters.some(counter => counter.action && counter.action !== 'none');
     let status = counters.some(counter => counter.status && counter.status === 'locked');
     return (
-        <div className={divClass}>
-            <table className={tableClass}>
-                <thead className={headerClass}>
-                    <tr>
-                        <th className={colSize}>Challenge</th>
-                        <th className={colSize}>Punishment</th>
-                        <th className={colSize}>Team</th>
-                        <th className={colSize}>Player</th>
-                        {actioned && (<th className={colSize}>Status</th>)}
-                        {status && (<th className={colSize}>Is Locked</th>)}
-                        {token && acceptReject && !status && (<th className={colSize}>Accept</th>)}
-                        {token && acceptReject && !status && (<th className={colSize}>Reject</th>)}
-                        {token && deleteCounter && (<th className={colSize}>Delete</th>)}
-                    </tr>
-                </thead>
-                <tbody>
-                    {counters.map((counter) => (
-                        <tr key={counter._id} className={rowClass}>
-                            <th className={firstColClass}>
-                                {counter.challenge}
-                            </th>
-                            <td className={colSize}>
-                                {counter.punishment}
-                            </td>
-                            <td className={colSize + " capitalize"}>
-                                {counter.team}
-                            </td>
-                            <td className={colSize}>
-                                {counter.playerId.display_name}
-                            </td>
-                            {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + (counter.action === 'locked' ? '' : 'ed')}</th>)}
-                            {status && (<th className={colSize + " capitalize"}>{counter.status}</th>)}
-                            {token && !status && counter.playerId._id !== playerId && (
-                                <td className={colSize}>
-                                    <Form method="patch" action={`/counter-challenge/${counter._id}/accept`}>
-                                        <input type="hidden" name="challengeId" value={challenge._id} />
-                                        <input type="hidden" name="playerId" value={counter.playerId._id} />
-                                        <CustomButton disabled={counter?.action === 'locked'} className="bg-green-200 dark:bg-green-600 hover:bg-blue-900" type="submit">Accept</CustomButton>
-                                    </Form>
-                                </td>)
-                            }
-                            {token && !status && counter.playerId._id !== playerId && (
-                                <td className={colSize}>
-                                    <Form method="patch" action={`/counter-challenge/${counter._id}/reject`}>
-                                        <input type="hidden" name="challengeId" value={challenge._id} />
-                                        <input type="hidden" name="playerId" value={counter.playerId._id} />
-                                        <CustomButton disabled={counter?.action === 'locked'} className="bg-red-200 dark:bg-red-600 hover:bg-blue-900" type="submit">Reject</CustomButton>
-                                    </Form>
-                                </td>)
-                            }
-                            {token && counter.playerId._id === playerId && (
-                                <td className={colSize}>
-                                    <DeleteButton prefixEndpoint="counter-challenge" _id={counter._id} returnId={challenge._id} />
-                                </td>)
-                            }
+        <div className='py-1'>
+            <div className={divClass}>
+                <table className={tableClass}>
+                    <thead className={headerClass}>
+                        <tr>
+                            <th className={colSize}>Challenge</th>
+                            <th className={colSize}>Punishment</th>
+                            <th className={colSize}>Team</th>
+                            <th className={colSize}>Player</th>
+                            {actioned && (<th className={colSize}>Status</th>)}
+                            {status && (<th className={colSize}>Is Locked</th>)}
+                            {token && acceptReject && !status && (<th className={colSize}>Accept</th>)}
+                            {token && acceptReject && !status && (<th className={colSize}>Reject</th>)}
+                            {token && deleteCounter && (<th className={colSize}>Delete</th>)}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {counters.map((counter) => (
+                            <tr key={counter._id} className={rowClass}>
+                                <th className={firstColClass}>
+                                    {counter.challenge}
+                                </th>
+                                <td className={colSize}>
+                                    {counter.punishment}
+                                </td>
+                                <td className={colSize + " capitalize"}>
+                                    {counter.team}
+                                </td>
+                                <td className={colSize}>
+                                    {counter.playerId.display_name}
+                                </td>
+                                {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + (counter.action === 'locked' ? '' : 'ed')}</th>)}
+                                {status && (<th className={colSize + " capitalize"}>{counter.status}</th>)}
+                                {token && !status && counter.playerId._id !== playerId && (
+                                    <td className={colSize}>
+                                        <Form method="patch" action={`/counter-challenge/${counter._id}/accept`}>
+                                            <input type="hidden" name="challengeId" value={challenge._id} />
+                                            <input type="hidden" name="playerId" value={counter.playerId._id} />
+                                            <CustomButton disabled={counter?.action === 'locked'} className="bg-green-200 dark:bg-green-600 hover:bg-blue-900" type="submit">Accept</CustomButton>
+                                        </Form>
+                                    </td>)
+                                }
+                                {token && !status && counter.playerId._id !== playerId && (
+                                    <td className={colSize}>
+                                        <Form method="patch" action={`/counter-challenge/${counter._id}/reject`}>
+                                            <input type="hidden" name="challengeId" value={challenge._id} />
+                                            <input type="hidden" name="playerId" value={counter.playerId._id} />
+                                            <CustomButton disabled={counter?.action === 'locked'} className="bg-red-200 dark:bg-red-600 hover:bg-blue-900" type="submit">Reject</CustomButton>
+                                        </Form>
+                                    </td>)
+                                }
+                                {token && counter.playerId._id === playerId && (
+                                    <td className={colSize}>
+                                        <DeleteButton prefixEndpoint="counter-challenge" _id={counter._id} returnId={challenge._id} />
+                                    </td>)
+                                }
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
