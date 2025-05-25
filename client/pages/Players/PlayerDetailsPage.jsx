@@ -82,24 +82,22 @@ export default function PlayerDetailsPage() {
     }
 
     let itemCount = 1;
-    if(chartData.length > 0) itemCount++;
-    if(teamMates.length > 0) itemCount++;
-    if(notTeamMate.length > 0) itemCount++;
+    if (chartData.length > 0) itemCount++;
+    if (teamMates.length > 0) itemCount++;
+    if (notTeamMate.length > 0) itemCount++;
 
     const gridCols = clsx(
-      'grid-cols-1 sm:grid-cols-2',
-      itemCount >= 4 ? 'lg:grid-cols-4' : `lg:grid-cols-${itemCount}`
+        'grid-cols-1 sm:grid-cols-2',
+        itemCount >= 4 ? 'lg:grid-cols-4' : `lg:grid-cols-${itemCount}`
     );
 
     return (
         <section className="h-screen flex flex-col overflow-y-auto px-4 lg:px-[12vw] dark:border-gray-700 dark:bg-gray-800">
             <div
-                  className={clsx(
-        'flex-1 items-center grid gap-2 p-2 overflow-y-auto min-h-[65vh] sm:max-h-full',
-        gridCols
-      )}
-                // className="flex-1 items-center grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-2 overflow-y-auto min-h-[65vh] sm:max-h-full"
-                >
+                className={clsx(
+                    'flex-1 items-center grid gap-2 p-2 overflow-y-auto min-h-[65vh] sm:max-h-full',
+                    gridCols
+                )}>
                 <div className="p-4">
                     <div className="flex items-start">
                         <div className="w-full md:w-1/2 mx-auto py-2 px-2 text-blue-900 self-start">

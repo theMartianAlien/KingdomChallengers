@@ -132,7 +132,7 @@ const updateChallenge = async (req, res, next) => {
         challenge.challengeEndDate = req.body.challengeEndDate;
 
         const validPlayers = await PlayersUtil.findAllPlayersForChallenge(req.body.participants);
-        if (challenge.challengeType === 'close' && validPlayers) {
+        if (challenge.challengeType === 'close' && validPlayers.length <= 0) {
             logMessage("-----------validPlayers--------------");
             logMessage(validPlayers);
             logMessage("-----------challenge.challengeType--------------");

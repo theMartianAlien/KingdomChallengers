@@ -5,6 +5,7 @@ export default function DropDownField({
     size = 5,
     divClass = "mb-5",
     elementName,
+    disabled,
     inputClass = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
     defaultValue,
     options,
@@ -35,6 +36,7 @@ export default function DropDownField({
             </label>
             <select
                 multiple={multiple}
+                disabled={disabled}
                 size={multiple ? size : undefined}
                 className={inputClass}
                 name={elementName}

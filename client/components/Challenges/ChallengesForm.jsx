@@ -17,12 +17,13 @@ export default function ChallengeForm({ method }) {
         challenge = data.challenge;
     }
     let players = useRouteLoaderData('challenges-root');
-    players = sortByProperty(players, "display_name").filter((p) => p.id !== player_id);
+    players = players.filter((p) => p.id !== player_id)
+    players = sortByProperty(players, "display_name");
     const date = new Date();
     const year = date.getFullYear();
     const month = date.getMonth().toString().padStart(2, '0');
     const day = date.getDate();
-    const [participants, setParticipants] = useState([]);
+    const [participants, setParticipants] = useState(challenge?.participants || []);
     const [challengeType, setChallengeType] = useState(challenge?.challengeType || 'open');
 
     function OnChangeChallengeType(e) {
@@ -43,6 +44,7 @@ export default function ChallengeForm({ method }) {
             <DropDownField
                 multiple={true}
                 elementName="participants"
+                disabled={challenge ? true : false}
                 defaultValue={participants}
                 label="Issue challenge to:"
                 size={15}
@@ -90,7 +92,13 @@ export default function ChallengeForm({ method }) {
                     <fieldset>
                         <div className="flex items-center mb-4">
                             <label htmlFor="challengeType" className="block ms-2 text-m font-medium text-gray-900 dark:text-gray-300">Challenge Type</label>
-                            {challenge && (<input value={challenge.challengeType} name="challengeType" type="hidden" />)}
+                            {challenge && challenge.challengeType === 'open' && (<input value={challenge.challengeType} name="challengeType" type="hidden" />)}
+                            {challenge && challenge.challengeType === 'close' && (
+                                <>
+                                <input value={challenge.challengeType} name="challengeType" type="hidden" />
+                                <input value={challenge.participants.join(',')} name="participants" type="hidden" />
+                                </>
+                                )}
                         </div>
                         <RadioField
                             elementName="open-challenge"
@@ -151,7 +159,10 @@ export async function action({ request, params }) {
     const statement = data.get('statement');
     const loserPunishment = data.get('loser-punishment');
     const challengeType = data.get('challengeType');
-    const participants = data.getAll('participants');
+    let participants = data.getAll('participants');
+    if(challengeType === 'close') {
+        participants = participants[0].split(',');
+    }
     const challengeEndDate = data.get('challenge-enddate');
     let challengeData = {
         issuer: id,
