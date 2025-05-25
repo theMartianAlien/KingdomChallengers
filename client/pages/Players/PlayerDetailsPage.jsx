@@ -5,6 +5,7 @@ import CustomLink from "../../components/UI/CustomLink";
 import NoOpenCustomLink from "../../components/UI/NoOpenCustomLink";
 import MyBetsPieChart from "../../components/UI/Charts/MyBetsPieChart";
 import { generateRGBAColors } from "../../util/chart";
+import clsx from "clsx";
 
 export default function PlayerDetailsPage() {
     const data = useRouteLoaderData('player-detail');
@@ -80,10 +81,25 @@ export default function PlayerDetailsPage() {
         playerDetailsClass = "md:w-full"
     }
 
+    let itemCount = 1;
+    if(chartData.length > 0) itemCount++;
+    if(teamMates.length > 0) itemCount++;
+    if(notTeamMate.length > 0) itemCount++;
+
+    const gridCols = clsx(
+      'grid-cols-1 sm:grid-cols-2',
+      itemCount >= 4 ? 'lg:grid-cols-4' : `lg:grid-cols-${itemCount}`
+    );
+
     return (
         <section className="h-screen flex flex-col overflow-y-auto px-4 lg:px-[12vw] dark:border-gray-700 dark:bg-gray-800">
             <div
-                className="flex-1 items-center grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-2 overflow-y-auto min-h-[65vh] sm:max-h-full">
+                  className={clsx(
+        'flex-1 items-center grid gap-2 p-2 overflow-y-auto min-h-[65vh] sm:max-h-full',
+        gridCols
+      )}
+                // className="flex-1 items-center grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-2 overflow-y-auto min-h-[65vh] sm:max-h-full"
+                >
                 <div className="p-4">
                     <div className="flex items-start">
                         <div className="w-full md:w-1/2 mx-auto py-2 px-2 text-blue-900 self-start">
@@ -93,33 +109,33 @@ export default function PlayerDetailsPage() {
                         </div>
                     </div>
                 </div>
-                <div className="p-4">
-                    {chartData.length > 0 && (
+                {chartData.length > 0 && (
+                    <div className="p-4">
                         <MyBetsPieChart
                             label="Bet status"
                             data={chartData}
                             colors={generateRGBAColors(chartData.length)}
                         />
-                    )}
-                </div>
-                <div className="p-4">
-                    {teamMates.length > 0 && (
+                    </div>
+                )}
+                {teamMates.length > 0 && (
+                    <div className="p-4">
                         <MyBetsPieChart
                             label="Teammates"
                             data={teamMates.map((x) => { return { key: x.key, total: x.isTeamMate } })}
                             colors={generateRGBAColors(teamMates.length)}
                         />
-                    )}
-                </div>
-                <div className="p-4">
-                    {notTeamMate.length > 0 && (
+                    </div>
+                )}
+                {notTeamMate.length > 0 && (
+                    <div className="p-4">
                         <MyBetsPieChart
                             label="Enemies"
                             data={notTeamMate.map((x) => { return { key: x.key, total: x.isEnemy } })}
                             colors={generateRGBAColors(notTeamMate.length)}
                         />
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
 
             <div className="flex-1 overflow-x-auto p-1 md:p-2 lg:p-4">

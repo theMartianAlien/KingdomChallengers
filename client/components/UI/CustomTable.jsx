@@ -23,6 +23,9 @@ export default function CustomTable({
     const [activeSortColumn, setActiveSortColumn] = useState(primaryColumn);
 
     function handleSort(column) {
+        if(column.toUpperCase() === 'EDIT' || column.toUpperCase() === 'DELETE') {
+            return;
+        }
         const isCurrentlyAsc = sortDirections[column] === 'asc';
         const newDirection = isCurrentlyAsc ? 'desc' : 'asc';
 
