@@ -76,7 +76,7 @@ export default function CustomTable({
                         <tr key={row._id} className={rowClass}>
                             <th scope="row" className={firstColClass}>
                                 {CustomLink ? (
-                                    <CustomLink label={row[columns[0].column]} to={row._id} prefix={prefix} />
+                                    <CustomLink label={row[columns[0].column]} to={row._id} prefix={prefix} isClean={columns[0]?.isClean} className={columns[0]?.className}/>
                                 ) : (
                                     row[columns[0].column]
                                 )}
@@ -86,6 +86,8 @@ export default function CustomTable({
                                 const CellComponent = col.element;
                                 const value = row[col.column];
                                 const suffix = col?.suffix;
+                                const cellClassName = col?.className;
+                                const isClean = col?.isClean
 
                                 return (
                                     <td key={col.column} className={colSize}>
@@ -93,10 +95,10 @@ export default function CustomTable({
                                             <CellComponent to={row.link} label="Bet Link" />
                                         )}
                                         {CellComponent && col.label === 'Edit' && (
-                                            <CellComponent to={value} label="Edit" />
+                                            <CellComponent to={value} label="Edit" isClean={isClean} className={cellClassName} />
                                         )}
                                         {CellComponent && col.label === 'Delete' && (
-                                            <CellComponent _id={value} label="Delete" prefixEndpoint={prefix} suffix={suffix}/>
+                                            <CellComponent id={value} prefix={prefix} suffix={suffix} isClean={isClean} className={cellClassName} >Delete</CellComponent>
                                         )}
                                         {!CellComponent && value}
                                     </td>

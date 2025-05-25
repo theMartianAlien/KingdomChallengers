@@ -96,7 +96,6 @@ const updateDiscordUser = async (req, res, next) => {
 
         const discordHandler = await DiscordUtil.findByDiscordHandle(discord_handle);
         if (discordHandler._id.toString() !== discord_user._id.toString()) {
-            console.log(discordHandler, discord_user);
             logMessage("-----------discordHandler--------------");
             return res.status(422).json({ message: 'Discord handle already taken: ' + discord_handle });
         }

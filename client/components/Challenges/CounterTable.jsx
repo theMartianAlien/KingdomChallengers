@@ -1,7 +1,7 @@
 import { Form, redirect, useRouteLoaderData } from "react-router-dom";
 import { getAuthToken, getPlayerId } from "../../util/auth";
 import { useDeleteFetch, usePatchPostFetch } from "../../hooks/useFetch";
-import DeleteButton from "../UI/Buttons/DeleteButton";
+import ActionDeleteButton from "../UI/Buttons/ActionDeleteButton";
 import CustomButton from "../UI/Buttons/CustomButton";
 
 export default function CounterTable() {
@@ -78,7 +78,11 @@ export default function CounterTable() {
                                 }
                                 {token && counter.playerId._id === playerId && (
                                     <td className={colSize}>
-                                        <DeleteButton prefixEndpoint="counter-challenge" _id={counter._id} returnId={challenge._id} />
+                                        <ActionDeleteButton
+                                            prefix={"counter-challenge"}
+                                            id={counter._id}
+                                            className={"w-full"}
+                                            returnId={challenge._id} ></ActionDeleteButton>
                                     </td>)
                                 }
                             </tr>
@@ -112,6 +116,8 @@ export async function action({ request, params }) {
         playerId
     }
     const resData = await usePatchPostFetch("counter-challenge", method, counterDataAction, token);
-
+    if (resData.status === 422 || resData.status === 401 || resData.status === 404) {
+        return resData;
+    }
     return redirect("/challenges/" + challengeId);
 }

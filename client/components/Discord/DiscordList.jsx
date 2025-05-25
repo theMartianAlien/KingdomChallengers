@@ -1,9 +1,9 @@
 import { redirect, useLoaderData } from "react-router-dom";
 import CustomTable from "../UI/CustomTable";
 import CustomLink from "../UI/CustomLink";
-import DeleteButton from "../UI/Buttons/DeleteButton";
 import { useDeleteFetch } from "../../hooks/useFetch";
 import { getAdminToken } from "../../util/auth";
+import ActionDeleteButton from "../UI/Buttons/ActionDeleteButton";
 
 export default function DiscordList() {
     const discordUsers = useLoaderData();
@@ -24,8 +24,8 @@ export default function DiscordList() {
             "column_name": "",
             "column": "delete",
             "label": "Delete",
-            "suffix": 'delete',
-            element: DeleteButton
+            className: "w-full",
+            element: ActionDeleteButton
         }
     ]
 

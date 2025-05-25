@@ -4,9 +4,9 @@ import { getAccountId, getAuthToken, getPlayerId } from '../../util/auth';
 import { useDeleteFetch, useGetFetch, usePatchPostFetch } from '../../hooks/useFetch';
 import CounterChallengeForm from '../../components/Challenges/CounterChallengeForm';
 import CounterTable from '../../components/Challenges/CounterTable';
-import FormActionButton from '../../components/UI/Buttons/FormActionButton';
-import UnderlinedLinks from '../../components/UI/Links/UnderlinedLink';
+import UnderlinedLink from '../../components/UI/Links/UnderlinedLink';
 import CustomButton from '../../components/UI/Buttons/CustomButton';
+import FormActionButton from '../../components/UI/Buttons/FormActionButton';
 
 export default function ChallengeDetailsPage() {
     const accountId = getAccountId();
@@ -51,23 +51,40 @@ export default function ChallengeDetailsPage() {
         deleteButton = (
             <FormActionButton
                 action="delete"
-                method="delete"
-                label="Delete Challenge"
-                id={challenge._id}
-            />);
+                method="delete">
+                <CustomButton type='submit' className="
+            bg-red-900 
+            hover:bg-red-700 
+            focus:ring-red-300
+
+            dark:bg-red-900 
+            dark:hover:bg-red-700
+            dark:focus:ring-red-800">DELETE CHALLENGE</CustomButton>
+            </FormActionButton>
+        );
         editChallengeLink = (
-            <UnderlinedLinks
+            <UnderlinedLink
                 label="Edit Challenge"
-                to={`/challenges/${challenge._id}/edit`} />);
+                to={`/challenges/${challenge._id}/edit`}
+                className={"font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline"}
+                isClean={true}
+            />);
         const lockable = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept' && c.team === 'against'))
         if (lockable > 0) {
             lockButton = (
                 <FormActionButton
                     action={`/challenges/${challenge._id}/lock`}
-                    method="patch"
-                    label="LOCK IT!"
-                    id={challenge._id}
-                />);
+                    method="patch">
+                    <CustomButton type='submit' className="
+            bg-yellow-900 
+            hover:bg-yellow-700 
+            focus:ring-yellow-300
+            
+            dark:bg-yellow-900 
+            dark:hover:bg-yellow-700
+            dark:focus:ring-yellow-800">LOCK IT</CustomButton>
+                </FormActionButton>
+            );
         }
     }
 

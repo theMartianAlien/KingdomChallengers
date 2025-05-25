@@ -2,8 +2,8 @@ import { redirect, useLoaderData, useRouteLoaderData } from "react-router-dom";
 import { useDeleteFetch } from "../../hooks/useFetch";
 import { getAdminToken } from "../../util/auth";
 import CustomTable from "../UI/CustomTable";
-import CustomLink from "../UI/CustomLink";
-import DeleteButton from "../UI/Buttons/DeleteButton";
+import UnderlinedLink from "../UI/Links/UnderlinedLink";
+import ActionDeleteButton from "../UI/Buttons/ActionDeleteButton";
 
 export default function PlayersList() {
     const players = useLoaderData();
@@ -12,7 +12,9 @@ export default function PlayersList() {
         {
             "column_name": "Discord Handler",
             "column": "discord_handle",
-            element: CustomLink
+            className: "font-medium text-blue-600 underline dark:text-blue-500 hover:uppercase",
+            isClean: true,
+            element: UnderlinedLink
         },
         {
             "column_name": "Display Namer",
@@ -24,13 +26,15 @@ export default function PlayersList() {
             "column_name": "",
             "column": "edit",
             "label" : "Edit",
-            element: CustomLink
+            className: "font-medium text-blue-600 underline dark:text-blue-500 hover:uppercase",
+            isClean: true,
+            element: UnderlinedLink
         })
         column.push({
             "column_name": "",
             "column": "delete",
             "label" : "Delete",
-            element: DeleteButton
+            element: ActionDeleteButton
         })
     }
 

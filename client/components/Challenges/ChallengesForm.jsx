@@ -134,7 +134,6 @@ export default function ChallengeForm({ method }) {
 }
 
 export async function action({ request, params }) {
-    console.log("I should only be called for challenges modifications");
     const id = getAccountId();
     const token = getAuthToken();
     const method = request.method;

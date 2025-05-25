@@ -1,10 +1,10 @@
 import { Form } from "react-router-dom";
-import TestButton from "./TestButton";
 
-export default function FormActionButton({ action, method, label, id }) {
+export default function FormActionButton({ action, method, children }) {
     return (
         <Form action={action} method={method}>
-            <TestButton
+            {children}
+            {/* <TestButton
             _id={id}
             label={label}
             className={`
@@ -32,7 +32,7 @@ export default function FormActionButton({ action, method, label, id }) {
                 py-2.5
                 text-center
 
-                cursor-pointer`} />
+                cursor-pointer`} /> */}
         </Form>
     );
 }

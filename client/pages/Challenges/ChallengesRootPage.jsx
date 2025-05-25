@@ -6,7 +6,7 @@ export default function ChallengesRootPage() {
     return (
         <>
             <ChallengesNavigation />
-            <Content>
+            <Content className="">
                 <Outlet />
             </Content>
         </>
