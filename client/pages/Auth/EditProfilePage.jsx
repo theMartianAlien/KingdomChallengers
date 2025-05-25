@@ -5,7 +5,6 @@ import { getAccountId, getAuthToken, setUserData } from "../../util/auth";
 export default function EditProfilePage() {
     return (
         <>
-            {/* <p>Page under construction</p> */}
             <ProfileForm />
         </>
     );

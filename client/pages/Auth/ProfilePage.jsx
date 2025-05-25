@@ -1,5 +1,5 @@
 import { Link, redirect, useRouteLoaderData } from "react-router-dom";
-import { checkAuthLoader, getAuthToken, getPlayerId } from "../../util/auth";
+import { getAuthToken, getPlayerId } from "../../util/auth";
 import { useGetFetch } from "../../hooks/useFetch";
 import CustomTable from "../../components/UI/CustomTable";
 import NoOpenCustomLink from "../../components/UI/NoOpenCustomLink";

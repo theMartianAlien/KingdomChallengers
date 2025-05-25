@@ -49,6 +49,7 @@ import DiscordDetailsPage, { loader as getDiscordDetailsLoader } from '../pages/
 import DiscordEditPage from '../pages/Discord/DiscordEditPage';
 import { action as createUpdateDiscordAction } from '../components/Discord/DiscordForm';
 import { action } from '../components/Discord/DiscordList';
+import ProfileRootPage from '../pages/Auth/ProfileRootPage';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -178,6 +179,7 @@ const router = createBrowserRouter(
         {
           path: 'profile',
           id: 'profile-root',
+          element: <Suspense fallback={<p>Loading ....</p>}><ProfileRootPage /></Suspense>,
           loader: getProfileLoader,
           children: [
             // profile-detail

@@ -1,11 +1,9 @@
 import { Outlet } from "react-router-dom";
-import ChallengesNavigation from "../../components/Challenges/ChallengesNavigation";
 import Content from "../../components/Layout/Content";
 
-export default function ChallengesRootPage() {
+export default function ProfileRootPage() {
     return (
         <>
-            <ChallengesNavigation />
             <Content>
                 <Outlet />
             </Content>

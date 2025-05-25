@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
+import Content from "../../components/Layout/Content";
 
 export default function PlayersRootPage() {
     return (
         <>
-            <section>
+            <Content>
                 <Outlet />
-            </section>
+            </Content>
         </>
     );
 }

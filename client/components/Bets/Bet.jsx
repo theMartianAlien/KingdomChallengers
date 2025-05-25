@@ -1,10 +1,13 @@
 import PlayerTag from '../Players/PlayersTag';
-import Tag from '../Tag';
+import Tag from '../UI/Tag';
 import { cleanText } from '../../util/text';
-import { Link } from 'react-router-dom';
+import { Link, useRouteLoaderData } from 'react-router-dom';
 import { FaDiscord } from 'react-icons/fa'
+import NavigateButton from '../UI/Buttons/NavigateButton';
 
-export default function Bet({ bet }) {
+export default function Bet() {
+    const { adminToken } = useRouteLoaderData('root');
+    const { bet } = useRouteLoaderData('bet-detail');
     let betContent = cleanText(bet?.text, []);
     let status;
     if (bet?.status === 'ongoing') {
@@ -66,14 +69,14 @@ export default function Bet({ bet }) {
                     <div>
                         <ul className="flex flex-wrap gap-1 justify-center list-none">
                             {bet?.teamA.map(player => (
-                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="teamA" isWinner={bet?.winner} isVoid={bet?.status === 'void'}/>
+                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="teamA" isWinner={bet?.winner} isVoid={bet?.status === 'void'} />
                             ))}
                         </ul>
                     </div>
                     <div>
                         <ul className="flex flex-wrap gap-1 justify-center list-none">
                             {bet?.teamB.map(player => (
-                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="teamB" isWinner={bet?.winner} isVoid={bet?.status === 'void'}/>
+                                <PlayerTag key={player._id} playerName={player.display_name} playerId={player._id} team="teamB" isWinner={bet?.winner} isVoid={bet?.status === 'void'} />
                             ))}
                         </ul>
                     </div>
@@ -103,6 +106,12 @@ export default function Bet({ bet }) {
                         </Link>
                     </div>
                 )}
+            </div>
+            <div className='flex items-center justify-content gap-2'>
+                {adminToken && (
+                    <NavigateButton to="edit" className='inline-block text-blue-600 dark:text-blue-400 hover:underline' isClean>Edit Bet</NavigateButton>
+                )}
+                <NavigateButton to=".." >Back</NavigateButton>
             </div>
         </>
     );

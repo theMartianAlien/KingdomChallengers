@@ -1,6 +1,6 @@
 import { Form, Link, NavLink, useRouteLoaderData } from "react-router-dom";
 import classes from './MainNavigation.module.css';
-import logoSvg from '../assets/swords.svg';
+import logoSvg from '../../assets/swords.svg';
 import {
     Avatar,
     HR,

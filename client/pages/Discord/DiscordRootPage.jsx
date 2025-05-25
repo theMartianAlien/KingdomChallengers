@@ -1,10 +1,11 @@
 import { Outlet } from "react-router-dom";
+import Content from "../../components/Layout/Content";
 export default function DiscordRootPage() {
     return (
         <>
-            <section>
+            <Content>
                 <Outlet />
-            </section>
+            </Content>
         </>
     );
 }
