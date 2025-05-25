@@ -1,6 +1,7 @@
 import { useLoaderData } from 'react-router-dom';
-import CustomTable from '../UI/CustomTable';
 import CustomLink from '../UI/CustomLink';
+import CustomTable from '../UI/CustomTable';
+import UnderlinedLink from '../UI/Links/UnderlinedLink';
 
 export default function HomeStats() {
     const data = useLoaderData();
@@ -27,7 +28,9 @@ export default function HomeStats() {
                     {
                         "column_name": "Player name",
                         "column": "display_name",
-                        element: CustomLink
+                        className: "font-medium text-blue-600 underline dark:text-blue-500 hover:uppercase",
+                        isClean: true,
+                        element: UnderlinedLink
                     },
                     {
                         "column_name": "Total Bets",
