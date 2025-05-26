@@ -41,8 +41,8 @@ const homeStats = async (req, res, next) => {
                         ongoing: isOngoing ? 1 : 0,
                         complete: isComplete ? 1 : 0,
                         void: isVoid ? 1 : 0,
-                        wins: isWinner ? 1 : 0,
-                        loss: (!isWinner || isVoid ? 1 : 0),
+                        wins: (isComplete && isWinner) ? 1 : 0,
+                        loss: (isComplete && !isWinner || isVoid) ? 1 : 0,
                         total: 1
                     });
                 } else {
@@ -51,7 +51,7 @@ const homeStats = async (req, res, next) => {
                     inside.ongoing += isOngoing ? 1 : 0;
                     inside.complete += isComplete ? 1 : 0;
                     inside.void += isVoid ? 1 : 0;
-                    inside.wins += isWinner ? 1 : 0;
+                    inside.wins += (isComplete && isWinner) ? 1 : 0;
                     inside.loss += (isComplete && !isWinner) || isVoid ? 1 : 0
                 }
             }
