@@ -6,6 +6,7 @@ import Player from "../models/Player.mjs";
 import PlayersUtil from "../data/utils/PlayersUtil.mjs";
 import Account from "../models/Account.mjs";
 import AccountsUtil from "../data/utils/AccountsUtil.mjs";
+import { generateUserKey } from "../util/text.mjs";
 
 const register = async (req, res, next) => {
     try {
@@ -183,19 +184,22 @@ const discord = async (req, res, next) => {
         logMessage("-----------discord--------------");
         const data = req.body;
         let errors = {};
-        const discordUser = await DiscordUtil.findByDiscordHandle(data.username);
+        let discordUser = await DiscordUtil.findByDiscordHandle(data.username);
         if (!discordUser) {
-            errors.discord_signup = `Unable to login discord user with: ${data.username} discord login`;
-            if (Object.keys(errors).length > 0) {
-                return res
-                    .status(422)
-                    .json({
-                        message: 'Discord login error!',
-                        errors: errors,
-                        data: {
-                        }
-                    })
-            }
+            logMessage("-----------created New discord and player--------------");
+            discordUser = new Discord({
+                user_key: generateUserKey(),
+                discord_handle: data.username,
+            });
+            await discordUser.save();
+
+            const newPlayer = new Player({
+                discord_handler_id: discordUser._id,
+                discord_handle: data.username,
+                display_name: data.nickname
+            });
+
+            await newPlayer.save();
         }
 
         const player = await PlayersUtil.findPlayerAndUpdateDisplayName(discordUser._id, data.nickname);
@@ -270,13 +274,13 @@ const findAccountById = async (req, res, next) => {
         logMessage("-----------findAccountById--------------");
         res.json({
             account: {
-            _id: account._id,
-            display_name: player.display_name,
-            nickname: account.nickname,
-            username: account.username,
-            discord_handle: discordUser.discord_handle,
-            image: account.image,
-            hasPassword: (account.password ? true : false)
+                _id: account._id,
+                display_name: player.display_name,
+                nickname: account.nickname,
+                username: account.username,
+                discord_handle: discordUser.discord_handle,
+                image: account.image,
+                hasPassword: (account.password ? true : false)
             }
         });
     } catch (error) {

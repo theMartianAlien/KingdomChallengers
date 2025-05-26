@@ -15,7 +15,8 @@ const insertDiscordUsers = async (req, res, next) => {
             const discordUser = DISCORD_USERS[i];
             const newDiscordUser = new Discord({
                 user_key: discordUser.user_key,
-                discord_handle: discordUser.discord_handle
+                discord_handle: discordUser.discord_handle,
+                isReady: true
             })
 
             const current = await DiscordUtil.findByDiscordHandle(discordUser.discord_handle);

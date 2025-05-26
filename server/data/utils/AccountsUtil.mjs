@@ -26,10 +26,20 @@ const findAccountByUserName = async (username) => {
 }
 
 const createAccountForUILogin = async (discordUser, playerInfo, account) => {
-    let token = createJSONToken(discordUser.discord_handle);
-    let adminToken;
-    if (discordUser.isAdmin) {
-        adminToken = createAdminJSONToken(account.discord_handle);
+
+    let accountData = {
+        _id: account._id,
+        image: account.image,
+        player_id: playerInfo._id,
+        display_name: playerInfo.display_name,
+        discord_handle: discordUser.discord_handle,
+        nickname: account.nickname,
+    }
+    if (discordUser.isReady) {
+        accountData.token = createJSONToken(discordUser.discord_handle);
+        if (discordUser.isAdmin) {
+            accountData.adminToken = createAdminJSONToken(account.discord_handle);
+        }
     }
     // const eightHours = getEightHours();
     // const storedToken = {
@@ -41,21 +51,12 @@ const createAccountForUILogin = async (discordUser, playerInfo, account) => {
 
     // await storeTokenForLoggedUser(storedToken);
 
-    return {
-        _id: account._id,
-        image: account.image,
-        player_id: playerInfo._id,
-        display_name: playerInfo.display_name,
-        discord_handle: discordUser.discord_handle,
-        nickname: account.nickname,
-        token,
-        adminToken
-    }
+    return accountData;
 }
 
 
 export default {
-    findAccountByDiscordHandleId , 
+    findAccountByDiscordHandleId,
     findAccountByDiscordId,
     findAccountByUserName,
     createAccountForUILogin

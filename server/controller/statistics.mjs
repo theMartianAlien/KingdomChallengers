@@ -32,6 +32,9 @@ const homeStats = async (req, res, next) => {
                 if (!inside) {
                     const player = await Player.findById(playerId).lean();
 
+                    if(!player)
+                        continue;
+
                     data.push({
                         _id: player._id,
                         display_name: player.display_name,

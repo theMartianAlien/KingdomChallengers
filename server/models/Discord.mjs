@@ -12,6 +12,10 @@ const discordUserSchema = new Schema({
     required: true,
     unique: true,
   },
+  isReady: {
+    type: Boolean,
+    default: false
+  },
   isAdmin: {
     type: Boolean,
     default: false,

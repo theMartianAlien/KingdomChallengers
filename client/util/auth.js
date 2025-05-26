@@ -55,13 +55,16 @@ export function getPlayerId() {
 export function setUserData({ token, adminToken, discord_handle, _id, player_id, image, display_name, nickname }) {
     const expiration = new Date();
     let expirationTime = expiration.getHours() + 8;
-    localStorage.setItem("token", token);
+    if(token) {
+        localStorage.setItem("token", token);
+        localStorage.setItem('expiration', expiration.toISOString());
+    }
     if (adminToken) {
         localStorage.setItem("adminToken", adminToken);
         expirationTime = expiration.getHours() + 24;
+        expiration.setHours(expirationTime);
+        localStorage.setItem('expiration', expiration.toISOString());
     }
-    expiration.setHours(expirationTime);
-    localStorage.setItem('expiration', expiration.toISOString());
     localStorage.setItem('discord_handle', discord_handle);
     localStorage.setItem('player_id', player_id);
     localStorage.setItem('accountId', _id);
