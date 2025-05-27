@@ -198,8 +198,8 @@
             ]
         },
         "dateCompleted": "",
-        "status": "ongoing",
-        "winner": "",
+        "status": "complete",
+        "winner": "teamA",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1275207362529071124",
         "text": "@{latariox3, Duke Hyou Hobiler} and @{Strike} are betting if the next Han-Qin engagement will be a field battle or the siege of Shintei. @{Strike} believe that Qin and Han will have a field battle. @{latariox3} believes that Qin will immediately siege Shintei with no field battle taking place.",
         "chapter": {
@@ -285,8 +285,8 @@
             ]
         },
         "dateCompleted": "",
-        "status": "ongoing",
-        "winner": "",
+        "status": "complete",
+        "winner": "teamA",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1290346510415954011",
         "text": "@{Kaijin} and @{Fuu Fighter General} vs @{Sky | #1 FuuFighterLeader} and @{Rei} are betting on how long would the battle last.\n@{Tengri} said it would take 1 day like in Hango.\n@{Kaijin} said it would be more than than.\n\n@{Fuu Fighter General} and @{Great General of Rei} also take part in it, but they re fighting against themselves. (@{Fuu Fighter General} is on my side and @{Rei} is on Sky side) ",
         "chapter": {
@@ -708,8 +708,8 @@
             ]
         },
         "dateCompleted": "",
-        "status": "ongoing",
-        "winner": "",
+        "status": "comlete",
+        "winner": "teamB",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1349396021435961395",
         "text": "@{latariox3, Duke Hyou Hobiler} is betting that Han will win the next @{Vlade} is saying that Qin will win the next engagement.\n\nIf Han surrenders before then, the bet is voided.",
         "chapter": {
@@ -1178,6 +1178,28 @@
         "dateCompleted": "",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1374823367714013286",
         "text": " @NoirKingOfVoid  If Sei doesnt come to Shintei after its fall I lose, If he appears I win.",
+        "status": "ongoing",
+        "winner": "",
+        "chapter": {
+            "spoilers": "",
+            "sense": ""
+        },
+        "punishment": "Loser calls the other master-<username> until the succeeding chapter arrives( spoileres)",
+        "tags": []
+    },
+    {
+        "title": "Sei at Shintei by the end of the arc",
+        "players": {
+            "teamA": [
+                "p17"
+            ],
+            "teamB": [
+                "p12"
+            ]
+        },
+        "dateCompleted": "",
+        "link": "https://discord.com/channels/400120926592696342/400121599639945216/1376693224130740256",
+        "text": "Me and @KokoThizzba #LieutenantOfKou are betting the outcome of opening the gates. Thizz said Shin and Raku wont fight each other. I bet they will fight. If I lose, I change my name to \"Never Doubt Thizz-Sama\". If Thizz loses, he will change his name to \"Sky's Fanfics are my Bible\". The name will be in effect until Heki finally appears in a panel",
         "status": "ongoing",
         "winner": "",
         "chapter": {

@@ -36,9 +36,9 @@ const counterChallengeSchema = new Schema({
 }, {
   timestamps: true // Adds createdAt and updatedAt
 }, {
-  collection: 'counter-challenge'
+  collection: 'counter_challenge'
 });
 
-const CounterChallenge = model('CounterChallenge', counterChallengeSchema);
+const CounterChallenge = model('counter_challenge', counterChallengeSchema);
 
 export default CounterChallenge;
