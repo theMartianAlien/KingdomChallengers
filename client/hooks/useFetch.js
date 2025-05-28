@@ -8,7 +8,10 @@ export async function useGetFetch(endpoint) {
     }
 
     if (!response.ok) {
-        return response;
+        throw new Response({
+            message: response.statusText,
+            status: response.status,
+        });
     }
 
     const resData = await response.json();
@@ -42,7 +45,10 @@ export async function usePatchPostFetch(endpoint, method, data, token) {
     }
 
     if (!response.ok) {
-        return response;
+        throw new Response({
+            message: response.statusText,
+            status: response.status,
+        });
     }
 
     const resData = await response.json();
@@ -71,7 +77,10 @@ export async function useDeleteFetch(endpoint, token) {
     }
 
     if (!response.ok) {
-        return response;
+        throw new Response({
+            message: response.statusText,
+            status: response.status,
+        });
     }
 
     const resData = await response.json();

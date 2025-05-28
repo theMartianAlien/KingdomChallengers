@@ -6,7 +6,7 @@ import { inject } from '@vercel/analytics';
 inject();
 
 import RootPage from '../pages/Layout/RootPage';
-import { checkAdminAuthLoader, checkAuthLoader, tokenLoader } from '../util/auth';
+import { checkAdminAuthLoader, checkAuth, checkAuthLoader, tokenLoader } from '../util/auth';
 const HomePage = lazy(() => import('../pages/HomePage'));
 
 import { action as loginRegisterAction } from '../pages/Auth/LoginRegisterPage';
@@ -50,6 +50,7 @@ import DiscordEditPage from '../pages/Discord/DiscordEditPage';
 import { action as createUpdateDiscordAction } from '../components/Discord/DiscordForm';
 import { action } from '../components/Discord/DiscordList';
 import ProfileRootPage from '../pages/Auth/ProfileRootPage';
+import ErrorPage from '../pages/Layout/ErrorPage';
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -72,6 +73,7 @@ const router = createBrowserRouter(
     {
       path: '/',
       element: <RootPage />,
+      errorElement: <ErrorPage />,
       id: 'root',
       loader: tokenLoader,
       children: [
@@ -329,8 +331,11 @@ const router = createBrowserRouter(
     {
       path: '/auth/discord',
       element: <Suspense fallback={<p>Loading ....</p>}><DiscordPage /></Suspense>,
+      loader: checkAuth,
       action: discordLogin
     },
+    // catch all
+    { path: "*", element: <ErrorPage /> },
   ]
 );
 

@@ -11,12 +11,18 @@ import {
     Navbar,
     NavbarCollapse,
     NavbarToggle,
-    NavbarLink,
 } from "flowbite-react";
-import { useState } from "react";
 
 export default function MainNavigation() {
-    const { image, player_id, nickname, discord_handle, adminToken } = useRouteLoaderData('root');
+    const data = useRouteLoaderData('root');
+    let image, player_id, nickname, discord_handle, adminToken;
+    if (data) {
+        image = data.image;
+        player_id = data.player_id;
+        discord_handle = data.discord_handle;
+        nickname = data.nickname;
+        adminToken = data.adminToken;
+    }
     let imgProfile = 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg';
     if (image) {
         imgProfile = image;
@@ -25,12 +31,6 @@ export default function MainNavigation() {
     let userText = nickname || 'Guest';
     if (nickname) {
         userText = nickname;
-    }
-
-    const [isDropDownExpanded, setIsDrowDownExpanded] = useState(false);
-
-    function OnClickDropDown() {
-        setIsDrowDownExpanded(prevState => !prevState);
     }
 
     return (
@@ -51,7 +51,7 @@ export default function MainNavigation() {
                     }>{
                         !player_id && (
                             <DropdownHeader>
-                                <Link to="/login" onClick={OnClickDropDown} >Sign In</Link>
+                                <Link to="/login">Sign In</Link>
                             </DropdownHeader>
                         )
                     }

@@ -55,7 +55,7 @@ export function getPlayerId() {
 export function setUserData({ token, adminToken, discord_handle, _id, player_id, image, display_name, nickname }) {
     const expiration = new Date();
     let expirationTime = expiration.getHours() + 8;
-    if(token) {
+    if (token) {
         localStorage.setItem("token", token);
         localStorage.setItem('expiration', expiration.toISOString());
     }
@@ -127,5 +127,12 @@ export function checkAdminAuthLoader() {
     const token = getAdminToken();
     if (!token) {
         return redirect('/login');
+    }
+}
+
+export function checkAuth() {
+    const token = getAuthToken();
+    if (token) {
+        return redirect('/');
     }
 }
