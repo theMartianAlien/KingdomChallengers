@@ -18,9 +18,8 @@ const playerSchema = new Schema({
     unique: true,
   }
 }, {
-  timestamps: true
-}, {
-  collection: 'players' // <-- Make sure this matches your collection
+  timestamps: true,
+  collection: 'players'
 });
 
 const Player = model('Player', playerSchema);

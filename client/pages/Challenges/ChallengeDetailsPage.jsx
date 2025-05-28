@@ -12,6 +12,9 @@ export default function ChallengeDetailsPage() {
     const accountId = getAccountId();
     const playerId = getPlayerId();
     const { challenge } = useRouteLoaderData("challenge-detail");
+    if(!challenge){
+        return <p>Invalid challenge!</p>
+    }
     const counters = challenge?.counters;
     const [isJoining, setIsJoining] = useState(false);
     const navigation = useNavigation();

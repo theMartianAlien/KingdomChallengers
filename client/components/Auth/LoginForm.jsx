@@ -30,7 +30,8 @@ export default function LoginForm() {
                                     className="
                                     cursor-pointer
                                     border w-full
-                                    text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300
+                                    dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300
+                                    text-black
                                     font-medium
                                     rounded-lg 
                                     text-sm 
@@ -42,7 +43,7 @@ export default function LoginForm() {
                                         Don’t have an account yet? <Link to="/register" className="underline font-medium text-primary-600 hover:underline dark:text-primary-500">Register</Link>
                                     </p>
                                     <Link id="discord_login" to={discord}
-                                        className="gap-1 bg-discord-blue text-m px-2 py-1 rounded-md font-bold flex items-center space-x-4 hover:bg-gray-600 transition duration-75 border">
+                                        className="gap-1 bg-discord-blue text-m text-black dark:text-white px-2 py-1 rounded-md font-bold flex items-center space-x-4 hover:bg-gray-600 transition duration-75 border">
                                         <FaDiscord className="w-5 h-5 mr-1" />
                                         <span>Discord Login</span>
                                     </Link>

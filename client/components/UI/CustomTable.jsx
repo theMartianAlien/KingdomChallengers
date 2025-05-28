@@ -1,5 +1,6 @@
 import { useState } from "react";
 import TableHeaderName from "./TableHeaderName";
+import { useNavigate } from "react-router-dom";
 
 export default function CustomTable({
     data = [],
@@ -8,13 +9,15 @@ export default function CustomTable({
     isAsc = true,
     prefix = "",
     sortable = true,
+    isAllRowClickable = false,
     divClass = "relative overflow-x-auto shadow-md sm:rounded-lg lg:p-8",
-    tableClass = "w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400",
+    tableClass = "w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-white",
     headerClass = "text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400",
     rowClass = "odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-20",
     firstColClass = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white",
     colSize = "px-6 py-4 text-center"
 }) {
+    const navigate = useNavigate();
     const initialSortedData = sortData(data, primaryColumn, isAsc);
     const [sortedData, setSortedData] = useState(initialSortedData);
     const [sortDirections, setSortDirections] = useState(
@@ -23,7 +26,7 @@ export default function CustomTable({
     const [activeSortColumn, setActiveSortColumn] = useState(primaryColumn);
 
     function handleSort(column) {
-        if(column.toUpperCase() === 'EDIT' || column.toUpperCase() === 'DELETE') {
+        if (column.toUpperCase() === 'EDIT' || column.toUpperCase() === 'DELETE') {
             return;
         }
         const isCurrentlyAsc = sortDirections[column] === 'asc';
@@ -55,6 +58,14 @@ export default function CustomTable({
     }
 
     const CustomLink = columns[0]?.element;
+    const isClean = columns[0]?.isClean;
+    const rowCustomClassName = columns[0]?.className;
+
+    function rowClick(row) {
+        if (isAllRowClickable && CustomLink) {
+            navigate(`/${prefix}/${row._id}`);
+        }
+    }
 
     return (
         <div className={divClass}>
@@ -76,10 +87,10 @@ export default function CustomTable({
                 </thead>
                 <tbody>
                     {sortedData.map((row) => (
-                        <tr key={row._id} className={rowClass}>
+                        <tr key={row._id} className={rowClass} onClick={() => rowClick(row)} style={{cursor: isAllRowClickable ? 'pointer' : ''}}>
                             <th scope="row" className={firstColClass}>
                                 {CustomLink ? (
-                                    <CustomLink label={row[columns[0].column]} to={row._id} prefix={prefix} isClean={columns[0]?.isClean} className={columns[0]?.className}/>
+                                    <CustomLink label={row[columns[0].column]} to={row._id} prefix={prefix} isClean={isClean} className={rowCustomClassName} />
                                 ) : (
                                     row[columns[0].column]
                                 )}

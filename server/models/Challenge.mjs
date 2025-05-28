@@ -10,7 +10,7 @@ const challengeSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['ready', 'locked', 'posted', 'completed'], // You can adjust these values
+    enum: ['ready', 'locked', 'posted', 'completed', 'expired'], // You can adjust these values
     default: 'ready',
     required: true,
   },

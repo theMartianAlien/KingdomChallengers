@@ -6,7 +6,7 @@ const counterChallengeSchema = new Schema({
   challengeId: {
     type: Types.ObjectId,
     required: true,
-    ref: 'Challenge', // Assumes you have a separate Challenge model
+    ref: 'Challenge',
   },
   challenge: {
     type: String,
@@ -16,29 +16,28 @@ const counterChallengeSchema = new Schema({
   },
   team: {
     type: String,
-    enum: ['pro', 'against'], // Customize enum values
+    enum: ['pro', 'against'],
     required: true,
   },
   playerId: {
     type: Types.ObjectId,
     required: true,
-    ref: 'Player', // Assumes a Player model exists
+    ref: 'Player',
   },
   action: {
     type: String,
-    enum: ['accept', 'reject', 'none'], // Customize actions
+    enum: ['accept', 'reject', 'none'],
     required: true,
   },
   status: {
     type: String,
-    enum: ['locked', 'none'], // Customize actions
+    enum: ['locked', 'none'],
   }
 }, {
-  timestamps: true // Adds createdAt and updatedAt
-}, {
+  timestamps: true,
   collection: 'counter_challenge'
 });
 
-const CounterChallenge = model('counter_challenge', counterChallengeSchema);
+const CounterChallenge = model('CounterChallenge', counterChallengeSchema);
 
 export default CounterChallenge;

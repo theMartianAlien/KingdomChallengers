@@ -42,7 +42,7 @@ const challengeSchema = new Schema({
   },
   winner: {
     type: String,
-    enum: ['teamA', 'teamB', 'none'], // 🛠️ adjust depending on logic
+    enum: ['teamA', 'teamB', 'none'],
     default: 'none'
   },
   chapter: {
@@ -54,8 +54,8 @@ const challengeSchema = new Schema({
     default: Date.now
   }
 }, {
-  collection: 'bets', // optional: specify collection name
-  timestamps: true // optional: adds createdAt and updatedAt
+  collection: 'bets',
+  timestamps: true 
 });
 
 export default mongoose.model('Bet', challengeSchema);

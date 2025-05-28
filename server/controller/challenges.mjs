@@ -20,7 +20,7 @@ const findChallenge = async (req, res, next) => {
                 }
             }).exec();
 
-        if (!challenge) {
+        if (!challenge || challenge?.status === 'expired') {
             logMessage("-----------challenge--------------");
             logMessage(challenge);
             return res.status(404).json({ message: 'Error finding challenge: ' + req.params.id });
@@ -43,6 +43,7 @@ const findAllChallenge = async (req, res, next) => {
             logMessage(challenges);
             return res.status(404).json({ message: 'Challenges table is empty!' });
         }
+        
         logMessage("-----------findAllChallenge--------------");
         res.json({ challenges });
     } catch (error) {

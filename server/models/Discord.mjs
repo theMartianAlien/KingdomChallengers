@@ -21,8 +21,7 @@ const discordUserSchema = new Schema({
     default: false,
   }
 }, {
-  timestamps: true
-}, {
+  timestamps: true,
   collection: 'discord_users'
 });
 

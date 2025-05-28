@@ -11,6 +11,7 @@ export default function HomeStats() {
                 prefix={"players"}
                 primaryColumn="total"
                 isAsc={false}
+                isAllRowClickable={true}
                 data={
                     data.map((bet) => {
                         return {
