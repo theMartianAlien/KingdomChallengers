@@ -1,5 +1,4 @@
 import { useLoaderData } from 'react-router-dom';
-import CustomLink from '../UI/CustomLink';
 import CustomTable from '../UI/CustomTable';
 import UnderlinedLink from '../UI/Links/UnderlinedLink';
 
@@ -29,7 +28,7 @@ export default function HomeStats() {
                     {
                         "column_name": "Player name",
                         "column": "display_name",
-                        className: "font-medium text-blue-600 underline dark:text-blue-500 hover:uppercase",
+                        className: "font-medium text-blue-900 underline dark:text-blue-500 hover:uppercase",
                         isClean: true,
                         element: UnderlinedLink
                     },

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TableHeaderName from "./TableHeaderName";
 import { useNavigate } from "react-router-dom";
+import { clsx } from 'clsx';
 
 export default function CustomTable({
     data = [],
@@ -12,11 +13,20 @@ export default function CustomTable({
     isAllRowClickable = false,
     divClass = "relative overflow-x-auto shadow-md sm:rounded-lg lg:p-8",
     tableClass = "w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-white",
-    headerClass = "text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400",
-    rowClass = "odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-20",
+    headerClass = "text-xs text-gray-700 uppercase bg-gray-500 dark:bg-gray-700 dark:text-gray-400",
+    rowClass,
     firstColClass = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white",
     colSize = "px-6 py-4 text-center"
 }) {
+
+    rowClass = 
+        clsx(
+            "border-b dark:border-gray-700 border-gray-200 odd:bg-slate-300 even:bg-gray-500 text-black odd:dark:bg-gray-900 even:dark:bg-gray-800 dark:text-white",
+            rowClass
+        )
+    
+
+
     const navigate = useNavigate();
     const initialSortedData = sortData(data, primaryColumn, isAsc);
     const [sortedData, setSortedData] = useState(initialSortedData);
@@ -87,7 +97,7 @@ export default function CustomTable({
                 </thead>
                 <tbody>
                     {sortedData.map((row) => (
-                        <tr key={row._id} className={rowClass} onClick={() => rowClick(row)} style={{cursor: isAllRowClickable ? 'pointer' : ''}}>
+                        <tr key={row._id} className={rowClass} onClick={() => rowClick(row)} style={{ cursor: isAllRowClickable ? 'pointer' : '' }}>
                             <th scope="row" className={firstColClass}>
                                 {CustomLink ? (
                                     <CustomLink label={row[columns[0].column]} to={row._id} prefix={prefix} isClean={isClean} className={rowCustomClassName} />
