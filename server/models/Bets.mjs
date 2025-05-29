@@ -49,7 +49,11 @@ const challengeSchema = new Schema({
     type: Number,
     default: null
   },
-  date_added: {
+  date_created: {
+    type: Date,
+    default: Date.now
+  },
+  date_completed: {
     type: Date,
     default: Date.now
   }

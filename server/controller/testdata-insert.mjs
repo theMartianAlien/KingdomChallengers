@@ -138,6 +138,13 @@ const insertBets = async (req, res, next) => {
                 continue;
             }
 
+            if((BET.status === 'void' || BET.status === 'complete') && !BET.dateCompleted) {
+                console.log(BET)
+                console.log("---------------------NO DATE COMPLETED-----------------------");
+                console.log(BET.link);
+                console.log("---------------------NO DATE COMPLETED-----------------------");
+            }
+
             const createNewBet = new Bets({
                 title: BET.title,
                 teamA: teamA,
@@ -148,7 +155,8 @@ const insertBets = async (req, res, next) => {
                 winner: !BET.winner || BET.winner.length == 0 ? "none" : BET.winner,
                 status: (BET.winner !== null && BET.winner.length > 0) ? 'complete' : BET.status,
                 chapter: BET.spoilers,
-                "date-added": utc
+                date_created: BET.dateCreated,
+                date_completed: BET.dateCompleted
             });
 
             await createNewBet.save();

@@ -13,6 +13,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": "",
+        "dateCreated": "2025-05-07",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1369759196811362478",
         "text": "Me, @An Ordinary Strike  and @KokoThizzba #LieutenantOfKou are betting on whether there will be any fighting at all in Shintei between Qin and Han before an official, central surrender. Strike and I say that Han will coordinate a surrender without any fighting done, Thizz is saying the some minimum fighting is required. In the scenario where Han is coerced by Qin invading the city to a surrender without any fighting at all (not a single Han guard killed), we both lose.",
         "chapter": {
@@ -37,6 +38,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": "",
+        "dateCreated": "2025-05-02",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1367957755704639549",
         "text": "Me and @HistoRei are betting on the Han king. Rei says that the king will attempt suicide and that Nei will stop him. I say that won't happen.",
         "chapter": {
@@ -60,6 +62,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": "",
+        "dateCreated" : "2024-07-01",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1257444821191233588",
         "text": "@{giorgos} me and @{strike} are betting whether Chu will attack Wei at any point during the Han-Qin war. I say Chu will not attack Wei, Horse Breeder says Chu will take the opportunity.\nAs an attack counts Chu getting or attempting to get land/forts/cities out of Wei, passing through to attack Qin, even if it includes minor skirmishes, does not count.",
         "chapter": {
@@ -86,9 +89,10 @@
                 "p6"
             ]
         },
-        "dateCompleted": "",
-        "status": "ongoing",
-        "winner": null,
+        "dateCompleted": "2025-05-28",
+        "status": "complete",
+        "winner": "teamA",
+        "dateCreated": "2024-07-02",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1257753746490920960",
         "text": "@{luisitano}, @{myke} @{abz} @{Toe kingdomle's bot} are betting on Han Falling or not falling this arc fully.\n\n@{luisitano} am betting on Han NOT falling fully.\n\nThey @{myke} @{abz} @{Toe kingdomle's bot} are betting on Han Falling Fully.",
         "chapter": {
@@ -109,9 +113,10 @@
                 "p6"
             ]
         },
-        "dateCompleted": "",
+        "dateCompleted": "2025-05-28",
         "status": "void",
         "winner": null,
+        "dateCreated": "2024-07-09",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1260366878094790696",
         "text": "@{Conde De Arraialos} and @{Lusitano} are betting on A Wei-Han-Chu alliance.\n\n@{Lusitano} says that it will NOT happen.\n\n@{Conde De Arraialos} say that it WILL happen.\n\nIf those 2 states do send aid to Han (such as just sending some soldiers or food or money) but don't actually make an alliance it won't count for the 3 way alliance so @{Conde De Arraialos} lose.",
         "chapter": {
@@ -135,6 +140,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2024-07-14",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1262087431621054494",
         "text": "@{Settra} and @{Sky} made a bet:\n\nIf chu attacks wei or stay neutral he wins. if Chu attacks Qin in this arc I win.",
         "chapter": {
@@ -155,9 +161,10 @@
                 "p14"
             ]
         },
-        "dateCompleted": "",
+        "dateCompleted": "2025-05-13",
         "status": "complete",
         "winner": "teamA",
+        "dateCreated": "2024-08-05",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1270174085384765520",
         "text": "@{Gio} and @{Kaijin} are betting on HKKK's next move. @{Kaijin} thinks he is going to attack the Qin armies/hunker down in Nanyou. @{Gio} say he will be ordered to retreat and he will comply.",
         "chapter": null,
@@ -177,6 +184,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2024-08-18",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1274815287765500106",
         "text": "The bet is that Ousen will make an appearance with his army in any theater of the Han invasion. This includes to help either Mouten or Ouhon, or with Chu if they ever attack. @{Sky} believe that he will, @{Toe kingdomle's bot} thinks he will not. ",
         "chapter": {
@@ -197,9 +205,10 @@
                 "p9"
             ]
         },
-        "dateCompleted": "",
+        "dateCompleted": "2024-12-06",
         "status": "complete",
         "winner": "teamA",
+        "dateCreated": "2024-08-09",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1275207362529071124",
         "text": "@{latariox3, Duke Hyou Hobiler} and @{Strike} are betting if the next Han-Qin engagement will be a field battle or the siege of Shintei. @{Strike} believe that Qin and Han will have a field battle. @{latariox3} believes that Qin will immediately siege Shintei with no field battle taking place.",
         "chapter": {
@@ -221,9 +230,10 @@
                 "p27"
             ]
         },
-        "dateCompleted": "",
+        "dateCompleted": "2024-12-03",
         "status": "complete",
         "winner": "teamA",
+        "dateCreated": "2024-08-20",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1275562071333015663",
         "text": "@{Lusitano} @{Niyo}, @{Vlade} and @{StrikeEagle} (can't @ them because I get warning)\n\nAre betting on Ou Hon & Mou Ten appearing next chapter. \n\n@{Niyo} & @{Vlade} say that they will appear.\n\n@{Lusitano} and @{StrikeEagle} say they won't appear.\n\n(Both have to appear for @{Vlade} and @{Niyo} to win in the chapter)",
         "chapter": null,
@@ -243,6 +253,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2024-09-09",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1282749801045164075",
         "text": "@{StrikeEagle} and @{Jxxpiter} are betting on whether Rokuomi dies or not throughout the entirety of the Han arc. @{StrikeEagle} believes he will die, @{Jxxpiter} believes he'll live.",
         "chapter": {
@@ -263,9 +274,10 @@
                 "p24"
             ]
         },
-        "dateCompleted": "",
+        "dateCompleted": "2024-12-06",
         "status": "complete",
         "winner": "teamA",
+        "dateCreated": "2024-09-24",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1288243428622336091",
         "text": "@{Gio} and @{Sky} are betting on the restructure of the HSU Ten is going to reveal. @{Gio} say that the commanders not named Shin and Kyoukai will be in command of similarly sized units. @{Sky} says there'll be a \"wing\" structure, where a couple commanders (again, not Kyoukai or Shin) will be leading several subunits.",
         "chapter": null,
@@ -284,9 +296,10 @@
                 "p24"
             ]
         },
-        "dateCompleted": "",
+        "dateCompleted": "2025-05-26",
         "status": "complete",
         "winner": "teamA",
+        "dateCreated": "2024-09-30",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1290346510415954011",
         "text": "@{Kaijin} and @{Fuu Fighter General} vs @{Sky | #1 FuuFighterLeader} and @{Rei} are betting on how long would the battle last.\n@{Tengri} said it would take 1 day like in Hango.\n@{Kaijin} said it would be more than than.\n\n@{Fuu Fighter General} and @{Great General of Rei} also take part in it, but they re fighting against themselves. (@{Fuu Fighter General} is on my side and @{Rei} is on Sky side) ",
         "chapter": {
@@ -309,6 +322,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": "",
+        "dateCreated": "2024-10-01",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1290762011558416459",
         "text": "@{Jxxpiter} and @{StrikeEagle} are betting on whether Wei and Zhao physically attack Mouten and/or Ouhon before or after Han loses in the massive field battle that's coming up. \n\nBet is voided if we transition straight to the siege of Shintei without a field battle. @{StrikeEagle} thinks that they will attack after the Han army is defeated, @{Jxxpiter} believes they will attack before the Han army is defeated.",
         "chapter": {
@@ -331,6 +345,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2024-10-02",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1291185959609827338",
         "text": "@{Gio} and @{HistoRei} are betting on whether @{Gio} can win all the bets I've ongoing at the point of this bet.\n\nThe ongoing bets are: \n1) https://discord.com/channels/400120926592696342/596303921102979082/1087783015264030790\n\n2) ⁠https://discord.com/channels/400120926592696342/596303921102979082/1257445922481242242\n\n3) ⁠https://discord.com/channels/400120926592696342/596303921102979082/1262744657734144023\n\n4) ⁠https://discord.com/channels/400120926592696342/400121574038175744/1280632276866171031",
         "chapter": {
@@ -354,6 +369,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2024-11-06",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1303730239091773480",
         "text": "If Ssj outlives Riboku,@{micchukelz} will change his name to Ssj is the 🐐 with Ssj picture for a month,If @{Sherwel}  loses , he will change name to Ousen is the 🐐 with Ousen pic for a month",
         "chapter": {
@@ -377,6 +393,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2024-11-06",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1303738350930366486",
         "text": "@{Sherwel} and @{Rei} are betting whether Nei will Marry Tou or that she's already married to Rakuakan. If the manga states Rakuakan is the husband @{Sherwel} will have to change your name to Cucked by Rakuakan. And if @{Rei} lose you change my name.",
         "chapter": {
@@ -397,9 +414,10 @@
                 "p25"
             ]
         },
-        "dateCompleted": "",
+        "dateCompleted": "2025-04-29",
         "status": "void",
         "winner": "",
+        "dateCreated": "2024-11-15",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1306913017237340161",
         "text": "@{Kai} and @{KokoThizzba #LieutenantOfKou} are betting for who'll outsmart who in upcoming battle. If HKK outsmart Karyoten then @{Kai} win,if Karyoten outsmart HKK then @{Thizz} win\n\nThe outsmarting need to be more decisive like either more manuvers to be outsmarted constantly  like what Gyoun did in Shukai to ,or to lead to an event that can turn the battlefield around(if Hkk outsmart, ten then he s outsmarted back and they go back and forward like this without any of them breaking the ice would be pretty much void)\n\n-any outside interferences are void,if Rakuakan or Tou turn that side of battle around. Also if only Shin or KK outsmart HKK it doesnt count,Ten need to outsmart him",
         "chapter": {
@@ -423,6 +441,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2024-11-18",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1308287688964702260",
         "text": "@{Fuu Fighter General} and @{Strike} are betting on whether En gets a significant kill this arc or not. @{Strike} is for, @{Fuu Fighter General} is against.\n\nA significant kill will be defined as any Han character that has been named up to this point (including both named hkkk vassals), or any future named Han commander above the rank of 4k commander or a general.",
         "chapter": {
@@ -448,6 +467,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2024-11-20",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1308819203566075994",
         "text": "@{Gio}, @{Sabe}, @{Strike} and @{Vlade, KK #1 lieutenant} are betting on Kyoukai's relative performance to Shin. @{Gio}, @{Sabe} and @{Strike} say that Shin will outperform KK in this battle, @{Vlade, KK #1 lieutenant} says it will be KK who will come out on top.",
         "chapter": {
@@ -468,9 +488,10 @@
                 "p1"
             ]
         },
-        "dateCompleted": "",
-        "status": "ongoing",
-        "winner": null,
+        "dateCompleted": "2025-05-27",
+        "status": "complete",
+        "winner": "teamB",
+        "dateCreated": "2024-11-26",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1311005848620896256",
         "text": "@{Gio} and @{HistoRei} are betting on the involvement of princess Nei in this battle. @{HistoRei}  says she will ask Rakuakan to surrender at some point, I say the battle will fully end without her interfering at all.",
         "chapter": {
@@ -491,9 +512,10 @@
                 "p1"
             ]
         },
-        "dateCompleted": "",
-        "status": "ongoing",
+        "dateCompleted": "2025-05-27",
+        "status": "complete",
         "winner": null,
+        "dateCreated": "2024-11-27",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1311556978962858066",
         "text": "@{Gio} and @{HistoRei} are betting on Kou for this battle: he says that he will specifically lead  (not just participate as a veteran) the new recruits out of the Han encirclement, I say he will not. ",
         "chapter": {
@@ -514,9 +536,10 @@
                 "p1"
             ]
         },
-        "dateCompleted": "",
+        "dateCompleted": "2025-04-29",
         "status": "void",
         "winner": "",
+        "dateCreated": "2024-11-29",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1312181233220059226",
         "text": "@{Gio} and @{Sky | #1 FuuFighterLeader} are betting on who will reach Rakuakan first. @{Gio} say Tou, @{Sky | #1 FuuFighterLeader} says Shin. \n\nIf it's another named character that reaches Rakuakan (Rokuomi, Kankou, KK etc) we both lose our bragging rights for those calls",
         "chapter": {
@@ -540,6 +563,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2024-12-08",
         "link": "https://discord.com/channels/400120926592696342/400120926592696344/1315403893529776330",
         "text": "@{KaineAndTenIsTheTruth}  and @{Luffy}  are betting:\n\nWinner takes your tag\n\nI bet Riboku Defeats Qin in the end, marries Kaine and has a happy ending\n\nLoser takes your tag,gets Kaine army unit ,Kaine pfp and no one else can share the title.\n\nI don't care about the winner\n\nBecause this will take a long time, loser will never have a right to a personal color, and will be muted for the difference of chaoter release from sense. If sense never release loser will forever be muted",
         "chapter": {
@@ -560,9 +584,10 @@
                 "p24"
             ]
         },
-        "dateCompleted": "",
-        "status": "ongoing",
+        "dateCompleted": "2025-05-27",
+        "status": "void",
         "winner": null,
+        "dateCreated": "2024-12-19",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1319511182134083676",
         "text": "@{Sky | #1 FuuFighterLeader}  and @{Gio} are betting: @{Gio} say Tou and his army will be enough alone to defeat the Rakuakan army and kill Rakuakan himself. @{Sky} says some (any) help from HSU will be required for that. ",
         "chapter": {
@@ -583,9 +608,10 @@
                 "p10"
             ]
         },
-        "dateCompleted": "",
-        "status": "ongoing",
-        "winner": null,
+        "dateCompleted": "2025-05-27",
+        "status": "complete",
+        "winner": "teamB",
+        "dateCreated": "2025-01-24",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1332362644241518592",
         "text": "@{Gio} and @{HistoRei} are betting on whether Yoko Yoko will die in the current engagement against HSU. @{Gio} say he will, @{HistoRei} says that he will somehow survive it. To specify further, current engagement isn't limited to the HSU members currently fighting him, but it will also stop counting as one should he for any reason remove himself from that battlefield (even if he later returns).",
         "chapter": {
@@ -606,9 +632,10 @@
                 "p7"
             ]
         },
-        "dateCompleted": "",
-        "status": "ongoing",
+        "dateCompleted": "2025-05-27",
+        "status": "void",
         "winner": "",
+        "dateCreated": "2025-02-15",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1340400239315521718",
         "text": "@{Blackdoc} says that if Yoko dies, RKK won't surrender. @{Vlade} say if Yoko dies, RKK will surrender.\n\nIf Yoko doesn't die, both of us(@{Vlade}and @{Blackdoc}) get muted for 1 week. If Yoko does die, Oriliss gets muted for 1 week.",
         "chapter": {
@@ -637,9 +664,10 @@
                 "p27"
             ]
         },
-        "dateCompleted": "",
+        "dateCompleted": "2025-05-26",
         "status": "complete",
         "winner": "teamA",
+        "dateCreated": "2025-02-15",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1340400080120844318",
         "text": "@{Giorgos}, @{Strike | Master of High Ground}, @{blackdoc3629}, and @{Nil} are betting that there WILL NOT be a second day, and @{Vlade} are betting that there WILL be a second day.\n\nBy second day, @{Vlade} mean any kind of fighting between the Han and Qin armies at Entei.",
         "chapter": {
@@ -655,15 +683,16 @@
         "title": "KK's appearance",
         "players": {
             "teamA": [
-                "p27"
+                "p2"
             ],
             "teamB": [
                 "p12"
             ]
         },
-        "dateCompleted": "",
-        "status": "ongoing",
-        "winner": null,
+        "dateCompleted": "2025-05-27",
+        "status": "complete",
+        "winner": "teamA",
+        "dateCreated": "2025-02-20",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1342265138182492201",
         "text": "@{Vlade} and @{Strike} are betting on whether or not KK appears in the next chapter.\n\n@{Strike} says she will not appear, {Vlade} says she will.",
         "chapter": {
@@ -684,9 +713,10 @@
                 "p24"
             ]
         },
-        "dateCompleted": "",
+        "dateCompleted": "2025-04-29",
         "status": "void",
         "winner": "",
+        "dateCreated": "2025-02-20",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1342258630098948106",
         "text": "@{Gio} and @{Sky | #1 FuuFighterLeader} are betting on who is referred to by the title of chapter 828 \"The rising army's prodigy\". @{Gio} say Rakuakan,  @{Sky} says Yoko Yoko. If neither of us got it right we both lose. ",
         "chapter": {
@@ -707,9 +737,10 @@
                 "p27"
             ]
         },
-        "dateCompleted": "",
+        "dateCompleted": "2025-05-27",
         "status": "comlete",
         "winner": "teamB",
+        "dateCreated": "2025-03-12",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1349396021435961395",
         "text": "@{latariox3, Duke Hyou Hobiler} is betting that Han will win the next @{Vlade} is saying that Qin will win the next engagement.\n\nIf Han surrenders before then, the bet is voided.",
         "chapter": {
@@ -733,6 +764,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": "",
+        "dateCreated": "2025-03-17",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1351244523040145491",
         "text": "@{Gio}, @{Sir Kite} and @{HistoRei} are betting on what Rakuakan's next course of action will be. @{Sir Kite} and @{Gio} claim that Rakuakan will fight in the Tousa plains, @{HistoRei} says he will not fight immediatelly one way or another. ",
         "chapter": {
@@ -756,6 +788,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": "",
+        "dateCreated": "2025-03-19",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1351976136321794150",
         "text": "@{Gio}, @{Vlade, KK #1 lieutenant} and @{Sky | #1 FuuFighterLeader} are betting on whether Shin will take command of the entire Qin army for any reason from the 2nd day of the Han campaign till Han falls/Qin fails. @{Vlade, KK #1 lieutenant} and @{Gio} say he won't, @{Sky} says he will.\n",
         "chapter": {
@@ -779,6 +812,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": "",
+        "dateCreated": "2025-04-01",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1356647954869522513",
         "text": "@{Gio}, @{Strike |  Fuu Fighter Guild}  and @{NoirKingOfVoid} are betting on whether either/both of Yoko Yoko and Rakuakan got killed offscreen in the battle of Tousa. We define \"offscreen\" as any death that does not get fully featured as a fight: individual panels/fight segments narrated from a 3rd person point of view still count as offscreen. Strike and I say they will not die offscreen, @{NoirKingOfVoid} says that one or both will. \n",
         "chapter": {
@@ -803,6 +837,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2025-04-09",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1359616781240762559",
         "text": "@{Gio}, @{Kite}, @{Strike} and @{Kaijin} are betting on the final stretch of the Han arc.  @{Kaijin} claims that Rakuakan will defend Shintei from active Qin attacks  for at least a week.  @{Kaijin} also claims that Shintei will not surrender in the next 4 chapters (up until and including chapter 836).\n\nThe rest of us disagree.",
         "chapter": {
@@ -826,6 +861,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2025-04-09",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1359633905757585612",
         "text": "@{Sky} and @{Sir Kite} are betting if Yoko joins HSU or not. @{Sky} say he does and {Sir Kite} said no.",
         "chapter": {
@@ -849,6 +885,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2025-04-09",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1359634764457312519",
         "text": "@{Ferret} and @{Strike} are betting on whether Fuu hits on Kou or not. Ferret thinks Fuu will hit on Kou at some point during the remainder of this arc. @{Strike} disagrees.",
         "chapter": {
@@ -872,6 +909,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2025-04-09",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1359644141612699809",
         "text": "@{Ferret} and @{Strike} are betting on if RKK and Nei are married. @{Ferret} thinks they are, @{Strike} is opposed. If @{Strike} or @{Ferret} loses they most take the punishments of all of the other's lost bets. ",
         "chapter": {
@@ -895,6 +933,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2025-04-09",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1359666021652365393",
         "text": "@{Historei} and @{Sir Kite} are betting whether Ousen will appear in the arc. @{Sir Kite} says he will never appear during the arc. \n",
         "chapter": {
@@ -919,6 +958,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2025-04-16",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1362105684535148670",
         "text": "@{Void} and @{Strike} and @{FMA} are betting on whether the Han PO is a Qin spy or not. Void thinks that he is, strike and FMA are opposed. ",
         "chapter": {
@@ -942,6 +982,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2025-04-21",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1363963820116152413",
         "text": "@{Gio} and @{Icy Terror} are betting on whether the king will make a speech to the people of Shintei. @{Gio} say he will, @{Icy Terror} says he will not. ",
         "chapter": {
@@ -970,6 +1011,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2025-04-23",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1364597128495894531",
         "text": "@Sky | #1 FuuFighterLeader , @Strike |  Fuu Fighter Guild  @Giorgos @Sir Kite  @HistoRei @Vlade, KK #1 lieutenant  @NoirKingOfVoid are betting regarding Han's surrender. Giorgos, Kite and Rei says Nei will convince the King to surrender. Sky, Vlade Noir and Strike bet Nei would be surrendering Han without the King's decision. Loser of the bet will use Nei's facial reactions to respond to any messages initially in the spoiler channel. the size will be 250x250 so it wont clutter.s"
     },
@@ -988,6 +1030,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2025-04-21",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1363988827961561139",
         "text": "@Demented Martian | trash reader  @Crimson Unit @HistoRei and myself are betting on whether any Zhao or Wei general will die in the engagements with Mouten and Ouhon. I think that no generals will die, Crimson and Rei think that a Zhao or Wei general will fall."
     },
@@ -1005,6 +1048,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2025-04-21",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1363968984684433501",
         "text": "@Strike |  Fuu Fighter Guild and @Icy Terror are betting on whether or not RKK and YKYK will join Ousen's army when Han surrenders. Strike thinks they won't, Icy thinks they will. ",
         "chapter": {
@@ -1028,6 +1072,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2025-04-21",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1363962363283505213",
         "text": "@{Ferret} and @{Giorgos} are betting whether the battle between GHM and Ouhon will be a decisive battle. @{Ferret} say that it will be and @{Giorgos} the opposite.",
         "chapter": {
@@ -1051,6 +1096,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2024-07-14",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1262137610390736959",
         "text": "If Chu makes any move, like attack or send help to any state, I win. Else @Sherwel wins.\nTime frame: Till end of this arc.\n",
         "chapter": "",
@@ -1068,9 +1114,10 @@
                 "p19"
             ]
         },
-        "dateCompleted": "",
-        "status": "ongoing",
+        "dateCompleted": "2025-05-28",
+        "status": "void",
         "winner": null,
+        "dateCreated": "2024-07-14",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1262195169676103730",
         "text": "@{banned}, @{Myke} & @{The Great Ordo} are betting on whether Ordo will appear this arc.\n\nI say Ordo will NOT appear this arc.\n\nThey (Ordo and Myke) say that Ordo WILL appear this arc.",
         "chapter": "",
@@ -1090,6 +1137,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": null,
+        "dateCreated": "2024-07-16",
         "link": "https://discord.com/channels/400120926592696342/400895139654008853/1262739795591827487",
         "text": "@{Gio} and @{HistoRei} are betting. @{HistoRei} is saying that Juuko will fall to Chu and then to Qin during this arc, @{Gio} say it will not.",
         "chapter": "",
@@ -1110,6 +1158,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": "",
+        "dateCreated": "2025-05-02",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1367777135540043826",
         "text": "@{NoirKingOfVoid} am saying that Han King will be arrested by KKR and @{Vlade, KK #1 lieutenant} as well as @{FMA, Epitome of the Instinctual}  are saying that Han King won’t be arrested",
         "chapter": {
@@ -1134,6 +1183,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": "",
+        "dateCreated": "2025-05-08",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1370199762908741733",
         "text": "Me and @Sky | #1 FuuFighterLeader are betting on whether Yoko Yoko will join HSU. I say he won't, Sky says he will. Yoko Yoko will be considered a no-show for HSU if he doesn't join them before the next battle or if he dies.",
         "chapter": {
@@ -1154,6 +1204,7 @@
             ]
         },
         "dateCompleted": "",
+        "dateCreated": "2025-05-14",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1372270425832296540",
         "text": "@KokoThizzba #LieutenantOfKou and @An Ordinary Strike Are betting whether or not RKK will help Nei before or after Nei opens the gate. Thizz believes RKK will wait to help her until the gates are open. Strike believes that RKK will provide assistance to Nei in opening the gate. Punishment is a one week name change. If RKK doesn’t help her at all Thizz wins in that scenario. Help also includes sending troops directly to help Nei",
         "status": "ongoing",
@@ -1176,6 +1227,7 @@
             ]
         },
         "dateCompleted": "",
+        "dateCreated": "2025-05-21",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1374823367714013286",
         "text": " @NoirKingOfVoid  If Sei doesnt come to Shintei after its fall I lose, If he appears I win.",
         "status": "ongoing",
@@ -1198,6 +1250,7 @@
             ]
         },
         "dateCompleted": "",
+        "dateCreated": "2025-05-26",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1376693224130740256",
         "text": "Me and @KokoThizzba #LieutenantOfKou are betting the outcome of opening the gates. Thizz said Shin and Raku wont fight each other. I bet they will fight. If I lose, I change my name to \"Never Doubt Thizz-Sama\". If Thizz loses, he will change his name to \"Sky's Fanfics are my Bible\". The name will be in effect until Heki finally appears in a panel",
         "status": "ongoing",
