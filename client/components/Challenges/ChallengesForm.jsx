@@ -65,8 +65,8 @@ export default function ChallengeForm({ method }) {
 
     return (
         <>
-            <Form method={method} className="max-w-sm mx-auto" action={actionForm}>
-                <h2 className="block mb-2 text-3xl font-semibold  text-gray-900 dark:text-white">New Challenge</h2>
+            <Form method={method} className="max-w-sm mx-auto my-2" action={actionForm}>
+                <h2 className="block mb-2 text-3xl font-semibold text-white dark:text-gray-900 dark:text-white">New Challenge</h2>
                 <InputField
                     label="Title"
                     defaultValue={challenge?.title}
@@ -91,7 +91,7 @@ export default function ChallengeForm({ method }) {
                 <div className="mb-5">
                     <fieldset>
                         <div className="flex items-center mb-4">
-                            <label htmlFor="challengeType" className="block ms-2 text-m font-medium text-gray-900 dark:text-gray-300">Challenge Type</label>
+                            <label htmlFor="challengeType" className="block mb-2 text-sm font-medium text-white dark:text-gray-300">Challenge Type</label>
                             {challenge && challenge.challengeType === 'open' && (<input value={challenge.challengeType} name="challengeType" type="hidden" />)}
                             {challenge && challenge.challengeType === 'close' && (
                                 <>

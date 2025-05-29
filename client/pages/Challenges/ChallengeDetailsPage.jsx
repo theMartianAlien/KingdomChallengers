@@ -105,7 +105,7 @@ export default function ChallengeDetailsPage() {
     return (
         <>
             <div className="max-w-4xl mx-auto p-5 lg:p-2 bg-white dark:bg-gray-900 rounded-lg shadow-lg space-y-2 my-10">
-                <h2 className="text-4xl font-extrabold dark:text-white">
+                <h2 className="text-4xl font-extrabold dark:text-white text-black">
                     {challenge.title}
                 </h2>
                 <h3 className="text-xl font-extrabold dark:text-yellow-500">

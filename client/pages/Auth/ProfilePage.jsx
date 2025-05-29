@@ -12,14 +12,14 @@ export default function ProfilePage() {
         <>
             <div className="flex flex-col items-center justify-center min-h-screen">
                 <div className=" w-full max-w-sm py-2">
-                    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg px-4 pt-4 shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                    <div className="w-full max-w-sm bg-gray-900 border border-gray-200 rounded-lg px-4 pt-4 shadow-sm dark:bg-gray-800 dark:border-gray-700">
                         <div className="flex flex-col items-center pb-10">
                             <img className="w-36 h-36 mb-3 rounded-full shadow-lg" src={data.image} alt={data.username} />
-                            <h2 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{data.discord_handle}</h2>
+                            <h2 className="mb-1 text-xl font-medium text-white">{data.discord_handle}</h2>
                             <div className="flex flex-col items-start text-left">
-                                <span className="text-xl text-gray-500 dark:text-gray-400">{data.username}</span>
-                                <span className="text-xl text-gray-500 dark:text-gray-400">{data.display_name}</span>
-                                <span className="text-sm text-gray-500 dark:text-gray-400">{data.nickname}</span>
+                                <span className="text-xl text-white dark:text-gray-400">{data.username}</span>
+                                <span className="text-xl text-white dark:text-gray-400">{data.display_name}</span>
+                                <span className="text-sm text-white dark:text-gray-400">{data.nickname}</span>
                             </div>
                             {data.token && (
                                 <div className="flex mt-4 md:mt-6">
