@@ -139,7 +139,6 @@ const insertBets = async (req, res, next) => {
             }
 
             if((BET.status === 'void' || BET.status === 'complete') && !BET.dateCompleted) {
-                console.log(BET)
                 console.log("---------------------NO DATE COMPLETED-----------------------");
                 console.log(BET.link);
                 console.log("---------------------NO DATE COMPLETED-----------------------");
