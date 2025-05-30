@@ -70,7 +70,7 @@ const updateCounterChallenge = async (req, res, next) => {
             logMessage("-----------player--------------");
             logMessage(player);
             logMessage("-----------updateCounterChallenge--------------");
-            return res.status(404).json({ message: 'Error updating counter challenge for challenge:' + req.params.id });
+            return res.status(404).json({ message: 'Error updating counter challenge:' + req.params.id });
         }
 
         if(counterChallenge.status === 'locked') {

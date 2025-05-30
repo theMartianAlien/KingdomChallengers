@@ -1,4 +1,6 @@
 import Account from '../../models/Account.mjs';
+import Token from '../../models/Token.mjs';
+import TokenUtil from '../../data/utils/TokenUtil.mjs';
 import { createAdminJSONToken, createJSONToken } from '../../util/auth.mjs';
 
 const findAccountByDiscordHandleId = async (discord_handle_id) => {
@@ -20,6 +22,17 @@ const findAccountByDiscordId = async (discord_id) => {
 const findAccountByPlayerId = async (player_id) => {
     if (player_id) {
         return await Account.findOne({ player_id }).exec();
+    }
+
+    return undefined;
+}
+
+const findAccountByToken = async (token, adminToken) => {
+    if (token) {
+        return await Token.findOne({ token }).exec();
+    }
+    if (adminToken) {
+        return await Token.findOne({ adminToken }).exec();
     }
 
     return undefined;
@@ -48,16 +61,16 @@ const createAccountForUILogin = async (discordUser, playerInfo, account) => {
         if (discordUser.isAdmin) {
             accountData.adminToken = createAdminJSONToken(account.discord_handle);
         }
+        const now = new Date();
+        const tokenAcccount = await TokenUtil.deleteTokenById(account._id)
+        const newToken = new Token({
+            token: accountData.token,
+            adminToken: accountData.adminToken,
+            accountId: accountData._id,
+            loggedInTime: now
+        });
+        await newToken.save();
     }
-    // const eightHours = getEightHours();
-    // const storedToken = {
-    //     accountId: account._id,
-    //     token,
-    //     adminToken,
-    //     eightHours
-    // }
-
-    // await storeTokenForLoggedUser(storedToken);
 
     return accountData;
 }
@@ -67,6 +80,7 @@ export default {
     findAccountByDiscordHandleId,
     findAccountByDiscordId,
     findAccountByPlayerId,
+    findAccountByToken,
     findAccountByUserName,
     createAccountForUILogin
 }
