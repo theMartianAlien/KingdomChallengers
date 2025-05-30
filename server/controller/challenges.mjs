@@ -167,7 +167,6 @@ const deleteChallenge = async (req, res, next) => {
             return res.status(404).json({ message: 'Unable to delete challenge:' + challengeId });
         }
 
-        // Then, remove its reference from users
         await CounterChallenge.updateMany(
             { challengeId: challengeId },
             { $pull: { challengeId: challengeId } }

@@ -3,7 +3,7 @@ export default function InputField({
     elementName,
     label,
     defaultValue,
-    placeholder,
+    placeholder="",
     required,
     readOnly,
     type="text",
@@ -30,6 +30,7 @@ export default function InputField({
                 className={inputClass}
                 placeholder={placeholder}
                 readOnly={readOnly}
+                autoComplete="off"
             />
         </div>
     );
