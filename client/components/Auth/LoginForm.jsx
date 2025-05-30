@@ -28,6 +28,7 @@ export default function LoginForm() {
                                     required
                                 />
                                 <InputField
+                                tpye="password"
                                     elementName="password"
                                     labelClass="block mb-2 text-sm font-medium text-black dark:text-white"
                                     label="Password"
