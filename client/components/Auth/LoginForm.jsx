@@ -21,17 +21,19 @@ export default function LoginForm() {
                             <Form className="space-y-4 md:space-y-6" method="post">
                                 <InputField
                                     elementName="username"
-                                    labelClass="block mb-2 text-sm font-medium !text-black !dark:text-white"
+                                    labelClass="block mb-2 text-sm font-medium text-black dark:text-white"
                                     label="Username"
                                     inputClass="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="username" required
+                                    placeholder="username"
+                                    required
                                 />
                                 <InputField
                                     elementName="password"
-                                    labelClass="block mb-2 text-sm font-medium !text-black !dark:text-white"
+                                    labelClass="block mb-2 text-sm font-medium text-black dark:text-white"
                                     label="Password"
                                     inputClass="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="••••••••" required
+                                    placeholder="••••••••"
+                                    required
                                 />
                                 <button
                                     type="submit"
