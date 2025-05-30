@@ -52,7 +52,7 @@ export default function PlayersList() {
                             _id: player._id,
                             discord_handle: player.discord_handle,
                             display_name: player.display_name,
-                            edit: "players/" + player._id + "/edit",
+                            edit: player._id + "/edit",
                             delete: player._id
                         }
                     })

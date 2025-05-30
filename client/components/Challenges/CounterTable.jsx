@@ -1,5 +1,5 @@
 import { Form, redirect, useRouteLoaderData } from "react-router-dom";
-import { getAuthToken, getPlayerId } from "../../util/auth";
+import { getAccountId, getAuthToken, getPlayerId } from "../../util/auth";
 import { useDeleteFetch, usePatchPostFetch } from "../../hooks/useFetch";
 import ActionDeleteButton from "../UI/Buttons/ActionDeleteButton";
 import CustomButton from "../UI/Buttons/CustomButton";
@@ -14,6 +14,7 @@ export default function CounterTable() {
     const colSize = "px-6 py-4 text-center";
 
     const playerId = getPlayerId();
+    const accountId = getAccountId();
     const token = getAuthToken();
     const { challenge } = useRouteLoaderData("challenge-detail");
     const counters = challenge.counters;
@@ -24,6 +25,8 @@ export default function CounterTable() {
     let deleteCounter = counters.some(counter => counter.playerId._id === playerId);
     let actioned = counters.some(counter => counter.action && counter.action !== 'none');
     let status = counters.some(counter => counter.status && counter.status === 'locked');
+    let isLocked = challenge?.status === 'locked'
+    console.log(challenge);
     return (
         <div className='py-1'>
             <div className={divClass}>
@@ -34,11 +37,16 @@ export default function CounterTable() {
                             <th className={colSize}>Punishment</th>
                             <th className={colSize}>Team</th>
                             <th className={colSize}>Player</th>
+                            {token && deleteCounter && !isLocked && (<th className={colSize}>Delete</th>)}
                             {actioned && (<th className={colSize}>Status</th>)}
+                            {token && acceptReject && !status && !isLocked && (<th className={colSize}>Accept</th>)}
+                            {token && acceptReject && !status && !isLocked && (<th className={colSize}>Reject</th>)}
+
+                            {/* {actioned && (<th className={colSize}>Status</th>)}
                             {status && (<th className={colSize}>Is Locked</th>)}
                             {token && acceptReject && !status && (<th className={colSize}>Accept</th>)}
                             {token && acceptReject && !status && (<th className={colSize}>Reject</th>)}
-                            {token && deleteCounter && (<th className={colSize}>Delete</th>)}
+                            {token && deleteCounter && (<th className={colSize}>Delete</th>)} */}
                         </tr>
                     </thead>
                     <tbody>
@@ -56,8 +64,50 @@ export default function CounterTable() {
                                 <td className={colSize}>
                                     {counter.playerId.display_name}
                                 </td>
-                                {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + (counter.action === 'locked' ? '' : 'ed')}</th>)}
+                                {token && counter.playerId._id === playerId && !isLocked && (
+                                    <td className={colSize}>
+                                        <ActionDeleteButton
+                                            prefix={"counter-challenge"}
+                                            id={counter._id}
+                                            className={"w-full"}
+                                            returnId={challenge._id} ></ActionDeleteButton>
+                                    </td>)
+                                }
+                                {token && counter.playerId._id !== playerId && deleteCounter && (
+                                    <td className={colSize}>
+                                        NO DELETE
+                                    </td>
+                                )}
+                                {token && actioned && (
+                                    <td className={colSize + " capitalized"}>
+                                        {(counter.action) + (counter.action === 'locked' ? '' : 'ed')}
+                                    </td>
+                                )}
+                                {token && !status && acceptReject && counter.playerId._id !== accountId && (
+                                    <td className={colSize}>
+                                        <Form method="patch" action={`/counter-challenge/${counter._id}/accept`}>
+                                            <input type="hidden" name="challengeId" value={challenge._id} />
+                                            <input type="hidden" name="playerId" value={counter.playerId._id} />
+                                            <CustomButton disabled={counter?.action === 'locked'} className="bg-green-200 dark:bg-green-600 hover:bg-blue-900" type="submit">Accept</CustomButton>
+                                        </Form>
+                                    </td>)
+                                }
+                                {token && !status && acceptReject && counter.playerId._id !== accountId && (
+                                    <td className={colSize}>
+                                        <Form method="patch" action={`/counter-challenge/${counter._id}/reject`}>
+                                            <input type="hidden" name="challengeId" value={challenge._id} />
+                                            <input type="hidden" name="playerId" value={counter.playerId._id} />
+                                            <CustomButton disabled={counter?.action === 'locked'} className="bg-red-200 dark:bg-red-600 hover:bg-blue-900" type="submit">Reject</CustomButton>
+                                        </Form>
+                                    </td>)
+                                }
+
+                                {/* {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + (counter.action === 'locked' ? '' : 'ed')}</th>)}
                                 {status && (<th className={colSize + " capitalize"}>{counter.status}</th>)}
+                                {token && counter.playerId._id === playerId && acceptReject && !status && (
+                                    <td className={colSize}>
+                                    </td>
+                                )}
                                 {token && !status && counter.playerId._id !== playerId && (
                                     <td className={colSize}>
                                         <Form method="patch" action={`/counter-challenge/${counter._id}/accept`}>
@@ -67,6 +117,10 @@ export default function CounterTable() {
                                         </Form>
                                     </td>)
                                 }
+                                {token && counter.playerId._id === playerId && acceptReject && !status && (
+                                    <td className={colSize}>
+                                    </td>
+                                )}
                                 {token && !status && counter.playerId._id !== playerId && (
                                     <td className={colSize}>
                                         <Form method="patch" action={`/counter-challenge/${counter._id}/reject`}>
@@ -84,7 +138,7 @@ export default function CounterTable() {
                                             className={"w-full"}
                                             returnId={challenge._id} ></ActionDeleteButton>
                                     </td>)
-                                }
+                                } */}
                             </tr>
                         ))}
                     </tbody>

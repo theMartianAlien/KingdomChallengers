@@ -3,6 +3,7 @@ import CounterChallenge from '../models/CounterChallenge.mjs';
 import CounterChallengeUtil from '../data/utils/CounterChallengeUtil.mjs';
 import Player from '../models/Player.mjs';
 import Challenge from '../models/Challenge.mjs';
+import AccountUtil from '../data/utils/AccountsUtil.mjs';
 
 const createCounterChallenge = async (req, res, next) => {
     try {
@@ -17,6 +18,12 @@ const createCounterChallenge = async (req, res, next) => {
             logMessage(player);
             return res.status(404).json({ message: 'Unable to add counter challenge.' });
         }
+        const account = await AccountUtil.findAccountByPlayerId(player._id);
+        if(challenge.issuer.toString() === account._id.toString()) {
+            logMessage("-----------Challenge issuer to Counter Challenge issuer--------------");
+            return res.status(422).json({ message: 'Unable to add counter challenge.' });
+        }
+
         await CounterChallengeUtil.deleteAllCountersByPlayer(challenge._id, req.body.playerId)
 
         // Create the new Counter Challenge
@@ -63,14 +70,13 @@ const updateCounterChallenge = async (req, res, next) => {
             logMessage("-----------player--------------");
             logMessage(player);
             logMessage("-----------updateCounterChallenge--------------");
-            return res.status(404).json({ message: 'Error updating counter challenge :' + req.params.id });
+            return res.status(404).json({ message: 'Error updating counter challenge for challenge:' + req.params.id });
         }
 
-        counterChallenge.challengeId = challenge._id;
-        counterChallenge.challenge = req.body.challenge;
-        counterChallenge.punishment = req.body.punishment;
-        counterChallenge.team = req.body?.team || counterChallenge.team;
-        counterChallenge.playerId = player._id;
+        if(counterChallenge.status === 'locked') {
+            return res.status(422).json({ message: 'Error updating counter challenge :' + counterChallenge._id });
+        }
+ 
         counterChallenge.action = req.body.action;
 
         // Save the updated Counter Challenge

@@ -24,9 +24,9 @@ export default function ChallengeDetailsPage() {
     }
 
     let isJoinable;
-    if (accountId && challenge.issuer !== accountId && challenge.status === 'ready') {
-        if (challenge.challengeType === 'open' ||
-            (challenge.challengeType === 'close' && playerId && challenge.participants.includes(playerId))) {
+    if (accountId && challenge && challenge?.issuer !== accountId && challenge.status === 'ready') {
+        if (challenge?.challengeType === 'open' ||
+            (challenge?.challengeType === 'close' && playerId && challenge?.participants.includes(playerId))) {
             isJoinable = (
                 <div className='gap-1 py-1'>
                     <CustomButton
@@ -40,7 +40,7 @@ export default function ChallengeDetailsPage() {
                     </CustomButton>
                     {isJoining && (
                         <div className="max-w-sm mx-auto">
-                            <CounterChallengeForm challengeId={challenge?._id} />
+                            <CounterChallengeForm/>
                         </div>)}
                 </div>
             );

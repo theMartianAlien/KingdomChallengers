@@ -106,6 +106,7 @@ const register = async (req, res, next) => {
             password: hasPassword,
             discord_handle_id: discordUser._id,
             player_id: player._id,
+            discord_id: generateUserKey(),
             image: image
         });
 

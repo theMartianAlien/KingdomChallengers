@@ -17,6 +17,14 @@ const findAccountByDiscordId = async (discord_id) => {
     return undefined;
 }
 
+const findAccountByPlayerId = async (player_id) => {
+    if (player_id) {
+        return await Account.findOne({ player_id }).exec();
+    }
+
+    return undefined;
+}
+
 const findAccountByUserName = async (username) => {
     if (username) {
         return await Account.findOne({ username }).exec();
@@ -58,6 +66,7 @@ const createAccountForUILogin = async (discordUser, playerInfo, account) => {
 export default {
     findAccountByDiscordHandleId,
     findAccountByDiscordId,
+    findAccountByPlayerId,
     findAccountByUserName,
     createAccountForUILogin
 }
