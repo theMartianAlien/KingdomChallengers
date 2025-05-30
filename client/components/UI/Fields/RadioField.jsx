@@ -17,7 +17,7 @@ export default function RadioField({
                 type="radio"
                 id={elementName}
                 disabled={disabled}
-                checked={checked} 
+                checked={checked ?? undefined} 
                 defaultChecked={defaultChecked}
                 name={groupName}
                 value={value}

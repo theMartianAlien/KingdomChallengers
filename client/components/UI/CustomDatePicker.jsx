@@ -16,6 +16,7 @@ const customTheme = {
 export function CustomDatePicker({ name, title, minDate, maxDate, defaultValue, readOnly,
     divClass = "mb-5",
     labelClass = "block mb-2 text-sm font-medium text-white dark:text-gray-300",
+    disabled
 }) {
     const [selectedDate, setSelectedDate] = useState(defaultValue || null);
 
@@ -34,7 +35,7 @@ export function CustomDatePicker({ name, title, minDate, maxDate, defaultValue, 
                 title={title}
                 minDate={minDate}
                 maxDate={maxDate}
-                disabled={readOnly}
+                disabled={disabled ?? undefined}
             />
         </div>
     )
