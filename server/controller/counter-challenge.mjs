@@ -24,6 +24,11 @@ const createCounterChallenge = async (req, res, next) => {
             return res.status(422).json({ message: 'Unable to add counter challenge.' });
         }
 
+        if(challenge.challengeType === 'close' && !challenge?.participants.some(p => p.equals(player._id))){
+            logMessage("-----------Counter challenger not a valid participant--------------");
+            return res.status(401).json({ message: 'Unable to add counter challenge.' });
+        }
+
         await CounterChallengeUtil.deleteAllCountersByPlayer(challenge._id, req.body.playerId)
 
         // Create the new Counter Challenge

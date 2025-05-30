@@ -16,7 +16,7 @@ const findChallenge = async (req, res, next) => {
                 path: 'counters',
                 populate: {
                     path: 'playerId',
-                    model: 'Player', // This should match your Player model name
+                    model: 'Player',
                 }
             }).exec();
 
@@ -95,7 +95,8 @@ const lockChallenge = async (req, res, next) => {
         }
 
         challenge.status = 'locked';
-
+        challenge.counters = challenge.counters.filter(x=>x.action === 'accept');
+        // I removed counters not accepted.
         for (const counter of challenge.counters) {
             await CounterChallengeUtil.lockCounterChallengeAction(counter);
         }
