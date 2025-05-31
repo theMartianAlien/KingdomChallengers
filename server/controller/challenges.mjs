@@ -96,7 +96,7 @@ const lockChallenge = async (req, res, next) => {
 
         challenge.status = 'locked';
         challenge.counters = challenge.counters.filter(x=>x.action === 'accept');
-        // I removed counters not accepted.
+        
         for (const counter of challenge.counters) {
             await CounterChallengeUtil.lockCounterChallengeAction(counter);
         }

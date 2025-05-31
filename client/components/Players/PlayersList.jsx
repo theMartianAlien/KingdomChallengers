@@ -4,6 +4,7 @@ import { getAdminToken } from "../../util/auth";
 import CustomTable from "../UI/CustomTable";
 import UnderlinedLink from "../UI/Links/UnderlinedLink";
 import ActionDeleteButton from "../UI/Buttons/ActionDeleteButton";
+import HitMarker from "../UI/HitMarker";
 
 export default function PlayersList() {
     const players = useLoaderData();
@@ -17,8 +18,14 @@ export default function PlayersList() {
             element: UnderlinedLink
         },
         {
-            "column_name": "Display Namer",
+            "column_name": "Display Name",
             "column": "display_name"
+        },
+        {
+            "column_name": "Current Hits",
+            "column": "numberOfHits",
+            "label": "HitMarker",
+            element: HitMarker
         }
     ]
     if (adminToken) {
@@ -43,7 +50,7 @@ export default function PlayersList() {
             <h2 className="text-center text-lg font-semibold text-gray-700 mb-4 uppercase">Players List</h2>
             <CustomTable
                 prefix={"players"}
-                primaryColumn={"display_name"}
+                primaryColumn={"discord_handle"}
                 isAsc={true}
                 columns={column}
                 data={
@@ -52,6 +59,7 @@ export default function PlayersList() {
                             _id: player._id,
                             discord_handle: player.discord_handle,
                             display_name: player.display_name,
+                            numberOfHits: player?.betsLost,
                             edit: player._id + "/edit",
                             delete: player._id
                         }

@@ -3,6 +3,7 @@ import DiscordUtil from "../data/utils/DiscordUtil.mjs";
 import PlayersUtil from "../data/utils/PlayersUtil.mjs";
 import Player from "../models/Player.mjs";
 import BetsUtil from "../data/utils/BetsUtil.mjs";
+import Bets from "../models/Bets.mjs";
 
 const findAPlayer = async (req, res, next) => {
     try {
@@ -36,10 +37,71 @@ const findAllPlayers = async (req, res, next) => {
             res.json("No players currently in the database.");
             return;
         }
+        let bets = await BetsUtil.findAllBetsByStatus("complete");
+        bets = [...bets].concat(await BetsUtil.findAllBetsByStatus("void"));
+        bets = bets.sort((a, b) => new Date(a.date_completed) - new Date(b.date_completed))
+        let playersToBet = [];
+        for (let i = 0; i < bets.length; i++) {
+            let BET = bets[i];
+            let status = BET.status;
+            let winner = BET.winner;
+            for (let x = 0; x < BET.teamA.length; x++) {
+                const player = BET.teamA[x];
+                let isHit = (status === 'void' || winner === 'teamB');
+                let exist = playersToBet.find(p => p._id.toString() === player.toString());
+                if (!exist) {
+                    playersToBet.push({
+                        _id: player,
+                        hit: isHit ? [{
+                            betId: BET._id,
+                            title: BET.title,
+                            date: BET.date_completed
+                        }] : []
+                    });
+                } else {
+                    if (isHit) {
+                        exist.hit.push({
+                            betId: BET._id,
+                            title: BET.title,
+                            date: BET.date_completed
+                        })
+                    } else {
+                        exist.hit = [];
+                    }
+                }
+            }
+            for (let x = 0; x < BET.teamB.length; x++) {
+                const player = BET.teamB[x];
+                let isHit = (status === 'void' || winner === 'teamA');
+                let exist = playersToBet.find(p => p._id.toString() === player.toString());
+                if (!exist) {
+                    playersToBet.push({
+                        _id: player,
+                        hit: isHit ? [{
+                            betId: BET._id,
+                            title: BET.title,
+                            date: BET.date_completed
+                        }] : []
+                    });
+                } else {
+                    if (isHit) {
+                        exist.hit.push({
+                            betId: BET._id,
+                            title: BET.title,
+                            date: BET.date_completed
+                        })
+                    } else {
+                        exist.hit = [];
+                    }
+                }
+            }
+        }
+        playersToBet = playersToBet.filter(x=>x.hit.length > 0);
         const newPlayers = players.map((player) => ({
             _id: player._id,
             discord_handle: player.discord_handle,
-            display_name: player.display_name
+            display_name: player.display_name,
+            betsLost: playersToBet.find(x => x._id.toString() === player._id.toString())?.hit
         }));
         logMessage("-----------findAllPlayers--------------");
         res.json(newPlayers);
@@ -101,7 +163,7 @@ const updatePlayer = async (req, res, next) => {
         logMessage("-----------updatePlayer--------------");
         const player = await Player.findById(id);
         if (!player) {
-        logMessage("-----------player--------------");
+            logMessage("-----------player--------------");
             return res.status(404).json({ message: "Player not found: " + data.discord_handle });
         }
 
