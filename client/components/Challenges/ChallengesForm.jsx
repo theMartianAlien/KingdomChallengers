@@ -8,6 +8,7 @@ import InputField from "../UI/Fields/InputField";
 import TextAreaField from "../UI/Fields/TextAreaField";
 import RadioField from "../UI/Fields/RadioField";
 import DropDownField from "../UI/Fields/DropDownField";
+import RadioGroupField from "../UI/Fields/RadioGroupField";
 
 export default function ChallengeForm({ method }) {
     const { player_id } = useRouteLoaderData('root');
@@ -26,15 +27,8 @@ export default function ChallengeForm({ method }) {
     const [participants, setParticipants] = useState(challenge?.participants || []);
     const [challengeType, setChallengeType] = useState(challenge?.challengeType || 'open');
 
-    function OnChangeChallengeType(e) {
-        let leChallenge = challengeType;
-        if (leChallenge === 'open') {
-            leChallenge = "close";
-        } else if (leChallenge === 'close') {
-            leChallenge = "open";
-        }
-
-        setChallengeType(leChallenge);
+    function OnChangeChallengeType(value) {
+        setChallengeType(value);
     }
 
     const playerList = useMemo(() => {
@@ -88,43 +82,28 @@ export default function ChallengeForm({ method }) {
                     placeholder="Your punishment is my joy!"
                     required
                 />
-                <div className="mb-5">
-                    <fieldset>
-                        <div className="flex items-center mb-4">
-                            <label htmlFor="challengeType" className="block mb-2 text-sm font-medium text-white dark:text-gray-300">Challenge Type</label>
-                            {challenge && challenge.challengeType === 'open' && (<input value={challenge.challengeType} name="challengeType" type="hidden" />)}
-                            {challenge && challenge.challengeType === 'close' && (
-                                <>
-                                <input value={challenge.challengeType} name="challengeType" type="hidden" />
-                                <input value={challenge.participants.join(',')} name="participants" type="hidden" />
-                                </>
-                                )}
-                        </div>
-                        <RadioField
-                            elementName="open-challenge"
-                            checked={challengeType === 'open'}
-                            groupName="challengeType"
-                            value="open"
-                            label="Open Challenge"
-                            disabled={challenge ? true : false}
-                            onChange={(e) => OnChangeChallengeType(e)}
-                        />
-                        <RadioField
-                            elementName="close-challenge"
-                            checked={challengeType === 'close'}
-                            groupName="challengeType"
-                            value="close"
-                            label="Close Challenge"
-                            disabled={challenge ? true : false}
-                            onChange={(e) => OnChangeChallengeType(e)}
-                        />
-                    </fieldset>
-                </div>
+                {challenge && challenge.challengeType === 'open' && (<input value={challenge.challengeType} name="challengeType" type="hidden" />)}
+                {challenge && challenge.challengeType === 'close' && (
+                    <>
+                        <input value={challenge.challengeType} name="challengeType" type="hidden" />
+                        <input value={challenge.participants.join(',')} name="participants" type="hidden" />
+                    </>
+                )}
+                <RadioGroupField
+                    disabled={challenge ?? undefined}
+                    elementName="challengeType"
+                    label="Challenge Type"
+                    defaultValue={challenge?.challengeType || 'open'}
+                    data={[
+                        { value: 'open', label: 'Open Challenge', elementName: 'open_challengeType' },
+                        { value: 'close', label: 'Close Challenge', elementName: 'close_challengeType' }]}
+                    onChange={OnChangeChallengeType}
+                />
                 {playerList && playerList}
                 <div className="mb-5">
                     {challenge && (<input value={challenge.challengeEndDate} name="challenge-enddate" type="hidden" />)}
                     <CustomDatePicker
-                        readOnly={challenge ? true : false}
+                        disabled={challenge ?? undefined}
                         name="challenge-enddate"
                         title="Challenge Duration Date"
                         minDate={new Date(year, month, day)}
@@ -160,7 +139,7 @@ export async function action({ request, params }) {
     const loserPunishment = data.get('loser-punishment');
     const challengeType = data.get('challengeType');
     let participants = data.getAll('participants');
-    if(challengeType === 'close') {
+    if (challengeType === 'close') {
         participants = participants[0].split(',');
     }
     const challengeEndDate = data.get('challenge-enddate');

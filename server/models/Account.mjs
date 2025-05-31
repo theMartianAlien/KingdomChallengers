@@ -16,7 +16,6 @@ const accountSchema = new Schema({
   },
   discord_id: {
     type: String,
-    unique: true,
   },
   discord_handle_id: {
     type: Types.ObjectId,

@@ -1,6 +1,6 @@
 import { redirect, useNavigation, useRouteLoaderData } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import { getAccountId, getAuthToken, getPlayerId } from '../../util/auth';
+import { getAccountId, getAdminToken, getAuthToken, getPlayerId } from '../../util/auth';
 import { useDeleteFetch, useGetFetch, usePatchPostFetch } from '../../hooks/useFetch';
 import CounterChallengeForm from '../../components/Challenges/CounterChallengeForm';
 import CounterTable from '../../components/Challenges/CounterTable';
@@ -11,6 +11,7 @@ import FormActionButton from '../../components/UI/Buttons/FormActionButton';
 export default function ChallengeDetailsPage() {
     const accountId = getAccountId();
     const playerId = getPlayerId();
+    const adminToken = getAdminToken();
     const { challenge } = useRouteLoaderData("challenge-detail");
     if(!challenge){
         return <p>Invalid challenge!</p>
@@ -19,14 +20,17 @@ export default function ChallengeDetailsPage() {
     const [isJoining, setIsJoining] = useState(false);
     const navigation = useNavigation();
     const wasSubmitting = useRef(false);
+
+    const isLocked = challenge?.status === 'locked';
+
     function IsJoiningHandler() {
         setIsJoining(!isJoining);
     }
 
     let isJoinable;
-    if (accountId && challenge.issuer !== accountId && challenge.status === 'ready') {
-        if (challenge.challengeType === 'open' ||
-            (challenge.challengeType === 'close' && playerId && challenge.participants.includes(playerId))) {
+    if (!isLocked && accountId && challenge?.issuer !== accountId && challenge?.status === 'ready') {
+        if (challenge?.challengeType === 'open' ||
+            (challenge?.challengeType === 'close' && playerId && challenge?.participants.includes(playerId))) {
             isJoinable = (
                 <div className='gap-1 py-1'>
                     <CustomButton
@@ -40,7 +44,7 @@ export default function ChallengeDetailsPage() {
                     </CustomButton>
                     {isJoining && (
                         <div className="max-w-sm mx-auto">
-                            <CounterChallengeForm challengeId={challenge?._id} />
+                            <CounterChallengeForm/>
                         </div>)}
                 </div>
             );
@@ -50,7 +54,7 @@ export default function ChallengeDetailsPage() {
     let lockButton;
     let deleteButton;
     let editChallengeLink;
-    if (accountId && challenge.issuer === accountId && challenge.status !== 'locked') {
+    if (!isLocked && accountId && challenge?.issuer === accountId) {
         deleteButton = (
             <FormActionButton
                 action="delete"
@@ -72,7 +76,7 @@ export default function ChallengeDetailsPage() {
                 className={"font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline"}
                 isClean={true}
             />);
-        const lockable = (counters && counters.length && counters.some((c) => c.action && c.action === 'accept' && c.team === 'against'))
+        const lockable = counters?.some((c) => c?.action === 'accept' && c.team === 'against')
         if (lockable > 0) {
             lockButton = (
                 <FormActionButton
@@ -89,6 +93,16 @@ export default function ChallengeDetailsPage() {
                 </FormActionButton>
             );
         }
+    }
+    let convertButton
+    if(adminToken && isLocked) {
+        convertButton = (
+            <UnderlinedLink
+                label="Convert challenge"
+                // to={`/challenges/${challenge._id}/edit`}
+                className={"font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline"}
+                isClean={true}
+            />);
     }
 
     useEffect(() => {
@@ -123,6 +137,7 @@ export default function ChallengeDetailsPage() {
                     {editChallengeLink && editChallengeLink}
                     {deleteButton && deleteButton}
                     {lockButton && lockButton}
+                    {convertButton && convertButton}
                 </div>
                 {isJoinable && isJoinable}
                 <CounterTable />

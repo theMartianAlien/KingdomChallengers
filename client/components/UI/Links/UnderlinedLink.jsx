@@ -6,7 +6,7 @@ export default function UnderlinedLink({ label, to, className, children, isClean
     if(isClean){
         defaultClass = []
     }
-    let link = {to}
+    let link = to; 
     if(prefix) {
         link = "/" + prefix + "/"+ to;
     }

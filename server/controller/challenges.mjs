@@ -16,7 +16,7 @@ const findChallenge = async (req, res, next) => {
                 path: 'counters',
                 populate: {
                     path: 'playerId',
-                    model: 'Player', // This should match your Player model name
+                    model: 'Player',
                 }
             }).exec();
 
@@ -95,7 +95,8 @@ const lockChallenge = async (req, res, next) => {
         }
 
         challenge.status = 'locked';
-
+        challenge.counters = challenge.counters.filter(x=>x.action === 'accept');
+        
         for (const counter of challenge.counters) {
             await CounterChallengeUtil.lockCounterChallengeAction(counter);
         }
@@ -167,7 +168,6 @@ const deleteChallenge = async (req, res, next) => {
             return res.status(404).json({ message: 'Unable to delete challenge:' + challengeId });
         }
 
-        // Then, remove its reference from users
         await CounterChallenge.updateMany(
             { challengeId: challengeId },
             { $pull: { challengeId: challengeId } }

@@ -5,6 +5,8 @@ import Input from '../UI/Input';
 import classes from './BetForm.module.css';
 import { getAdminToken, getAuthToken } from '../../util/auth';
 import { usePatchPostFetch } from "../../hooks/useFetch";
+import InputField from "../UI/Fields/InputField";
+import TextAreaField from "../UI/Fields/TextAreaField";
 
 export default function BetForm() {
     const method = "patch";
@@ -62,7 +64,6 @@ export default function BetForm() {
             team = "";
         }
         winner.current = team;
-        // teamWinnerHandler(team);
         betStatusHandler("complete");
     }
 
@@ -104,14 +105,11 @@ export default function BetForm() {
                 {errors && <p className="text-red-500 dark:text-red-400">{errors}</p>}
 
                 <input type="hidden" id="winner" name="winner" value={bet.winner ?? ''} />
-
-                <Input
+                <InputField
                     label="Title of Bet"
-                    id="title"
-                    name="title"
+                    elementName="title"
                     defaultValue={bet?.title}
                 />
-
                 <div className="space-y-2">
                     <label htmlFor="bet-status" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                         Bet Status
@@ -130,16 +128,14 @@ export default function BetForm() {
                     </select>
                 </div>
 
-                <Input
+                <InputField
                     label="Solved in chapter"
-                    id="spoilers"
-                    type="number"
-                    className="
+                    elementName="spoilers"
+                    inputClass="
                     rounded-md
                     border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm 
                     focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-gray-800 dark:text-gray-100 w-full
                     p-2"
-                    name="spoilers"
                     defaultValue={bet?.chapter?.spoilers}
                 />
 
@@ -167,40 +163,35 @@ export default function BetForm() {
                     </div>
                 </div>
 
-                <Input
+                <InputField
                     label="Bet Link"
-                    id="link"
-                    name="link"
-                    className="p-3 block w-full rounded-md border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    elementName="link"
+                    labelClass="!text-black"
+                    inputClass="p-3 block w-full rounded-md border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     defaultValue={bet?.link}
                 />
 
-                <Input
+                <TextAreaField
                     label="Bet content"
-                    id="text"
-                    name="text"
-                    textarea
+                    elementName="text"
+                    labelClass="!text-black"
                     className="p-3 block w-full rounded-md border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     rows="5"
                     defaultValue={bet?.text}
                 />
 
-                <Input
+                <TextAreaField
                     label="Punishment"
-                    id="punishment"
-                    name="punishment"
-                    textarea
+                    elementName="punishment"
                     className="p-3 block w-full rounded-md border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    rows="4"
+                    rows="5"
                     defaultValue={bet?.punishment}
                 />
 
-                <Input
+                <TextAreaField
                     label="Tags"
-                    id="tags"
-                    name="tags"
-                    textarea
-                    rows="4"
+                    elementName="tags"
+                    rows="5"
                     defaultValue={bet?.tags}
                 />
 

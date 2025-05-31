@@ -1,5 +1,5 @@
 import { Form, redirect, useRouteLoaderData } from "react-router-dom";
-import { getAuthToken, getPlayerId } from "../../util/auth";
+import { getAccountId, getAuthToken, getPlayerId } from "../../util/auth";
 import { useDeleteFetch, usePatchPostFetch } from "../../hooks/useFetch";
 import ActionDeleteButton from "../UI/Buttons/ActionDeleteButton";
 import CustomButton from "../UI/Buttons/CustomButton";
@@ -14,16 +14,18 @@ export default function CounterTable() {
     const colSize = "px-6 py-4 text-center";
 
     const playerId = getPlayerId();
+    const accountId = getAccountId();
     const token = getAuthToken();
     const { challenge } = useRouteLoaderData("challenge-detail");
     const counters = challenge.counters;
     if (!counters || counters.length <= 0) {
         return undefined;
     }
-    let acceptReject = counters.some(counter => counter.playerId._id !== playerId);
-    let deleteCounter = counters.some(counter => counter.playerId._id === playerId);
-    let actioned = counters.some(counter => counter.action && counter.action !== 'none');
-    let status = counters.some(counter => counter.status && counter.status === 'locked');
+    let showAccepRejectButtons = challenge.issuer === accountId;
+    let showDeleteButton = counters.some(counter => counter?.playerId?._id === playerId);
+    let showAcceptedRejectedText = counters.some(counter => counter?.action !== 'none');
+    let isLocked = challenge?.status === 'locked'
+
     return (
         <div className='py-1'>
             <div className={divClass}>
@@ -34,11 +36,10 @@ export default function CounterTable() {
                             <th className={colSize}>Punishment</th>
                             <th className={colSize}>Team</th>
                             <th className={colSize}>Player</th>
-                            {actioned && (<th className={colSize}>Status</th>)}
-                            {status && (<th className={colSize}>Is Locked</th>)}
-                            {token && acceptReject && !status && (<th className={colSize}>Accept</th>)}
-                            {token && acceptReject && !status && (<th className={colSize}>Reject</th>)}
-                            {token && deleteCounter && (<th className={colSize}>Delete</th>)}
+                            {showAcceptedRejectedText && !isLocked && (<th className={colSize}>Status</th>)}
+                            {token && showDeleteButton && !isLocked && (<th className={colSize}>Delete</th>)}
+                            {token && showAccepRejectButtons && !isLocked && (<th className={colSize}>Accept</th>)}
+                            {token && showAccepRejectButtons && !isLocked && (<th className={colSize}>Reject</th>)}
                         </tr>
                     </thead>
                     <tbody>
@@ -50,15 +51,37 @@ export default function CounterTable() {
                                 <td className={colSize}>
                                     {counter.punishment}
                                 </td>
-                                <td className={colSize + " capitalize"}>
+                                <td className={colSize + " uppercase"}>
                                     {counter.team}
                                 </td>
                                 <td className={colSize}>
                                     {counter.playerId.display_name}
                                 </td>
-                                {actioned && (<th className={colSize + " capitalize"}>{(counter.action) + (counter.action === 'locked' ? '' : 'ed')}</th>)}
-                                {status && (<th className={colSize + " capitalize"}>{counter.status}</th>)}
-                                {token && !status && counter.playerId._id !== playerId && (
+                                {showAcceptedRejectedText && !isLocked && counter.action !== 'none' && (
+                                    <td className={colSize + " capitalize"}>
+                                        {counter?.action + 'ed'}
+                                    </td>
+                                )}
+                                {showAcceptedRejectedText && !isLocked && counter.action === 'none' && (
+                                    <td className={colSize + " capitalize"}>
+                                        No status, no reject or accept
+                                    </td>
+                                )}
+                                {token && showDeleteButton && !isLocked && counter.playerId._id === playerId && (
+                                    <td className={colSize}>
+                                        <ActionDeleteButton
+                                            prefix={"counter-challenge"}
+                                            id={counter._id}
+                                            className={"w-full"}
+                                            returnId={challenge._id} ></ActionDeleteButton>
+                                    </td>)
+                                }
+                                {token && showDeleteButton && !isLocked && counter.playerId._id !== playerId && (
+                                    <td className={colSize}>
+                                        NO DELETE
+                                    </td>
+                                )}
+                                {token && showAccepRejectButtons && !isLocked && (
                                     <td className={colSize}>
                                         <Form method="patch" action={`/counter-challenge/${counter._id}/accept`}>
                                             <input type="hidden" name="challengeId" value={challenge._id} />
@@ -67,22 +90,13 @@ export default function CounterTable() {
                                         </Form>
                                     </td>)
                                 }
-                                {token && !status && counter.playerId._id !== playerId && (
+                                {token && showAccepRejectButtons && !isLocked && (
                                     <td className={colSize}>
                                         <Form method="patch" action={`/counter-challenge/${counter._id}/reject`}>
                                             <input type="hidden" name="challengeId" value={challenge._id} />
                                             <input type="hidden" name="playerId" value={counter.playerId._id} />
                                             <CustomButton disabled={counter?.action === 'locked'} className="bg-red-200 dark:bg-red-600 hover:bg-blue-900" type="submit">Reject</CustomButton>
                                         </Form>
-                                    </td>)
-                                }
-                                {token && counter.playerId._id === playerId && (
-                                    <td className={colSize}>
-                                        <ActionDeleteButton
-                                            prefix={"counter-challenge"}
-                                            id={counter._id}
-                                            className={"w-full"}
-                                            returnId={challenge._id} ></ActionDeleteButton>
                                     </td>)
                                 }
                             </tr>
