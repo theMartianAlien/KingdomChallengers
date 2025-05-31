@@ -19,13 +19,11 @@ export default function CustomTable({
     colSize = "px-6 py-4 text-center"
 }) {
 
-    rowClass = 
+    rowClass =
         clsx(
             "border-b dark:border-gray-700 border-gray-200 odd:bg-slate-300 even:bg-gray-500 text-black odd:dark:bg-gray-900 even:dark:bg-gray-800 dark:text-white",
             rowClass
         )
-    
-
 
     const navigate = useNavigate();
     const initialSortedData = sortData(data, primaryColumn, isAsc);
@@ -55,6 +53,13 @@ export default function CustomTable({
         return [...arr].sort((a, b) => {
             let valA = a[column];
             let valB = b[column];
+
+            if (column === 'numberOfHits') {
+                try {
+                    valA = Array.isArray(valA) ? valA.length : 0;
+                    valB = Array.isArray(valB) ? valB.length : 0;
+                } catch (e) { }
+            }
 
             try {
                 valA = typeof valA === 'string' ? valA.toUpperCase() : valA;
@@ -112,7 +117,6 @@ export default function CustomTable({
                                 const suffix = col?.suffix;
                                 const cellClassName = col?.className;
                                 const isClean = col?.isClean
-
                                 return (
                                     <td key={col.column} className={colSize}>
                                         {CellComponent && !col.label && (
@@ -123,6 +127,9 @@ export default function CustomTable({
                                         )}
                                         {CellComponent && col.label === 'Delete' && (
                                             <CellComponent id={value} prefix={prefix} suffix={suffix} isClean={isClean} className={cellClassName} >Delete</CellComponent>
+                                        )}
+                                        {CellComponent && col.label === 'HitMarker' && (
+                                            <CellComponent data={value} />
                                         )}
                                         {!CellComponent && value}
                                     </td>

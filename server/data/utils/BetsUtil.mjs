@@ -15,8 +15,14 @@ const findBetByLink = async(link) => {
     return bets;
 }
 
+const findAllBetsByStatus = async (status) => {
+    const bets = await Bets.find({status}).exec();
+    return bets
+}
+
 const BetsUtil = {
     findAllBetsByPlayer,
+    findAllBetsByStatus,
     findBetByLink
 }
 

@@ -36,10 +36,49 @@ const findAllPlayers = async (req, res, next) => {
             res.json("No players currently in the database.");
             return;
         }
+        let bets = await BetsUtil.findAllBetsByStatus("complete");
+        bets = [...bets].concat(await BetsUtil.findAllBetsByStatus("void"));
+        bets = bets.sort((a, b) => new Date(a.date_completed) - new Date(b.date_completed))
+        let playersToBet = [];
+
+        for (const bet of bets) {
+            const { status, winner, teamA, teamB, title, date_completed, _id } = bet;
+            const teams = [
+                { isALoss: status === 'void' || winner == "teamB", players: [...teamA] },
+                { isALoss: status === 'void' || winner == "teamA", players: [...teamB] },
+            ]
+
+            for (const team of teams) {
+                for (const player of team.players) {
+                    const existing = playersToBet.find(p => p._id.toString() === player.toString());
+
+                    const hitEntry = {
+                        betId: _id,
+                        title: title,
+                        date: date_completed
+                    };
+
+                    if (!existing) {
+                        playersToBet.push({
+                            _id: player,
+                            hit: team.isALoss ? [hitEntry] : []
+                        });
+                    } else {
+                        if (team.isALoss) {
+                            existing.hit.push(hitEntry);
+                        } else {
+                            existing.hit = [];
+                        }
+                    }
+                }
+            }
+        }
+        playersToBet = playersToBet.filter(x => x.hit.length > 0);
         const newPlayers = players.map((player) => ({
             _id: player._id,
             discord_handle: player.discord_handle,
-            display_name: player.display_name
+            display_name: player.display_name,
+            betsLost: playersToBet.find(x => x._id.toString() === player._id.toString())?.hit
         }));
         logMessage("-----------findAllPlayers--------------");
         res.json(newPlayers);
@@ -101,7 +140,7 @@ const updatePlayer = async (req, res, next) => {
         logMessage("-----------updatePlayer--------------");
         const player = await Player.findById(id);
         if (!player) {
-        logMessage("-----------player--------------");
+            logMessage("-----------player--------------");
             return res.status(404).json({ message: "Player not found: " + data.discord_handle });
         }
 
