@@ -42,6 +42,7 @@ function validate(req, res, next) {
             return null;
         }
         if (req.method === 'OPTIONS') {
+            logMessage("Not authenticated: OPTIONS");
             return next();
         }
         if (!req.headers.authorization) {
