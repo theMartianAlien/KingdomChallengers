@@ -1,5 +1,6 @@
 import DiscordList from "../../components/Discord/DiscordList";
 import { useGetFetch } from "../../hooks/useFetch";
+import { getAdminToken } from "../../util/auth";
 
 export default function DiscordListPage() {
     return (
@@ -10,5 +11,6 @@ export default function DiscordListPage() {
 }
 
 export async function loader() {
-    return await useGetFetch("discord");
+    const adminToken = getAdminToken();
+    return await useGetFetch("discord", adminToken);
 }

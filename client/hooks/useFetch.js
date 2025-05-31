@@ -1,7 +1,19 @@
 const URL = import.meta.env.VITE_ENDPOINT || 'http://localhost:3000/';
 
-export async function useGetFetch(endpoint) {
-    const response = await fetch(URL + endpoint);
+export async function useGetFetch(endpoint, token) {
+    let headers = {
+        method: 'GET',
+        'Content-Type': 'application/json'
+    }
+    if (token) {
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    }
+
+
+    const response = await fetch(URL + endpoint, headers);
 
     if (response.status === 422 || response.status === 401) {
         return response;
