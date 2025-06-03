@@ -5,15 +5,17 @@ import { sortByProperty } from '../../util/sort';
 export default function BetCardList({ bets, data }) {
     return (
         <>
-            <p className='text-lg'>Total bets: <span className='text-blue-400'>{bets.length}</span></p>
-            <ul className="mt-4 flex flex-col gap-4">
-                {sortByProperty(bets, "date_created", false).map((bet) => (
-                    <li key={bet._id}>
-                        <Link to={`/bets/${bet._id}`}>
-                            <BetCard bet={bet} data={data}/>
-                        </Link>
-                    </li>))}
-            </ul>
+            <div className='flex justify-center flex-col'>
+                <p className='text-lg'>Total bets: <span className='text-blue-400'>{bets.length}</span></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {sortByProperty(bets, "date_created", false).map((bet) => (
+                        <div key={bet._id}>
+                            <Link to={`/bets/${bet._id}`}>
+                                <BetCard bet={bet} data={data} />
+                            </Link>
+                        </div>))}
+                </div>
+            </div>
         </>
     );
 }
