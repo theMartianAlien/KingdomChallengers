@@ -37,12 +37,10 @@ export default function BetCardList({ bets, data }) {
         setFilteredBets(result);
     }, [filters, searchTerm, status]);
 
-    const columnsStyle = `
-    grid gap-4
-    ${filteredBets.length === 1 ? 'justify-center grid-cols-1' : ''}
-    ${filteredBets.length === 2 ? 'justify-center grid-cols-2' : ''}
-    ${filteredBets.length > 2 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : ''}
-  `;
+    const columnsStyle = `grid gap-4 grid-cols-1 
+  ${filteredBets.length === 2 ? 'md:grid-cols-2 justify-center' : ''}
+  ${filteredBets.length > 2 ? 'md:grid-cols-2 lg:grid-cols-3' : ''}
+`;
 
     return (
         <>
