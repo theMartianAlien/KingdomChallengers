@@ -2,26 +2,9 @@ import { useRouteLoaderData } from 'react-router-dom';
 import { useState } from 'react';
 import { betsActions } from '../../src/store/bets-slice';
 import { useDispatch } from 'react-redux';
-import { Autocomplete, TextField, Chip, MenuItem, Select, InputLabel, FormControl, createTheme } from '@mui/material';
+import { Autocomplete, TextField, Chip, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark', // or 'light'
-    primary: {
-      main: '#00bcd4', // cyan
-    },
-    secondary: {
-      main: '#ff4081', // pink
-    },
-    customGreen: {
-      main: '#4caf50',
-      contrastText: '#fff',
-    },
-  },
-});
-
-function BetsNavigation() {
+function BetsFilter() {
   const players = useRouteLoaderData("bets-root");
   const [filter, setFilters] = useState({
     players: [],
@@ -73,8 +56,8 @@ function BetsNavigation() {
   }
 
   return (
-    <header className="sticky top-[60px] z-40 bg-gray-800 text-white p-1">
-      <nav className='flex flex-col lg:flex-row gap-1 md:gap-4 w-full items-stretch'>
+    <section className="sticky top-[60px] z-40 p-1 md:p-2">
+      <div className='flex flex-col lg:flex-row gap-1 md:gap-4 w-full items-stretch'>
         <div className='flex-1'>
           <Autocomplete
             multiple
@@ -179,7 +162,7 @@ function BetsNavigation() {
             }}
           />
         </div>
-        <div className='flex-1 text-white'>
+        <div className='flex-1'>
           <FormControl fullWidth
             sx={{
               '& .MuiInputLabel-root': {
@@ -224,9 +207,9 @@ function BetsNavigation() {
             </Select>
           </FormControl>
         </div>
-      </nav>
-    </header>
+      </div>
+    </section>
   );
 }
 
-export default BetsNavigation;
+export default BetsFilter;

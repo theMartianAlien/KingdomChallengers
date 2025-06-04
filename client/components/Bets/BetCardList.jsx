@@ -37,12 +37,10 @@ export default function BetCardList({ bets, data }) {
         setFilteredBets(result);
     }, [filters, searchTerm, status]);
 
-    const columnsStyle = `
-    grid gap-4
-    ${filteredBets.length === 1 ? 'justify-center grid-cols-1' : ''}
-    ${filteredBets.length === 2 ? 'justify-center grid-cols-2' : ''}
-    ${filteredBets.length > 2 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : ''}
-  `;
+    const columnsStyle = `grid gap-1 md:gap-3 grid-cols-1 
+  ${filteredBets.length === 2 ? 'md:grid-cols-2 justify-center' : ''}
+  ${filteredBets.length > 2 ? 'md:grid-cols-2 lg:grid-cols-3' : ''}
+`;
 
     return (
         <>
@@ -50,7 +48,7 @@ export default function BetCardList({ bets, data }) {
                 <p className='text-lg'>Total bets: <span className='text-blue-400'>{filteredBets.length}</span></p>
                 <div className={columnsStyle}>
                     {sortByProperty(filteredBets, "date_created", false).map((bet) => (
-                        <div key={bet._id}>
+                        <div key={bet._id} className="rounded">
                             <Link to={`/bets/${bet._id}`}>
                                 <BetCard bet={bet} data={data} />
                             </Link>
