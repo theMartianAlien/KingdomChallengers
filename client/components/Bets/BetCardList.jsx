@@ -48,7 +48,7 @@ export default function BetCardList({ bets, data }) {
                 <p className='text-lg'>Total bets: <span className='text-blue-400'>{filteredBets.length}</span></p>
                 <div className={columnsStyle}>
                     {sortByProperty(filteredBets, "date_created", false).map((bet) => (
-                        <div key={bet._id}>
+                        <div key={bet._id} className="rounded">
                             <Link to={`/bets/${bet._id}`}>
                                 <BetCard bet={bet} data={data} />
                             </Link>
