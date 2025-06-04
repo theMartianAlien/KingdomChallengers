@@ -76,7 +76,7 @@ function BetsNavigation() {
 
   return (
     <header className={classes.header}>
-      <nav className='flex flex-col lg:flex-row gap-4 w-full items-center'>
+      <nav className='flex flex-col lg:flex-row gap-4 w-full items-stretch'>
         <div className='flex-1'>
           <Autocomplete
             multiple
