@@ -1,4 +1,3 @@
-import classes from './BetsNavigation.module.css';
 import { useRouteLoaderData } from 'react-router-dom';
 import { useState } from 'react';
 import { betsActions } from '../../src/store/bets-slice';
@@ -19,7 +18,6 @@ const theme = createTheme({
       main: '#4caf50',
       contrastText: '#fff',
     },
-    // Add more custom colors here
   },
 });
 
@@ -75,8 +73,8 @@ function BetsNavigation() {
   }
 
   return (
-    <header className={classes.header}>
-      <nav className='flex flex-col lg:flex-row gap-4 w-full items-stretch'>
+    <header className="sticky top-[60px] z-40 bg-gray-800 text-white p-1">
+      <nav className='flex flex-col lg:flex-row gap-1 md:gap-4 w-full items-stretch'>
         <div className='flex-1'>
           <Autocomplete
             multiple
@@ -150,7 +148,7 @@ function BetsNavigation() {
         <div className='flex-1'>
           <TextField
             id="outlined-basic"
-            label="Search by ..."
+            label="Search by title"
             variant="outlined"
             autoComplete="off"
             fullWidth

@@ -37,7 +37,7 @@ export default function BetCardList({ bets, data }) {
         setFilteredBets(result);
     }, [filters, searchTerm, status]);
 
-    const columnsStyle = `grid gap-4 grid-cols-1 
+    const columnsStyle = `grid gap-1 md:gap-3 grid-cols-1 
   ${filteredBets.length === 2 ? 'md:grid-cols-2 justify-center' : ''}
   ${filteredBets.length > 2 ? 'md:grid-cols-2 lg:grid-cols-3' : ''}
 `;
