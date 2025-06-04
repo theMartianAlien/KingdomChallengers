@@ -56,7 +56,7 @@ function BetsFilter() {
   }
 
   return (
-    <section className="sticky top-[60px] z-40 bg-gray-800 text-white p-1">
+    <section className="sticky top-[60px] z-40 p-1 md:p-2">
       <div className='flex flex-col lg:flex-row gap-1 md:gap-4 w-full items-stretch'>
         <div className='flex-1'>
           <Autocomplete
@@ -162,7 +162,7 @@ function BetsFilter() {
             }}
           />
         </div>
-        <div className='flex-1 text-white'>
+        <div className='flex-1'>
           <FormControl fullWidth
             sx={{
               '& .MuiInputLabel-root': {
