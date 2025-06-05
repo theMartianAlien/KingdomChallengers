@@ -129,7 +129,6 @@ const insertBets = async (req, res, next) => {
                 logMessage(error);
                 continue;
             }
-            var utc = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
 
             const aBet = await BetsUtil.findBetByLink(BET.link);
             if (aBet) {
@@ -144,6 +143,12 @@ const insertBets = async (req, res, next) => {
                 console.log("---------------------NO DATE COMPLETED-----------------------");
                 console.log(BET.link);
                 console.log("---------------------NO DATE COMPLETED-----------------------");
+            }
+
+            if(!BET.text.includes("@{")){
+                console.log("---------------------NO marking-----------------------");
+                console.log(BET.title);
+                console.log("---------------------NO marking-----------------------");
             }
 
             const createNewBet = new Bets({

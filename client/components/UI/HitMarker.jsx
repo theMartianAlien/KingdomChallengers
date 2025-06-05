@@ -8,8 +8,8 @@ export default function HitMarker({ data }) {
     if (data) {
         element = (
             <div className="flex items-center justify-center">
-                {data.map(d => (
-                    <div>
+                {data.map((d,index) => (
+                    <div key={index}>
                         <Popover
                             trigger="hover"
                             content={

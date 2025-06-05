@@ -4,7 +4,7 @@ import Content from "../../components/Layout/Content";
 export default function BetsRootPage() {
     return (
         <>
-            <Content className="">
+            <Content>
                 <Outlet />
             </Content>
         </>

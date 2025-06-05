@@ -15,7 +15,7 @@
         "winner": "",
         "dateCreated": "2025-05-07",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1369759196811362478",
-        "text": "Me, @An Ordinary Strike  and @KokoThizzba #LieutenantOfKou are betting on whether there will be any fighting at all in Shintei between Qin and Han before an official, central surrender. Strike and I say that Han will coordinate a surrender without any fighting done, Thizz is saying the some minimum fighting is required. In the scenario where Han is coerced by Qin invading the city to a surrender without any fighting at all (not a single Han guard killed), we both lose.",
+        "text": "Me, @{An Ordinary Strike} and @{KokoThizzba #LieutenantOfKou} are betting on whether there will be any fighting at all in Shintei between Qin and Han before an official, central surrender. Strike and I say that Han will coordinate a surrender without any fighting done, Thizz is saying the some minimum fighting is required. In the scenario where Han is coerced by Qin invading the city to a surrender without any fighting at all (not a single Han guard killed), we both lose.",
         "chapter": {
             "spoilers": "",
             "sense": ""
@@ -40,7 +40,7 @@
         "winner": "",
         "dateCreated": "2025-05-02",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1367957755704639549",
-        "text": "Me and @HistoRei are betting on the Han king. Rei says that the king will attempt suicide and that Nei will stop him. I say that won't happen.",
+        "text": "@{Gio} and @{HistoRei} are betting on the Han king. Rei says that the king will attempt suicide and that Nei will stop him. @{Gio} say that won't happen.",
         "chapter": {
             "spoilers": "",
             "sense": ""
@@ -62,7 +62,7 @@
         "dateCompleted": "",
         "status": "ongoing",
         "winner": "",
-        "dateCreated" : "2024-07-01",
+        "dateCreated": "2024-07-01",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1257444821191233588",
         "text": "@{giorgos} me and @{strike} are betting whether Chu will attack Wei at any point during the Han-Qin war. I say Chu will not attack Wei, Horse Breeder says Chu will take the opportunity.\nAs an attack counts Chu getting or attempting to get land/forts/cities out of Wei, passing through to attack Qin, even if it includes minor skirmishes, does not count.",
         "chapter": {
@@ -503,7 +503,7 @@
     },
     {
         "betId": "4a6318e0-0fe1-422b-acdd-7bf71c4951bc",
-        "title": "Kanto Bet? WTF",
+        "title": "Kou Bet? WTF",
         "players": {
             "teamA": [
                 "p10"
@@ -680,7 +680,7 @@
     },
     {
         "betId": "349e8cc5-0466-4e6f-9c84-0634b3d30aab",
-        "title": "KK's appearance",
+        "title": "KK appears next chapter",
         "players": {
             "teamA": [
                 "p2"
@@ -1013,7 +1013,8 @@
         "winner": null,
         "dateCreated": "2025-04-23",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1364597128495894531",
-        "text": "@Sky | #1 FuuFighterLeader , @Strike |  Fuu Fighter Guild  @Giorgos @Sir Kite  @HistoRei @Vlade, KK #1 lieutenant  @NoirKingOfVoid are betting regarding Han's surrender. Giorgos, Kite and Rei says Nei will convince the King to surrender. Sky, Vlade Noir and Strike bet Nei would be surrendering Han without the King's decision. Loser of the bet will use Nei's facial reactions to respond to any messages initially in the spoiler channel. the size will be 250x250 so it wont clutter.s"
+        "text": "@{Sky | #1 FuuFighterLeader} , @{Strike |  Fuu Fighter Guild}  @{Giorgos} @{Sir Kite}  @{HistoRei} @{Vlade, KK #1 lieutenant}  @{NoirKingOfVoid} are betting regarding Han's surrender. Giorgos, Kite and Rei says Nei will convince the King to surrender. Sky, Vlade Noir and Strike bet Nei would be surrendering Han without the King's decision.",
+        "punishment": "Loser of the bet will use Nei's facial reactions to respond to any messages initially in the spoiler channel. the size will be 250x250 so it wont clutter."
     },
     {
         "betId": "9b158fce-836b-428c-ae1f-463b341f44a6",
@@ -1031,8 +1032,9 @@
         "status": "ongoing",
         "winner": null,
         "dateCreated": "2025-04-21",
+        "punishment": "Punishment is a one week name change.",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1363988827961561139",
-        "text": "@Demented Martian | trash reader  @Crimson Unit @HistoRei and myself are betting on whether any Zhao or Wei general will die in the engagements with Mouten and Ouhon. I think that no generals will die, Crimson and Rei think that a Zhao or Wei general will fall."
+        "text": "@{Crimson Unit} @{HistoRei} and @{An Ordinary Strike} are betting on whether any Zhao or Wei general will die in the engagements with Mouten and Ouhon. @{An Ordinary Strike} think that no generals will die, Crimson and Rei think that a Zhao or Wei general will fall."
     },
     {
         "betId": "abbf2a5c-28c7-4fd7-8ceb-5d2ca79d6be2",
@@ -1050,7 +1052,7 @@
         "winner": null,
         "dateCreated": "2025-04-21",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1363968984684433501",
-        "text": "@Strike |  Fuu Fighter Guild and @Icy Terror are betting on whether or not RKK and YKYK will join Ousen's army when Han surrenders. Strike thinks they won't, Icy thinks they will. ",
+        "text": "@{Strike |  Fuu Fighter Guild} and @{Icy Terror} are betting on whether or not RKK and YKYK will join Ousen's army when Han surrenders. Strike thinks they won't, Icy thinks they will. ",
         "chapter": {
             "spoilers": "",
             "sense": ""
@@ -1098,9 +1100,9 @@
         "winner": null,
         "dateCreated": "2024-07-14",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1262137610390736959",
-        "text": "If Chu makes any move, like attack or send help to any state, I win. Else @Sherwel wins.\nTime frame: Till end of this arc.\n",
+        "text": "If Chu makes any move, like attack or send help to any state, @{Jalaleen} win. Else @{Sherwel} wins.\nTime frame: Till end of this arc.\n",
         "chapter": "",
-        "punishment": "Punishment for Sherwel is that he will change his name to \"Jalaleen's big fat Bitch\" for a week. "
+        "punishment": "Punishment for @{Sherwel} is that he will change his name to \"Jalaleen's big fat Bitch\" for a week. "
     },
     {
         "betId": "4b9ced44-7c05-4da8-ba89-99e84029854e",
@@ -1185,7 +1187,7 @@
         "winner": "",
         "dateCreated": "2025-05-08",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1370199762908741733",
-        "text": "Me and @Sky | #1 FuuFighterLeader are betting on whether Yoko Yoko will join HSU. I say he won't, Sky says he will. Yoko Yoko will be considered a no-show for HSU if he doesn't join them before the next battle or if he dies.",
+        "text": "@{Gio} and @{Sky | #1 FuuFighterLeader} are betting on whether Yoko Yoko will join HSU. @{Gio} say he won't, Sky says he will. Yoko Yoko will be considered a no-show for HSU if he doesn't join them before the next battle or if he dies.",
         "chapter": {
             "spoilers": "",
             "sense": ""
@@ -1206,7 +1208,7 @@
         "dateCompleted": "",
         "dateCreated": "2025-05-14",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1372270425832296540",
-        "text": "@KokoThizzba #LieutenantOfKou and @An Ordinary Strike Are betting whether or not RKK will help Nei before or after Nei opens the gate. Thizz believes RKK will wait to help her until the gates are open. Strike believes that RKK will provide assistance to Nei in opening the gate. Punishment is a one week name change. If RKK doesn’t help her at all Thizz wins in that scenario. Help also includes sending troops directly to help Nei",
+        "text": "@{KokoThizzba #LieutenantOfKou} and @{An Ordinary Strike} Are betting whether or not RKK will help Nei before or after Nei opens the gate. Thizz believes RKK will wait to help her until the gates are open. Strike believes that RKK will provide assistance to Nei in opening the gate. Punishment is a one week name change. If RKK doesn’t help her at all Thizz wins in that scenario. Help also includes sending troops directly to help Nei",
         "status": "ongoing",
         "winner": "",
         "chapter": {
@@ -1229,7 +1231,7 @@
         "dateCompleted": "",
         "dateCreated": "2025-05-21",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1374823367714013286",
-        "text": " @NoirKingOfVoid  If Sei doesnt come to Shintei after its fall I lose, If he appears I win.",
+        "text": " @{NoirKingOfVoid} If Sei doesnt come to Shintei after its fall I lose, If he appears @{the.martian} wins.",
         "status": "ongoing",
         "winner": "",
         "chapter": {
@@ -1252,7 +1254,7 @@
         "dateCompleted": "",
         "dateCreated": "2025-05-26",
         "link": "https://discord.com/channels/400120926592696342/400121599639945216/1376693224130740256",
-        "text": "Sky and @KokoThizzba #LieutenantOfKou are betting the outcome of opening the gates. Thizz said Shin and Raku wont fight each other. Sky bet they will fight.",
+        "text": "@{Sky} and @{KokoThizzba #LieutenantOfKou} are betting the outcome of opening the gates. Thizz said Shin and Raku wont fight each other. Sky bet they will fight.",
         "status": "ongoing",
         "winner": "",
         "chapter": {

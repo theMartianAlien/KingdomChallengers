@@ -8,7 +8,7 @@ export default function BetsList() {
     return (
         <>
             <div className="flex flex-col items-center justify-center text-center">
-                
+                <BetCardList bets={bets} data={data} />
             </div>
         </>
     );

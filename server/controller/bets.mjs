@@ -27,8 +27,8 @@ const findABet = async (req, res, next) => {
         const id = req.params.id;
         logMessage("-----------findABet--------------");
         const bet = await Bets.findById(id)
-            .populate('teamA', '_id display_name')
-            .populate('teamB', '_id display_name')
+            .populate('teamA', '_id display_name alternate_names')
+            .populate('teamB', '_id display_name alternate_names')
             .exec();
         
         const players = await Player.find();

@@ -1,11 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useRouteLoaderData } from 'react-router-dom';
 import BetCard from './BetCard';
 import { sortByProperty } from '../../util/sort';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-export default function BetCardList({ bets, data }) {
-
+export default function BetCardList() {
+    const bets = useRouteLoaderData('bets-list');
+    const data = useRouteLoaderData('bets-root');
     const [filteredBets, setFilteredBets] = useState(bets);
 
     const filters = useSelector(state => state.betsFilter.filtersBy);
@@ -44,7 +45,7 @@ export default function BetCardList({ bets, data }) {
 
     return (
         <>
-            <div className='flex justify-center flex-col'>
+            {/* <div className='flex justify-center flex-col'> */}
                 <p className='text-lg'>Total bets: <span className='text-blue-400'>{filteredBets.length}</span></p>
                 <div className={columnsStyle}>
                     {sortByProperty(filteredBets, "date_created", false).map((bet) => (
@@ -54,7 +55,7 @@ export default function BetCardList({ bets, data }) {
                             </Link>
                         </div>))}
                 </div>
-            </div>
+            {/* </div> */}
         </>
     );
 }

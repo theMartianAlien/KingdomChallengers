@@ -1,3 +1,5 @@
+import CustomPopover from "../components/UI/MaterialUI/CustomPopover";
+
 export function cleanText(text, thePlayers) {
     if (text === undefined || text.length === 0)
         return;
@@ -32,4 +34,35 @@ export function cleanText(text, thePlayers) {
         }
     }
     return text;
+}
+
+export function tokenizeText(text) {
+    return text.match(/@\{[^}]+\}|\S+/g) || [];
+}
+
+function getText(text, playersOnBet) {
+    const player = playersOnBet.find(obj => obj.alternate_names.some(name => name.toLowerCase().startsWith(text.toLowerCase())));
+    return <CustomPopover name={player.display_name} />
+}
+
+export function replaceTextWithJSX(tokens, playersOnBet) {
+    return tokens.map((part, index) => (
+        <p key={index} style={{ display: 'inline' }}>
+            {part.startsWith("@{")
+                ? getText(part.substring(2, part.length - 1), playersOnBet)
+                : part}
+            {index !== tokens.length - 1 && ' '}
+        </p>
+    ));
+}
+
+export function getStatus(status) {
+    if (status === 'ongoing') {
+        return "On Going";
+    } else if (status === 'void') {
+        return "Void";
+    } else if (status === 'complete') {
+        return "Completed";
+    }
+    return status;
 }

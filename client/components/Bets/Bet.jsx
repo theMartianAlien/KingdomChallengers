@@ -1,6 +1,6 @@
 import PlayerTag from '../Players/PlayersTag';
 import Tag from '../UI/Tag';
-import { cleanText } from '../../util/text';
+import { cleanText, getStatus, replaceTextWithJSX, tokenizeText } from '../../util/text.jsx';
 import { Link, useRouteLoaderData } from 'react-router-dom';
 import { FaDiscord } from 'react-icons/fa'
 import NavigateButton from '../UI/Buttons/NavigateButton';
@@ -8,15 +8,11 @@ import NavigateButton from '../UI/Buttons/NavigateButton';
 export default function Bet() {
     const { adminToken } = useRouteLoaderData('root');
     const { bet } = useRouteLoaderData('bet-detail');
-    let betContent = cleanText(bet?.text, []);
-    let status;
-    if (bet?.status === 'ongoing') {
-        status = "On Going";
-    } else if (bet?.status === 'void') {
-        status = "Void";
-    } else if (bet?.status === 'complete') {
-        status = "Completed";
-    }
+    const playersOnBet = [...bet.teamA, ...bet.teamB];
+    const tokens = tokenizeText(bet?.text);
+    let betContent = replaceTextWithJSX(tokens, playersOnBet)
+
+    let status = getStatus(bet?.status);
 
     let tags;
     if (bet?.tags && bet?.tags.length > 0) {
@@ -31,7 +27,8 @@ export default function Bet() {
         );
     }
 
-    let betPunishment = cleanText(bet?.punishment, []);
+    const newToken = tokenizeText(bet?.punishment);
+    let betPunishment = replaceTextWithJSX(newToken, playersOnBet)
 
     return (
         <>
@@ -58,7 +55,7 @@ export default function Bet() {
                             </p>
                             {bet?.winner && bet?.winner !== 'none' && (
                                 <p className='text-center'>
-                                    <span className="font-semibold">Winner:</span> {bet[bet?.winner].map(x=>x.display_name).join(', ')}
+                                    <span className="font-semibold">Winner:</span> {bet[bet?.winner].map(x => x.display_name).join(', ')}
                                 </p>
                             )}
                         </>
