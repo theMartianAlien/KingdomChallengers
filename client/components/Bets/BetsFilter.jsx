@@ -56,7 +56,8 @@ function BetsFilter() {
   }
 
   return (
-    <section className="sticky top-[60px] z-40 p-1 md:p-2">
+    <section className="sticky top-[60px] z-40 p-1 md:p-2 w-screen">
+      <div class="max-w-screen-xl mx-auto px-4 md:px-6">
       <div className='flex flex-col lg:flex-row gap-1 md:gap-4 w-full items-stretch'>
         <div className='flex-1'>
           <Autocomplete
@@ -207,6 +208,7 @@ function BetsFilter() {
             </Select>
           </FormControl>
         </div>
+      </div>
       </div>
     </section>
   );
