@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const betsSlice = createSlice({
     name: 'bets',
-    initialState: { filtersBy: [], term: '', status: '' },
+    initialState: { filtersBy: [], term: '', status: '', sortBy: {} },
     reducers: {
         filterByPlayerIs(state, action) {
             const item = action.payload;
@@ -15,6 +15,13 @@ const betsSlice = createSlice({
         filterByStatus(state, action) {
             const status = action.payload;
             state.status = status.status;
+        },
+        sortBy(state, action) {
+            const sortBy = action.payload;
+            state.sortBy = {
+                sort: sortBy.sort,
+                order: sortBy.order
+            };
         }
     }
 });
