@@ -16,6 +16,9 @@ const playerSchema = new Schema({
     type: Types.ObjectId,
     required: true,
     unique: true,
+  },
+  alternate_names: {
+    type: [String],
   }
 }, {
   timestamps: true,

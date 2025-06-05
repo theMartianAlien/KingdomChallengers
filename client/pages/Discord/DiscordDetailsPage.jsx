@@ -1,6 +1,7 @@
 import { useRouteLoaderData } from "react-router-dom";
 import { useGetFetch } from "../../hooks/useFetch";
 import NavigateButton from '../../components/UI/Buttons/NavigateButton';
+import { getAdminToken } from "../../util/auth";
 
 export default function DiscordDetailsPage() {
     const discordUser = useRouteLoaderData('discord-detail');
@@ -34,5 +35,6 @@ export default function DiscordDetailsPage() {
 }
 
 export async function loader({ request, params }) {
-    return await useGetFetch("discord/" + params.id);
+    const adminToken = getAdminToken();
+    return await useGetFetch("discord/" + params.id, adminToken);
 }
