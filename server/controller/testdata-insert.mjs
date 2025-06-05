@@ -20,7 +20,7 @@ const insertDiscordUsers = async (req, res, next) => {
             })
 
             const current = await DiscordUtil.findByDiscordHandle(discordUser.discord_handle);
-            if(current){
+            if (current) {
                 continue;
             }
 
@@ -91,6 +91,8 @@ const insertBets = async (req, res, next) => {
             if (!aPlayer) {
                 logMessage(player);
             }
+            aPlayer.alternate_names = player.alternate
+            await aPlayer.save();
         }
         logMessage("Inserting OLD BETS data");
 
@@ -138,7 +140,7 @@ const insertBets = async (req, res, next) => {
                 continue;
             }
 
-            if((BET.status === 'void' || BET.status === 'complete') && !BET.dateCompleted) {
+            if ((BET.status === 'void' || BET.status === 'complete') && !BET.dateCompleted) {
                 console.log("---------------------NO DATE COMPLETED-----------------------");
                 console.log(BET.link);
                 console.log("---------------------NO DATE COMPLETED-----------------------");
