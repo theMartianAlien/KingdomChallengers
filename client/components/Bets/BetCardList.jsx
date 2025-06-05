@@ -12,11 +12,13 @@ export default function BetCardList() {
     const filters = useSelector(state => state.betsFilter.filtersBy);
     const searchTerm = useSelector(state => state.betsFilter.term);
     const status = useSelector(state => state.betsFilter.status);
+    const sortBy = useSelector(state => state.betsFilter.sortBy);
 
     useEffect(() => {
         const hasFilters = filters?.length > 0;
         const hasSearchTerm = searchTerm?.length > 0;
         const hasStatus = status?.length > 0;
+        const toSort = sortBy?.sort || sortBy?.order;
 
         const matchesFilter = (bet) =>
             bet.teamA.some(team => filters.includes(team._id)) ||
@@ -35,8 +37,11 @@ export default function BetCardList() {
             return filterMatch && searchMatch && statusMatch;
         });
 
-        setFilteredBets(result);
-    }, [filters, searchTerm, status]);
+        const sortedResult = toSort
+            ? sortByProperty([...result], sortBy.sort, sortBy.order === 'asc')
+            : result;
+        setFilteredBets(sortedResult);
+    }, [filters, searchTerm, status, sortBy]);
 
     const columnsStyle = `grid gap-1 md:gap-3 grid-cols-1 
   ${filteredBets.length === 2 ? 'md:grid-cols-2 justify-center' : ''}
@@ -45,17 +50,15 @@ export default function BetCardList() {
 
     return (
         <>
-            {/* <div className='flex justify-center flex-col'> */}
-                <p className='text-lg'>Total bets: <span className='text-blue-400'>{filteredBets.length}</span></p>
-                <div className={columnsStyle}>
-                    {sortByProperty(filteredBets, "date_created", false).map((bet) => (
-                        <div key={bet._id} className="rounded">
-                            <Link to={`/bets/${bet._id}`}>
-                                <BetCard bet={bet} data={data} />
-                            </Link>
-                        </div>))}
-                </div>
-            {/* </div> */}
+            <p className='text-lg'>Total bets: <span className='text-blue-400'>{filteredBets.length}</span></p>
+            <div className={columnsStyle}>
+                {filteredBets.map((bet) => (
+                    <div key={bet._id} className="rounded">
+                        <Link to={`/bets/${bet._id}`}>
+                            <BetCard bet={bet} data={data} />
+                        </Link>
+                    </div>))}
+            </div>
         </>
     );
 }

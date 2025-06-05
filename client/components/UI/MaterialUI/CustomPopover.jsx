@@ -39,6 +39,9 @@ export default function CustomPopover({ name }) {
           vertical: 'top',
           horizontal: 'left',
         }}
+          PaperProps={{
+    'aria-hidden': !open ? 'true' : undefined, // Only hide when closed
+  }}
         onClose={handlePopoverClose}
         disableRestoreFocus
       >

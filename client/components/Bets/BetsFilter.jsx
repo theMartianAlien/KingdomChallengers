@@ -9,7 +9,8 @@ function BetsFilter() {
   const [filter, setFilters] = useState({
     players: [],
     search: '',
-    status: ''
+    status: '',
+    label: ''
   });
 
   const dispatch = useDispatch();
@@ -55,52 +56,114 @@ function BetsFilter() {
     );
   }
 
+  function sortBy(element) {
+    let values = element.target.value.split('-');
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        label: element.target.value
+      }
+    });
+    dispatch(
+      betsActions.sortBy({
+        sort: values[0],
+        order: values[1]
+      })
+    );
+  }
+
+  const sortingOptions = [
+    { sortField: '', order: '', label: 'None' },
+    { sortField: 'title', order: 'dsc', label: 'Title - Descending' },
+    { sortField: 'title', order: 'asc', label: 'Title - Ascending' },
+    { sortField: 'date_created', order: 'asc', label: 'Date Created - Ascending' },
+    { sortField: 'date_created', order: 'dsc', label: 'Date Created - Descending' },
+    { sortField: 'date_completed', order: 'asc', label: 'Date Completed - Ascending' },
+    { sortField: 'date_completed', order: 'dsc', label: 'Date Completed - Descending' }
+  ];
+
   return (
     <section className="sticky top-[60px] z-40 p-1 md:p-2 w-screen">
-      <div class="max-w-screen-xl mx-auto px-4 md:px-6">
-      <div className='flex flex-col lg:flex-row gap-1 md:gap-4 w-full items-stretch'>
-        <div className='flex-1'>
-          <Autocomplete
-            multiple
-            limitTags={2}
-            id="multiple-limit-tags"
-            getOptionLabel={(option) => option.display_name}
-            value={filter.players}
-            options={players}
-            onChange={(event, newValue) => {
-              filterByPlayers(newValue);
-            }}
-            renderValue={(values, getItemProps) =>
-              values.map((option, index) => {
-                const { key, ...itemProps } = getItemProps({ index });
-                return (
-                  <Chip
-                    color="primary"
-                    key={key}
-                    label={option.display_name}
-                    {...itemProps}
-                    sx={{
-                      backgroundColor: '#1e1e1e',   // Dark background
-                      color: '#ffffff',             // Label color
-                      border: 'none',               // Remove border
-                      '&:hover': {
-                        backgroundColor: '#2c2c2c', // Darker on hover
-                      },
-                      '& .MuiChip-label': {
-                        fontWeight: 500,            // Optional: make label bolder
-                      },
-                      '& .MuiChip-deleteIcon': {
-                        color: '#bbbbbb',           // Close icon color
+      <div className="max-w-screen-xl mx-auto px-4 md:px-6">
+        <div className='flex flex-col lg:flex-row gap-1 md:gap-4 w-full items-stretch'>
+          <div className='flex-1'>
+            <Autocomplete
+              multiple
+              limitTags={2}
+              id="multiple-limit-tags"
+              getOptionLabel={(option) => option.display_name}
+              value={filter.players}
+              options={players}
+              onChange={(event, newValue) => {
+                filterByPlayers(newValue);
+              }}
+              renderValue={(values, getItemProps) =>
+                values.map((option, index) => {
+                  const { key, ...itemProps } = getItemProps({ index });
+                  return (
+                    <Chip
+                      color="primary"
+                      key={key}
+                      label={option.display_name}
+                      {...itemProps}
+                      sx={{
+                        backgroundColor: '#1e1e1e',   // Dark background
+                        color: '#ffffff',             // Label color
+                        border: 'none',               // Remove border
                         '&:hover': {
-                          color: '#ffffff',
+                          backgroundColor: '#2c2c2c', // Darker on hover
                         },
-                      },
-                    }}
-                  />
-                );
-              })
-            }
-            renderInput={(params) => (<TextField {...params} label="Filter by player:"
+                        '& .MuiChip-label': {
+                          fontWeight: 500,            // Optional: make label bolder
+                        },
+                        '& .MuiChip-deleteIcon': {
+                          color: '#bbbbbb',           // Close icon color
+                          '&:hover': {
+                            color: '#ffffff',
+                          },
+                        },
+                      }}
+                    />
+                  );
+                })
+              }
+              renderInput={(params) => (<TextField {...params} label="Filter by player:"
+                sx={{
+                  '& .MuiInputBase-root': {
+                    color: '#FFFFFF',
+                    backgroundColor: '#121212',
+                  },
+                  '& .MuiInputLabel-root': {
+                    color: '#AAAAAA',
+                  },
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    color: '#FFFFFF',
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    border: 'none',
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    border: 'none',
+                  },
+                  '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    border: 'none',
+                  },
+                  '&:hover .MuiInputBase-root': {
+                    backgroundColor: '#1E1E1E',
+                  },
+                }}
+              />)}
+            />
+
+          </div>
+          <div className='flex-1'>
+            <TextField
+              id="outlined-basic"
+              label="Search by title"
+              variant="outlined"
+              autoComplete="off"
+              fullWidth
+              onChange={filterBySearchTerm}
               sx={{
                 '& .MuiInputBase-root': {
                   color: '#FFFFFF',
@@ -125,90 +188,97 @@ function BetsFilter() {
                   backgroundColor: '#1E1E1E',
                 },
               }}
-            />)}
-          />
-
-        </div>
-        <div className='flex-1'>
-          <TextField
-            id="outlined-basic"
-            label="Search by title"
-            variant="outlined"
-            autoComplete="off"
-            fullWidth
-            onChange={filterBySearchTerm}
-            sx={{
-              '& .MuiInputBase-root': {
-                color: '#FFFFFF',
-                backgroundColor: '#121212',
-              },
-              '& .MuiInputLabel-root': {
-                color: '#AAAAAA',
-              },
-              '& .MuiInputLabel-root.Mui-focused': {
-                color: '#FFFFFF',
-              },
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-              '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-              '&:hover .MuiInputBase-root': {
-                backgroundColor: '#1E1E1E',
-              },
-            }}
-          />
-        </div>
-        <div className='flex-1'>
-          <FormControl fullWidth
-            sx={{
-              '& .MuiInputLabel-root': {
-                color: '#AAAAAA', // Label color
-              },
-              '& .MuiInputLabel-root.Mui-focused': {
-                color: '#FFFFFF', // Label color on focus
-              },
-              '& .MuiOutlinedInput-root': {
-                backgroundColor: '#121212', // Input background
-                color: '#FFFFFF',           // Selected value color
-                '& .MuiOutlinedInput-notchedOutline': {
-                  border: 'none',           // Remove border
+            />
+          </div>
+          <div className='flex-1'>
+            <FormControl fullWidth
+              sx={{
+                '& .MuiInputLabel-root': {
+                  color: '#AAAAAA', // Label color
                 },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  border: 'none',
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: '#FFFFFF', // Label color on focus
                 },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  border: 'none',
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#121212', // Input background
+                  color: '#FFFFFF',           // Selected value color
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    border: 'none',           // Remove border
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    border: 'none',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    border: 'none',
+                  },
                 },
-              },
-              '& .MuiSvgIcon-root': {
-                color: '#FFFFFF', // Dropdown arrow icon color
-              },
-            }}
-          >
-            <InputLabel id="demo-simple-select-label">Filter by status:</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select-label"
-              value={filter.status}
-              label="Filter by status:"
-              fullWidth
-              onChange={filterByStatus}
+                '& .MuiSvgIcon-root': {
+                  color: '#FFFFFF', // Dropdown arrow icon color
+                },
+              }}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value="ongoing">On going</MenuItem>
-              <MenuItem value="void">Void</MenuItem>
-              <MenuItem value="complete">Complete</MenuItem>
-            </Select>
-          </FormControl>
+              <InputLabel id="demo-simple-select-label">Filter by status:</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select-label"
+                value={filter.status}
+                label="Filter by status:"
+                fullWidth
+                onChange={filterByStatus}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="ongoing">On going</MenuItem>
+                <MenuItem value="void">Void</MenuItem>
+                <MenuItem value="complete">Complete</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <div className='flex-1'>
+            <FormControl fullWidth
+              sx={{
+                '& .MuiInputLabel-root': {
+                  color: '#AAAAAA', // Label color
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: '#FFFFFF', // Label color on focus
+                },
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#121212', // Input background
+                  color: '#FFFFFF',           // Selected value color
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    border: 'none',           // Remove border
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    border: 'none',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    border: 'none',
+                  },
+                },
+                '& .MuiSvgIcon-root': {
+                  color: '#FFFFFF', // Dropdown arrow icon color
+                },
+              }}
+            >
+              <InputLabel id="demo-simple-select-label">Sort by:</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select-label"
+                value={filter.label}
+                label="Sort by:"
+                fullWidth
+                onChange={sortBy}
+              >
+                {sortingOptions.map((sort, index) => (
+                  <MenuItem key={index} value={`${sort.sortField}-${sort.order}`}>
+                    {index === 0 ? <em>{sort.label}</em> : sort.label}
+                    </MenuItem>))}
+              </Select>
+            </FormControl>
+          </div>
         </div>
-      </div>
       </div>
     </section>
   );

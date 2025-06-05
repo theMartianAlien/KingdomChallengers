@@ -47,12 +47,12 @@ function getText(text, playersOnBet) {
 
 export function replaceTextWithJSX(tokens, playersOnBet) {
     return tokens.map((part, index) => (
-        <p key={index} style={{ display: 'inline' }}>
+        <div key={index} style={{ display: 'inline' }}>
             {part.startsWith("@{")
                 ? getText(part.substring(2, part.length - 1), playersOnBet)
                 : part}
             {index !== tokens.length - 1 && ' '}
-        </p>
+        </div>
     ));
 }
 

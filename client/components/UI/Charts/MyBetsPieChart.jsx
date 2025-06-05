@@ -41,9 +41,9 @@ export default function MyBetsPieChart({ data, colors, label }) {
 
     return (
         <div className="w-full lg:w-4/5 bg-white rounded-lg shadow-sm dark:bg-gray-800 p-2 lg:p-6 p-1 mx-auto">
-            <div class="flex justify-between items-start w-1/2">
+            <div className="flex justify-between items-start w-1/2">
                 <div>
-                    <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">{label}</h5>
+                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">{label}</h5>
                 </div>
             </div>
             <div className="py-1 md:py-6">
