@@ -1,7 +1,48 @@
 import { logError, logMessage } from "../util/logging.mjs";
 import Bets from "../models/Bets.mjs";
 import Player from "../models/Player.mjs";
+import Challenge from "../models/Challenge.mjs";
 import BetsUtil from "../data/utils/BetsUtil.mjs";
+
+const createNewBet = async (req, res, next) => {
+    try {
+        logMessage("-----------createNewBet--------------");
+        const challenge = await Challenge.findById(req.body.challengeId);
+
+        if (!challenge) {
+            return res
+                .status(404)
+                .json({ message: 'No challenge found' + req.body.challengeId });
+        }
+
+        if (challenge.converted) {
+            return res
+                .status(401)
+                .json({ message: 'Challenge is already a Bet' });
+        }
+
+        challenge.converted = true;
+        await challenge.save();
+
+        const newBet = new Bets({
+            title: req.body.title,
+            status: req.body.status,
+            teamA: req.body.teamA,
+            teamB: req.body.teamB,
+            text: req.body.text,
+            punishment: req.body.punishment,
+            challengeId: req.body.challengeId,
+        });
+
+        await newBet.save();
+
+        logMessage("-----------createNewBet--------------");
+        return res.json({ bet: newBet, message: "Bet added!" });
+    } catch (error) {
+        logError(error);
+        next(error);
+    }
+}
 
 const findAllBets = async (req, res, next) => {
     try {
@@ -30,7 +71,7 @@ const findABet = async (req, res, next) => {
             .populate('teamA', '_id display_name alternate_names')
             .populate('teamB', '_id display_name alternate_names')
             .exec();
-        
+
         const players = await Player.find();
         logMessage("-----------findABet--------------");
         res.json({ bet: bet, players });
@@ -81,7 +122,7 @@ const updateBet = async (req, res, next) => {
         } else if (data.status === "void") {
             bet.winner = "none";
             bet.status = 'void'
-        } else if(data.status === 'ongoing' && data.status === 'none') {
+        } else if (data.status === 'ongoing' && data.status === 'none') {
             bet.winner = 'none';
             bet.status = 'ongoing'
         }
@@ -97,6 +138,7 @@ const updateBet = async (req, res, next) => {
 }
 
 const BetsController = {
+    createNewBet,
     findAllBets,
     findABet,
     findAllBetsByPlayer,
