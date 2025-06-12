@@ -1,16 +1,22 @@
 import { useRouteLoaderData } from 'react-router-dom';
 import { useState } from 'react';
 import { betsActions } from '../../src/store/bets-slice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Autocomplete, TextField, Chip, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 
 function BetsFilter() {
   const players = useRouteLoaderData("bets-root");
+
+  const filters = useSelector(state => state.betsFilter.filtersBy);
+  const searchTerm = useSelector(state => state.betsFilter.term);
+  const status = useSelector(state => state.betsFilter.status);
+  const sortByValue = useSelector(state => state.betsFilter.sortBy);
+
   const [filter, setFilters] = useState({
-    players: [],
-    search: '',
-    status: '',
-    label: ''
+    players: filters,
+    search: searchTerm,
+    status: status,
+    label: sortByValue || ''
   });
 
   const dispatch = useDispatch();
@@ -73,7 +79,7 @@ function BetsFilter() {
   }
 
   const sortingOptions = [
-    { sortField: '', order: '', label: 'None' },
+    { sortField: ' ', order: ' ', label: 'None' },
     { sortField: 'title', order: 'dsc', label: 'Title - Descending' },
     { sortField: 'title', order: 'asc', label: 'Title - Ascending' },
     { sortField: 'date_created', order: 'asc', label: 'Date Created - Ascending' },
@@ -163,6 +169,7 @@ function BetsFilter() {
               variant="outlined"
               autoComplete="off"
               fullWidth
+              defaultValue={filter?.search}
               onChange={filterBySearchTerm}
               sx={{
                 '& .MuiInputBase-root': {
@@ -266,15 +273,15 @@ function BetsFilter() {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select-label"
-                value={filter.label}
+                defaultValue={filter.label || '-'}
                 label="Sort by:"
                 fullWidth
-                onChange={sortBy}
+                onChange={(e) => sortBy(e)}
               >
                 {sortingOptions.map((sort, index) => (
-                  <MenuItem key={index} value={`${sort.sortField}-${sort.order}`}>
+                  <MenuItem key={index} value={(index === 0 ? '' : `${sort.sortField}-${sort.order}`)}>
                     {index === 0 ? <em>{sort.label}</em> : sort.label}
-                    </MenuItem>))}
+                  </MenuItem>))}
               </Select>
             </FormControl>
           </div>

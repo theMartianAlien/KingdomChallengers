@@ -6,15 +6,13 @@ export default function MyBetsPieChart({ data, colors, label }) {
 
     useEffect(() => {
         if (!chartRef.current) return;
-
         const ctx = chartRef.current.getContext('2d');
-
         const pieChart = new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: data.map(d => d.key),
                 datasets: [{
-                    label: { label },
+                    label: label,
                     data: data.map(d => d.total),
                     backgroundColor: colors,
                     borderColor: colors,
@@ -22,8 +20,7 @@ export default function MyBetsPieChart({ data, colors, label }) {
                 }]
             },
             options: {
-                radius: '60%', // default is 100%, so 60% shrinks the pie
-                // or you can use absolute pixels like radius: 100,
+                radius: '60%',
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
@@ -47,7 +44,7 @@ export default function MyBetsPieChart({ data, colors, label }) {
                 </div>
             </div>
             <div className="py-1 md:py-6">
-                <canvas ref={chartRef} />
+                <canvas ref={chartRef} className='h-auto' />
             </div>
         </div>
     );

@@ -148,7 +148,7 @@ export default function PlayerDetailsPage() {
                                 title: bet.title,
                                 status: bet.status,
                                 verdict: getVerdict(bet),
-                                link: bet.link
+                                link: bet.link || `/challenges/${bet.challengeId}`
                             }))}
                             columns={[
                                 { column_name: "Title", column: "title", element: CustomLink },
