@@ -103,6 +103,18 @@ export default function Bet() {
                         </Link>
                     </div>
                 )}
+                {bet?.challengeId && (
+                    <div className="text-center mt-4">
+                        <Link
+                            to={`/challenges/${bet?.challengeId}`}
+                            className="inline-block text-blue-600 dark:text-blue-400 font-medium underline hover:text-blue-800 dark:hover:text-blue-300"
+                        >
+                            <div className='flex items-center gap-2 p-2'>
+                                <span>View original challenge</span>
+                            </div>
+                        </Link>
+                    </div>
+                )}
             </div>
             <div className='flex items-center justify-content gap-2'>
                 {adminToken && (

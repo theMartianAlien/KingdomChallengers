@@ -12,6 +12,7 @@ const findChallenge = async (req, res, next) => {
         const id = req.params.id;
         const challenge = await Challenge
             .findById(id)
+            .populate('issuer')
             .populate({
                 path: 'counters',
                 populate: {

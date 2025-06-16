@@ -1,9 +1,8 @@
 import { useRef, useState } from "react";
 import { Form, Link, useActionData, redirect, useRouteLoaderData } from "react-router-dom";
 
-import Input from '../UI/Input';
 import classes from './BetForm.module.css';
-import { getAdminToken, getAuthToken } from '../../util/auth';
+import { getAdminToken } from '../../util/auth';
 import { usePatchPostFetch } from "../../hooks/useFetch";
 import InputField from "../UI/Fields/InputField";
 import TextAreaField from "../UI/Fields/TextAreaField";

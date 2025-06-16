@@ -95,11 +95,11 @@ export default function ChallengeDetailsPage() {
         }
     }
     let convertButton
-    if(adminToken && isLocked) {
+    if(adminToken && isLocked && !challenge.converted) {
         convertButton = (
             <UnderlinedLink
                 label="Convert challenge"
-                // to={`/challenges/${challenge._id}/edit`}
+                to={`/challenges/${challenge._id}/convert`}
                 className={"font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline"}
                 isClean={true}
             />);

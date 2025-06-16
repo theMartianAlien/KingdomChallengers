@@ -45,7 +45,12 @@ const challengeSchema = new Schema({
       type: Types.ObjectId,
       ref: 'Account', // Reference to Account model
     }
-  ]
+  ],
+  converted: {
+    type: Boolean,
+    required: true,
+    default: false
+  }
 }, {
   timestamps: true
 });

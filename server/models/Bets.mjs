@@ -24,7 +24,7 @@ const challengeSchema = new Schema({
   }],
   text: {
     type: String,
-    required: false
+    required: true
   },
   punishment: {
     type: String,
@@ -38,6 +38,10 @@ const challengeSchema = new Schema({
       },
       message: props => `${props.value} is not a valid URL`
     },
+    required: false
+  },
+  challengeId: {
+    type: Schema.Types.ObjectId,
     required: false
   },
   winner: {
@@ -55,11 +59,11 @@ const challengeSchema = new Schema({
   },
   date_completed: {
     type: Date,
-    default: Date.now
+    default: null
   }
 }, {
   collection: 'bets',
-  timestamps: true 
+  timestamps: true
 });
 
 export default mongoose.model('Bet', challengeSchema);

@@ -51,6 +51,8 @@ import { action as createUpdateDiscordAction } from '../components/Discord/Disco
 import { action } from '../components/Discord/DiscordList';
 import ProfileRootPage from '../pages/Auth/ProfileRootPage';
 import ErrorPage from '../pages/Layout/ErrorPage';
+import { action as convertChallengeToBets } from '../pages/Challenges/ChallengeConvertPage';
+const ChallengeConvertPage = lazy(() => import('../pages/Challenges/ChallengeConvertPage'));
 const ChallengesRootPage = lazy(() => import('../pages/Challenges/ChallengesRootPage'));
 const ChallengesListPage = lazy(() => import('../pages/Challenges/ChallengesListPage'));
 const NewChallengePage = lazy(() => import('../pages/Challenges/NewChallengesPage'));
@@ -230,6 +232,12 @@ const router = createBrowserRouter(
                   element: <Suspense fallback={<p>Loading ....</p>}><ChallengeEditPage /></Suspense>,
                   action: patchPostChallengeAction,
                   loader: checkAuthLoader
+                },
+                // convert
+                {
+                  path: 'convert',
+                  element: <Suspense fallback={<p>Loading ....</p>}><ChallengeConvertPage /></Suspense>,
+                  action: convertChallengeToBets
                 },
                 // delete
                 {
