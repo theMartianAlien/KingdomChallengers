@@ -1,14 +1,10 @@
-import { useLoaderData } from "react-router-dom";
 import HomeStats from "../components/Statistics/HomeStats";
 import { useGetFetch } from "../hooks/useFetch";
 import { queryClient } from '../util/http';
 
 export default function HomePage() {
-    const data = useLoaderData();
     return (
-        <>
-            <HomeStats />
-        </>
+        <HomeStats />
     );
 }
 
