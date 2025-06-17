@@ -35,7 +35,7 @@ export default function MainNavigation() {
 
     return (
         <Navbar className="sticky w-full z-20 top-0 start-0 text-white-100 dark:text-white bg-gray-800 dark:border-gray-700 dark:bg-gray-800" fluid rounded>
-            <NavLink to='/'>
+            <NavLink to='/' className="cursor-pointer">
                 <div className="flex items-center">
                     <img src={logoSvg} className="mx-3 h-6 sm:h-6" alt="Sword/Challenge" />
                     <span className="truncate xs:whitespace-normal xs:overflow-visible xs:text-clip">Kingdom Challengers</span>

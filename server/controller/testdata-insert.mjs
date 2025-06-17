@@ -168,7 +168,7 @@ const insertBets = async (req, res, next) => {
             await createNewBet.save();
         }
         logMessage("-----------insertBets--------------");
-        res.json('Inserting players records');
+        res.json('Inserting bets records');
     } catch (error) {
         logError(error);
         next(error);
