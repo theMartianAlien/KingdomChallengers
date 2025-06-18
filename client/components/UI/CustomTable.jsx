@@ -102,7 +102,7 @@ export default function CustomTable({
                 </thead>
                 <tbody>
                     {sortedData.map((row) => (
-                        <tr key={row._id} className={rowClass} onClick={() => rowClick(row)} style={{ cursor: isAllRowClickable ? 'pointer' : '' }}>
+                        <tr key={row._id} className={rowClass} onClick={() => rowClick(row)} style={{ cursor: isAllRowClickable ? 'cursor-pointer' : '' }}>
                             <th scope="row" className={firstColClass}>
                                 {CustomLink ? (
                                     <CustomLink label={row[columns[0].column]} to={row._id} prefix={prefix} isClean={isClean} className={rowCustomClassName} />
