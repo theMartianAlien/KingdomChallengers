@@ -22,9 +22,9 @@ export default function PlayerDetailsPage() {
         if (bet.status === 'void')
             return 'LOSS';
         if (
-            (bet.winner === "teamA" && bet.teamA.some((team) => team.toString() === player._id.toString()))
+            (bet.winner === "teamA" && bet.teamA.some((team) => team._id.toString() === player._id.toString()))
             ||
-            (bet.winner === "teamB" && bet.teamB.some((team) => team.toString() === player._id.toString()))
+            (bet.winner === "teamB" && bet.teamB.some((team) => team._id.toString() === player._id.toString()))
         )
             return 'WIN'
 
@@ -148,12 +148,14 @@ export default function PlayerDetailsPage() {
                                 title: bet.title,
                                 status: bet.status,
                                 verdict: getVerdict(bet),
+                                date_completed: bet?.date_completed || '',
                                 link: bet.link || `/challenges/${bet.challengeId}`
                             }))}
                             columns={[
                                 { column_name: "Title", column: "title", element: CustomLink },
                                 { column_name: "Status", column: "status" },
                                 { column_name: "Verdict", column: "verdict" },
+                                { column_name: "Date Completed", column: "date_completed" },
                                 { column_name: "Link", column: "link", element: NoOpenCustomLink }
                             ]}
                         />
