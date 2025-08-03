@@ -22,16 +22,17 @@ export default function BetForm() {
         winner: bet.winner
     });
 
-    function betStatusHandler(status) {
+    function betStatusHandler(team, status) {
         setBetStatusWinner((prevState) => {
             return {
                 ...prevState,
+                team,
                 status
             }
         });
     }
     const OnChangeBetStatus = (e) => {
-        betStatusHandler(e.target.value);
+        betStatusHandler("none", e.target.value);
     };
 
     let errors = '';
@@ -63,7 +64,8 @@ export default function BetForm() {
             team = "";
         }
         winner.current = team;
-        betStatusHandler("complete");
+        bet.winner = team;
+        betStatusHandler(team, "complete");
     }
 
     let teamAWinner = classes.winselector;
@@ -139,6 +141,7 @@ export default function BetForm() {
                 />
 
                 <div className="flex flex-col sm:flex-row gap-6">
+                    <input type="hidden" name="winner" />
                     {/* Team A */}
                     <div className="w-full sm:w-1/2 border rounded-md p-4 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                         <span className="block text-lg font-semibold mb-2 text-gray-700 dark:text-gray-200">Participants A</span>

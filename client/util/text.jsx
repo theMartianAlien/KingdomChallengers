@@ -42,6 +42,8 @@ export function tokenizeText(text) {
 
 function getText(text, playersOnBet) {
     const player = playersOnBet.find(obj => obj.alternate_names.some(name => name.toLowerCase().startsWith(text.toLowerCase())));
+    if (!player)
+        return text
     return <CustomPopover name={player.display_name} />
 }
 
