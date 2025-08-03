@@ -9,8 +9,7 @@ const homeStats = async (req, res, next) => {
         let data = [];
         for (let i = 0; i < bets.length; i++) {
             let theBet = bets[i];
-            let players = theBet.teamA;
-            players.push.apply(players, theBet.teamB);
+            let players = [...theBet.teamA, ...theBet.teamB];
             let winners;
             if (theBet.winner !== null) {
                 if (theBet.winner === 'teamA') {
@@ -28,10 +27,9 @@ const homeStats = async (req, res, next) => {
                 const isVoid = theBet.status === 'void';
                 const isOngoing = theBet.status === 'ongoing';
                 const isComplete = theBet.status === 'complete';
-
+                
                 if (!inside) {
                     const player = await Player.findById(playerId).lean();
-
                     if(!player)
                         continue;
 
